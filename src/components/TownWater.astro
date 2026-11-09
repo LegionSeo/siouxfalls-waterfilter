@@ -1,0 +1,146 @@
+---
+import Icon from './Icon.astro';
+import InlineText from './InlineText.astro';
+import MapEmbed from './MapEmbed.astro';
+import Photo from './Photo.astro';
+import type { TownPage } from '../content/town-pages';
+import type { TownPlace } from '../content/town-places';
+import { UPDATED_ISO, UPDATED_LABEL } from '../content/updated';
+
+interface Props {
+  phone: string;
+  page: TownPage;
+  place: TownPlace;
+}
+
+const { phone, page, place } = Astro.props;
+const withPhone = (text: string) => text.replaceAll('{phone}', phone);
+---
+
+<section class="bg-paper">
+  <div class="section">
+    <p class="measure text-lg">{withPhone(page.answer)}</p>
+    <p class="mt-6 text-sm text-muted">Updated <time datetime={UPDATED_ISO}>{UPDATED_LABEL}</time></p>
+  </div>
+</section>
+
+<section class="bg-white" aria-labelledby="source-heading">
+  <div class="section">
+    <div class="block-head">
+      <h2 id="source-heading">City water, rural water, or a well in {page.name}</h2>
+      <p class="lede">{page.waterIntro}</p>
+    </div>
+    <ul class="card-grid cols-3">
+      {
+        page.sources.map((source) => (
+          <li class="icon-card">
+            <span class="icon-chip">
+              <Icon name="drop" />
+            </span>
+            <p>
+              <strong>{source.title}.</strong> <InlineText text={source.text} />
+            </p>
+          </li>
+        ))
+      }
+    </ul>
+  </div>
+</section>
+
+<section class="bg-paper" aria-labelledby="problems-heading">
+  <div class="section">
+    <div class="block-head">
+      <h2 id="problems-heading">Common water problems in {page.name}</h2>
+      <p class="lede">{page.problemsIntro}</p>
+    </div>
+    <ul class="job-list">
+      {page.problems.map((item) => <li><InlineText text={item} /></li>)}
+    </ul>
+    <div class="warn-block">
+      <h3>Signs you may need treatment</h3>
+      <p class="measure">{page.signsIntro}</p>
+      <ul class="warn-list">
+        {page.signs.map((item) => <li>{item}</li>)}
+      </ul>
+    </div>
+  </div>
+</section>
+
+<section class="bg-white" id="place-story" aria-labelledby="place-heading">
+  <div class="section">
+    <div class="block-head">
+      <h2 id="place-heading">{place.heading}</h2>
+    </div>
+    <figure class="place-card">
+      <div class="place-frame">
+        <Photo photo={place.photo} sizes="(min-width: 1024px) 720px, 100vw" loading="lazy" class="place-img" pictureClass="place-picture" />
+      </div>
+      <figcaption class="place-caption">
+        <span class="place-caption-title">{place.caption}</span>
+        <span class="place-credit">
+          Photo by {place.author}.
+          <a class="text-link" href={place.licenseUrl} rel="license">{place.license}</a>.
+          <a class="text-link" href={place.sourceUrl}>Wikimedia Commons</a>.
+          Resized.
+        </span>
+      </figcaption>
+    </figure>
+    <div class="place-copy housing-copy">
+      {place.intro.map((paragraph, index) => <p class:list={['measure', index > 0 && 'mt-4']}>{paragraph}</p>)}
+    </div>
+  </div>
+</section>
+
+<section class="bg-paper" aria-labelledby="call-heading">
+  <div class="section">
+    <div class="block-head">
+      <h2 id="call-heading">What to tell us when you call</h2>
+      <p class="lede">A few details help us understand your water before we head to {page.name}.</p>
+    </div>
+    <ol class="card-grid">
+      {
+        page.callList.map((item, index) => (
+          <li class="num-card">
+            <span class="num">{index + 1}</span>
+            <span>{item}</span>
+          </li>
+        ))
+      }
+    </ol>
+  </div>
+</section>
+
+<section class="bg-white" aria-labelledby="town-faq-heading">
+  <div class="section">
+    <div class="block-head">
+      <h2 id="town-faq-heading">Water questions from {page.name}</h2>
+    </div>
+    <div class="town-faq">
+      {
+        page.faqs.map((item) => (
+          <article>
+            <h3>{item.q}</h3>
+            <p class="measure"><InlineText text={withPhone(item.a)} /></p>
+          </article>
+        ))
+      }
+    </div>
+  </div>
+</section>
+
+<section class="bg-paper" aria-labelledby="map-heading">
+  <div class="section">
+    <div class="town-work">
+      <div>
+        <h2 id="map-heading">Map of {page.name}</h2>
+        <p class="lede">{page.mapNote}</p>
+        <MapEmbed
+          src={`https://www.google.com/maps?q=${encodeURIComponent(page.mapQuery)}&z=12&output=embed`}
+          title={`Map of ${page.name}, South Dakota`}
+          label={page.mapQuery}
+          preview={page.preview}
+        />
+      </div>
+    </div>
+  </div>
+</section>
