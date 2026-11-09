@@ -1,0 +1,106 @@
+---
+import Layout from '../layouts/Layout.astro';
+import CtaBand from '../components/CtaBand.astro';
+import MapEmbed from '../components/MapEmbed.astro';
+import ServiceAreaSketch from '../components/ServiceAreaSketch.astro';
+import PageHero from '../components/PageHero.astro';
+import ServiceCards from '../components/ServiceCards.astro';
+import SideRail from '../components/SideRail.astro';
+import { joinNames, services, townPages } from '../config/catalog';
+import { UPDATED_ISO, UPDATED_LABEL } from '../content/updated';
+import { pagePhoto } from '../lib/photos';
+import { breadcrumb } from '../lib/page-schema';
+import { SITE } from '../config/site';
+
+const liveTowns = townPages.filter((town) => town.live && town.href !== '/');
+const liveServices = services.filter((service) => service.live).slice(0, 3);
+const hero = pagePhoto('hero-area', 'Aerial view of a suburban neighborhood at sunset');
+const graph = [
+  breadcrumb([
+    { name: 'Home', path: '/' },
+    { name: 'Service area', path: '/service-area' },
+  ]),
+];
+---
+
+<Layout
+  title="Water Treatment Service Area | Sioux Falls, SD and Nearby Towns"
+  schemaName="Towns We Serve Near Sioux Falls"
+  description="Water softeners and filtration in Sioux Falls, Brandon, Harrisburg, Tea, Hartford, Dell Rapids, Canton, and Lennox. We also take calls from Crooks, Renner, and Baltic."
+  fullTitle
+  extraGraph={graph}
+  overlay
+>
+  <PageHero photo={hero} eyebrow="Service area" title="Towns we serve around Sioux Falls" sub="Sioux Falls plus Brandon, Harrisburg, Tea, Hartford, Dell Rapids, Canton, and Lennox." />
+
+  <div class="page-split">
+    <div class="page-main">
+      <section class="bg-paper">
+        <div class="section">
+          <p class="measure text-lg">
+            {SITE.name} works in Sioux Falls and {joinNames(liveTowns.map((town) => town.name))}. We also take calls from {joinNames(SITE.listOnlyTowns)}.
+          </p>
+          <p class="mt-6 text-sm text-muted">Updated <time datetime={UPDATED_ISO}>{UPDATED_LABEL}</time></p>
+        </div>
+      </section>
+
+      <section class="bg-white" aria-labelledby="towns-heading">
+        <div class="section">
+          <div class="block-head">
+            <h2 id="towns-heading">Town pages</h2>
+            <p class="lede">Open your town to read about local water and what to tell us when you call.</p>
+          </div>
+          <ul class="card-grid cols-2">
+            <li>
+              <a class="text-card" href="/">
+                Sioux Falls
+                <span class="mt-2 block text-sm font-normal text-muted">Hard water help across the city.</span>
+              </a>
+            </li>
+            {
+              liveTowns.map((town) => (
+                <li>
+                  <a class="text-card" href={town.href}>
+                    {town.name}
+                    <span class="mt-2 block text-sm font-normal text-muted">Water treatment for your home in {town.name}.</span>
+                  </a>
+                </li>
+              ))
+            }
+          </ul>
+          <div class="block-head mt-12">
+            <h2 id="also-heading">Also served</h2>
+            <p class="lede">We also come to these towns. Just tell us your town when you call.</p>
+          </div>
+          <p class="measure text-muted">{joinNames(SITE.listOnlyTowns)}.</p>
+        </div>
+      </section>
+
+      <section class="bg-paper" aria-labelledby="map-heading">
+        <div class="section">
+          <div class="town-work">
+            <div>
+              <div class="block-head">
+                <h2 id="map-heading">Map</h2>
+                <p class="lede">The map is centered on Sioux Falls. Pick your town page, or call us if your town is only on the list.</p>
+              </div>
+              <MapEmbed class="area-map" src="https://maps.google.com/maps?ll=43.563,-96.758&z=9&t=m&hl=en&output=embed" title="Map of Sioux Falls, South Dakota and nearby towns" label="Sioux Falls and the towns around it">
+                <ServiceAreaSketch />
+              </MapEmbed>
+            </div>
+            <div>
+              <div class="block-head">
+                <h2 id="requests-heading">Common requests</h2>
+                <p class="lede">Your water source matters more than your town. City water, rural water, and private wells all need different plans.</p>
+              </div>
+              <ServiceCards services={liveServices} />
+            </div>
+          </div>
+        </div>
+      </section>
+    </div>
+    <SideRail />
+  </div>
+
+  <CtaBand photo={hero} heading="Tell us your town and your water source" />
+</Layout>

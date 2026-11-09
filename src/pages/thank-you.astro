@@ -1,0 +1,22 @@
+---
+import Layout from '../layouts/Layout.astro';
+import PageHero from '../components/PageHero.astro';
+import { SITE } from '../config/site';
+import { pagePhoto } from '../lib/photos';
+
+const hero = pagePhoto('hero-contact', 'Counter with a desk phone and a blank notepad');
+---
+
+<Layout title={`Thank You | ${SITE.name}`} description={`Thanks for contacting ${SITE.name}.`} fullTitle noindex overlay>
+  <PageHero photo={hero} eyebrow="Thank you" title="We got your note" sub="Thanks for reaching out about your water." actions="reach" />
+
+  <section class="bg-paper">
+    <div class="wrap section">
+      <p class="measure text-lg text-muted">Someone on our team will reply. If you would rather talk, call {SITE.phoneDisplay}.</p>
+      <div class="mt-8 flex flex-col gap-3 sm:flex-row">
+        <a class="btn btn-line-dark w-full sm:w-auto" href="/">Home</a>
+        <a class="btn btn-line-dark w-full sm:w-auto" href="/guides/hard-water-sioux-falls">Read the hard water guide</a>
+      </div>
+    </div>
+  </section>
+</Layout>

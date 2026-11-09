@@ -1,0 +1,292 @@
+---
+import Layout from '../layouts/Layout.astro';
+import CtaBand from '../components/CtaBand.astro';
+import Icon from '../components/Icon.astro';
+import LeadHoneypot from '../components/LeadHoneypot.astro';
+import PageHero from '../components/PageHero.astro';
+import SmsConsent from '../components/SmsConsent.astro';
+import { joinNames, services, townPages } from '../config/catalog';
+import type { FaqItem } from '../content/home';
+import { SITE, formatAddress, leadAjaxEndpoint } from '../config/site';
+import { staticPagePath } from '../lib/lead-form';
+import { pagePhoto } from '../lib/photos';
+import { breadcrumb } from '../lib/page-schema';
+import { faqNode } from '../lib/schema';
+
+const hero = pagePhoto('hero-contact', 'Counter with a desk phone and a blank notepad');
+const pagePath = staticPagePath(Astro.url.pathname);
+const place = `${SITE.address.city}, ${SITE.address.region}`;
+const towns = [...SITE.serviceTowns, ...SITE.listOnlyTowns];
+const linkedTowns = townPages.filter((town) => town.live);
+
+const liveServices = services.filter((service) => service.live);
+
+const ready = [
+  'Your name and a phone number we can reach.',
+  'Your town and street.',
+  'Whether you have city water, rural water, or a well.',
+  'What you are noticing, and where in your home.',
+  'What treatment equipment you already have, if any.',
+];
+
+const faqs: FaqItem[] = [
+  {
+    question: 'Do you help with homes and businesses?',
+    paragraphs: [
+      `Yes. Most of our calls are for homes, and we are glad to talk about your business too. Call ${SITE.phoneDisplay} and tell us which one it is.`,
+    ],
+  },
+  {
+    question: 'What happens after I reach out?',
+    paragraphs: [
+      `Someone on our team will reply to your note. If you would rather talk it through, call ${SITE.phoneDisplay}.`,
+    ],
+  },
+  {
+    question: 'Which towns do you cover?',
+    paragraphs: [
+      `We work in ${joinNames(SITE.serviceTowns)}. We also take calls from ${joinNames(SITE.listOnlyTowns)}. The town names on this page link to their own pages.`,
+    ],
+  },
+  {
+    question: 'What if I do not know my water source?',
+    paragraphs: [
+      'Check your water bill. It will name your supplier. If you do not get a water bill, you probably have a private well. If you are still not sure, tell us your address and we will help you sort it out.',
+    ],
+  },
+];
+
+const graph = [
+  breadcrumb([
+    { name: 'Home', path: '/' },
+    { name: 'Contact', path: '/contact' },
+  ]),
+  faqNode(faqs),
+];
+
+const successMessage = `Thanks. We got your note. Someone on our team will reply. You can also call ${SITE.phoneDisplay}.`;
+---
+
+<Layout
+  title={`Contact ${SITE.name} | Water Treatment in ${place}`}
+  schemaName={`Contact ${SITE.name}`}
+  description={`Call ${SITE.phoneDisplay}. ${SITE.name} would love to help with the water in your home in ${place}.`}
+  fullTitle
+  extraGraph={graph}
+  overlay
+>
+  <PageHero
+    photo={hero}
+    eyebrow="Contact"
+    title={`Contact ${SITE.name}`}
+    sub="Tell us about your water. We would love to help."
+    actions="reach"
+  />
+
+  <section class="bg-paper">
+    <div class="wrap section">
+      <div class="block-head">
+        <h2>Glad you are here</h2>
+        <p class="lede">{SITE.name} would love to help with the water in your home or business.</p>
+      </div>
+      <p class="measure">
+        Call {SITE.phoneDisplay}, or send the note below and someone on our team will reply.
+      </p>
+
+      <div class="contact-layout">
+        <div class="contact-panel contact-panel-dark">
+          <h2>Give us a call</h2>
+          <p class="measure mt-4 on-dark-soft">
+            Tell us your town, your water source, and what you are noticing. We will take it from there.
+          </p>
+          <div class="mt-6 flex flex-col gap-3 sm:max-w-sm">
+            <a class="btn btn-mint" href={SITE.phoneHref} data-track="call-contact" data-contact-channel="tel">
+              <Icon name="phone" class="h-5 w-5" />
+              <span>Call {SITE.phoneDisplay}</span>
+            </a>
+            {
+              SITE.smsEnabled && (
+                <a class="btn btn-line" href={SITE.smsHref} data-track="sms-contact" data-contact-channel="sms">
+                  <Icon name="chat" class="h-5 w-5" />
+                  <span>Text {SITE.phoneDisplay}</span>
+                </a>
+              )
+            }
+          </div>
+          <p class="mt-6 text-sm on-dark-soft">
+            Email <a class="text-link-on-dark" href={`mailto:${SITE.email}`}>{SITE.email}</a>
+          </p>
+          <p class="mt-4 text-sm on-dark-soft">Serving {formatAddress()} and nearby towns</p>
+        </div>
+
+        <div class="contact-panel contact-panel-form">
+          <h2 id="request-form">Tell us about your water</h2>
+          <p class="mt-4 text-muted">
+            Share your name, a phone number, and what you are noticing. The note goes to our team.
+          </p>
+          <form
+            class="relative mt-6 grid gap-4"
+            method="post"
+            accept-charset="UTF-8"
+            action={SITE.formEndpoint ?? undefined}
+            data-request-form
+            data-endpoint={leadAjaxEndpoint()}
+            data-phone-display={SITE.phoneDisplay}
+            data-phone-href={SITE.phoneHref}
+            data-success-message={successMessage}
+          >
+            <LeadHoneypot idPrefix="contact" />
+            <input type="hidden" name="_subject" value="New water treatment lead: General request from website visitor" />
+            <input type="hidden" name="_next" value={SITE.thankYouUrl} />
+            <input type="hidden" name="_template" value="basic" />
+            <input type="hidden" name="Page" value={pagePath} />
+            <label class="grid gap-1 text-sm font-semibold" for="contact-name">
+              Name
+              <input class="field" id="contact-name" name="name" type="text" required autocomplete="name" />
+            </label>
+            <label class="grid gap-1 text-sm font-semibold" for="contact-phone">
+              Phone
+              <input class="field" id="contact-phone" name="phone" type="tel" inputmode="tel" required autocomplete="tel" />
+            </label>
+            <label class="grid gap-1 text-sm font-semibold" for="contact-email">
+              Email <span class="font-semibold text-muted">(optional)</span>
+              <input class="field" id="contact-email" name="email" type="email" autocomplete="email" />
+            </label>
+            <label class="grid gap-1 text-sm font-semibold" for="contact-town">
+              Town
+              <select class="field" id="contact-town" name="town" required>
+                <option value="">Select your town</option>
+                {towns.map((town) => <option value={town}>{town}</option>)}
+              </select>
+            </label>
+            <fieldset class="choice-set">
+              <legend>Project type</legend>
+              <div class="choice-options">
+                <label>
+                  <input type="radio" name="project" value="Home" required />
+                  Home
+                </label>
+                <label>
+                  <input type="radio" name="project" value="Business" />
+                  Business
+                </label>
+              </div>
+            </fieldset>
+            <fieldset class="choice-set">
+              <legend>How urgent</legend>
+              <div class="choice-options">
+                <label>
+                  <input type="radio" name="urgency" value="As soon as I can" required />
+                  As soon as I can
+                </label>
+                <label>
+                  <input type="radio" name="urgency" value="In the next few weeks" />
+                  In the next few weeks
+                </label>
+                <label>
+                  <input type="radio" name="urgency" value="Planning ahead" />
+                  Planning ahead
+                </label>
+              </div>
+            </fieldset>
+            <label class="grid gap-1 text-sm font-semibold" for="contact-message">
+              What are you noticing
+              <textarea class="field min-h-32" id="contact-message" name="message" required placeholder="For example, white scale on the faucets. Tell us if you are on city water, rural water, or a well."></textarea>
+            </label>
+            <SmsConsent id="contact-sms-consent" />
+            <button class="btn btn-mint w-full" type="submit">Send</button>
+            <p class="form-status" data-form-status tabindex="-1" role="status" aria-live="polite" aria-atomic="true" hidden></p>
+            <p class="text-sm text-muted">
+              If the note does not send, call{' '}
+              <a class="font-bold text-link" href={SITE.phoneHref} data-track="call-contact-form" data-contact-channel="tel">
+                {SITE.phoneDisplay}
+              </a>.
+            </p>
+          </form>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="bg-white" aria-labelledby="work-heading">
+    <div class="wrap section">
+      <div class="block-head">
+        <h2 id="work-heading">How we can help</h2>
+        <p class="lede">Pick the one that sounds like yours. Each link opens its own page.</p>
+      </div>
+      <ul class="card-grid cols-3">
+        {
+          liveServices.map((service) => (
+            <li>
+              <a class="text-card" href={service.href}>
+                {service.name}
+                <span class="mt-2 block text-sm font-normal text-muted">{service.summary}</span>
+              </a>
+            </li>
+          ))
+        }
+      </ul>
+    </div>
+  </section>
+
+  <section class="bg-paper" aria-labelledby="towns-heading">
+    <div class="wrap section">
+      <div class="block-head">
+        <h2 id="towns-heading">Towns we serve</h2>
+        <p class="lede">
+          Sioux Falls is home. The other towns below have their own pages.
+          We also take calls in {joinNames(SITE.listOnlyTowns)}.
+        </p>
+      </div>
+      <div class="town-chip-row">
+        {
+          linkedTowns.map((town) => (
+            <a class="town-chip" href={town.href}>{town.name}</a>
+          ))
+        }
+      </div>
+      <p class="mt-6">
+        <a class="text-link" href="/service-area">See the service area page</a>
+      </p>
+    </div>
+  </section>
+
+  <section class="bg-white" aria-labelledby="ready-heading">
+    <div class="wrap section">
+      <div class="block-head">
+        <h2 id="ready-heading">What to have ready when you call</h2>
+        <p class="lede">A few plain details help us understand your water before we head out.</p>
+      </div>
+      <ol class="card-grid">
+        {
+          ready.map((item, index) => (
+            <li class="num-card">
+              <span class="num">{index + 1}</span>
+              <span>{item}</span>
+            </li>
+          ))
+        }
+      </ol>
+    </div>
+  </section>
+
+  <section class="bg-paper" aria-labelledby="faq-heading">
+    <div class="wrap section">
+      <div class="block-head">
+        <h2 id="faq-heading">Questions before you call</h2>
+      </div>
+      <div class="town-faq">
+        {
+          faqs.map((item) => (
+            <article>
+              <h3>{item.question}</h3>
+              {item.paragraphs.map((paragraph) => <p class="measure">{paragraph}</p>)}
+            </article>
+          ))
+        }
+      </div>
+    </div>
+  </section>
+
+  <CtaBand photo={hero} heading="Tell us about your water" />
+</Layout>

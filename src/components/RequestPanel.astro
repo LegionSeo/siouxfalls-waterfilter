@@ -1,0 +1,153 @@
+---
+import { services, townPages } from '../config/catalog';
+import { SITE, leadAjaxEndpoint } from '../config/site';
+import { staticPagePath } from '../lib/lead-form';
+import ContactLink from './ContactLink.astro';
+import LeadHoneypot from './LeadHoneypot.astro';
+import SmsConsent from './SmsConsent.astro';
+
+interface Props {
+  id?: string;
+  heading?: string;
+  headingTag?: 'h2' | 'p';
+  intro: string;
+  callTrack: string;
+  smsTrack: string;
+  formIdPrefix: string;
+  stacked?: boolean;
+}
+
+const {
+  id,
+  heading = 'Request service',
+  headingTag = 'p',
+  intro,
+  callTrack,
+  smsTrack,
+  formIdPrefix,
+  stacked = false,
+} = Astro.props;
+
+const Heading = headingTag;
+const formAction = SITE.formEndpoint;
+const pagePath = staticPagePath(Astro.url.pathname);
+const headingClass =
+  headingTag === 'h2' ? 'text-ink' : 'text-2xl font-bold text-ink';
+---
+
+<div id={id} class:list={['request-panel', stacked && 'request-panel-stack']}>
+  <Heading id={id ? `${id}-heading` : undefined} class={headingClass}>{heading}</Heading>
+  <p class="mt-3 leading-relaxed text-muted">{intro}</p>
+  <div class="mt-5 flex flex-col gap-3">
+    <ContactLink track={callTrack} class="btn btn-mint btn-lg w-full" />
+    <ContactLink track={smsTrack} channel="sms" class="btn btn-line-dark btn-lg w-full" />
+  </div>
+  <p class="mt-4 text-sm leading-relaxed text-muted">
+    <span>Prefer to write?</span>
+    <a class="ml-1 break-words font-bold text-link underline" href={`mailto:${SITE.email}`} data-track="email-quote">
+      Email {SITE.email}
+    </a>
+  </p>
+
+  {
+    formAction && (
+      <form
+        class="surface-light relative mt-6 grid gap-4"
+        action={formAction}
+        method="post"
+        accept-charset="UTF-8"
+        data-request-form
+        data-endpoint={leadAjaxEndpoint()}
+        data-phone-display={SITE.phoneDisplay}
+        data-phone-href={SITE.phoneHref}
+      >
+        <LeadHoneypot idPrefix={formIdPrefix} />
+        <input type="hidden" name="_subject" value="New water treatment lead: General request from website visitor" />
+        <input type="hidden" name="_next" value={SITE.thankYouUrl} />
+        <input type="hidden" name="_template" value="basic" />
+        <input type="hidden" name="Page" value={pagePath} />
+        <label class="grid gap-1 text-sm font-semibold text-ink" for={`${formIdPrefix}-name`}>
+          Name
+          <input
+            class="field"
+            id={`${formIdPrefix}-name`}
+            name="name"
+            type="text"
+            required
+            autocomplete="name"
+          />
+        </label>
+        <label class="grid gap-1 text-sm font-semibold text-ink" for={`${formIdPrefix}-phone`}>
+          Phone
+          <input
+            class="field"
+            id={`${formIdPrefix}-phone`}
+            name="phone"
+            type="tel"
+            inputmode="tel"
+            required
+            autocomplete="tel"
+          />
+        </label>
+        <label class="grid gap-1 text-sm font-semibold text-ink" for={`${formIdPrefix}-email`}>
+          Email <span class="font-semibold text-muted">(optional)</span>
+          <input
+            class="field"
+            id={`${formIdPrefix}-email`}
+            name="email"
+            type="email"
+            autocomplete="email"
+          />
+        </label>
+        <label class="grid gap-1 text-sm font-semibold text-ink" for={`${formIdPrefix}-town`}>
+          Town <span class="font-semibold text-muted">(optional)</span>
+          <select class="field" id={`${formIdPrefix}-town`} name="town">
+            <option value="">Select a town</option>
+            {townPages.map((town) => (
+              <option value={town.name}>{town.name}</option>
+            ))}
+            <option value="Other">Other</option>
+          </select>
+        </label>
+        <label class="grid gap-1 text-sm font-semibold text-ink" for={`${formIdPrefix}-service`}>
+          Service <span class="font-semibold text-muted">(optional)</span>
+          <select class="field" id={`${formIdPrefix}-service`} name="service">
+            <option value="">Not sure</option>
+            {services.map((service) => (
+              <option value={service.name}>{service.name}</option>
+            ))}
+          </select>
+        </label>
+        <label class="grid gap-1 text-sm font-semibold text-ink" for={`${formIdPrefix}-company`}>
+          Company <span class="font-semibold text-muted">(optional)</span>
+          <input
+            class="field"
+            id={`${formIdPrefix}-company`}
+            name="company"
+            type="text"
+            autocomplete="organization"
+          />
+        </label>
+        <label class="grid gap-1 text-sm font-semibold text-ink" for={`${formIdPrefix}-message`}>
+          Message <span class="font-semibold text-muted">(optional)</span>
+          <textarea
+            class="field"
+            id={`${formIdPrefix}-message`}
+            name="message"
+            rows="3"
+            placeholder="What are you noticing? For example, white scale on the faucets. Tell us if you are on city water, rural water, or a well."
+          />
+        </label>
+        <SmsConsent id={`${formIdPrefix}-sms-consent`} />
+        <button class="btn btn-mint btn-lg w-full" type="submit">Request service</button>
+        <p class="form-status" data-form-status tabindex="-1" role="status" aria-live="polite" aria-atomic="true" hidden></p>
+        <p class="text-sm text-muted">
+          Prefer to talk?{' '}
+          <a class="font-bold text-link underline" href={SITE.phoneHref} data-track={`${callTrack}-form`} data-contact-channel="tel">
+            Call {SITE.phoneDisplay}
+          </a>
+        </p>
+      </form>
+    )
+  }
+</div>

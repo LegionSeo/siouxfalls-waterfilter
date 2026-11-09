@@ -1,0 +1,156 @@
+---
+import '../styles/global.css';
+import Footer from '../components/Footer.astro';
+import Header from '../components/Header.astro';
+import IconSprite from '../components/IconSprite.astro';
+import SEO from '../components/SEO.astro';
+import StickyCallBar from '../components/StickyCallBar.astro';
+import { UPDATED_ISO } from '../content/updated';
+import { SITE, activeAnalytics, canonicalUrl } from '../config/site';
+import { jsonLdScript, siteGraph } from '../lib/schema';
+
+interface Props {
+  title: string;
+  description?: string;
+  /** Ignored. Canonicals always use SITE.origin plus the path, with no trailing slash. */
+  canonical?: string;
+  /** When true, title is used as written. No brand suffix is appended. */
+  fullTitle?: boolean;
+  /**
+   * WebPage schema name. Defaults to the document title.
+   * Set this when the <title> changes and the schema name must stay the same.
+   */
+  schemaName?: string;
+  extraGraph?: Record<string, unknown>[];
+  /** Homepage only. Header starts transparent and turns solid after scroll. */
+  overlay?: boolean;
+  /** Omit the canonical link and ask crawlers not to index the page. */
+  noindex?: boolean;
+}
+
+const { title, description, fullTitle, schemaName, extraGraph = [], overlay = false, noindex = false } = Astro.props;
+const pageTitle = fullTitle ? title : `${title} | ${SITE.name}`;
+const schemaPageName = schemaName ?? pageTitle;
+const pageDescription =
+  description ??
+  `${SITE.name} helps with hard water and water treatment in Sioux Falls, SD and nearby towns. Call ${SITE.phoneDisplay}.`;
+const pageCanonical = canonicalUrl(Astro.url.pathname);
+const pagePath = (() => {
+  let path = Astro.url.pathname.replace(/\/index\.html$/, '/').replace(/\.html$/, '');
+  path = path.replace(/\/+$/, '');
+  return path || '/';
+})();
+const jsonLd = jsonLdScript(
+  siteGraph(
+    { url: pageCanonical, name: schemaPageName, description: pageDescription, dateModified: UPDATED_ISO },
+    extraGraph,
+    {
+      catalog: pagePath === '/',
+    },
+  ),
+);
+const analytics = activeAnalytics();
+---
+
+<!doctype html>
+<html lang="en" data-theme={SITE.theme}>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <SEO title={pageTitle} description={pageDescription} canonical={pageCanonical} noindex={noindex} />
+    <slot name="head" />
+    <script type="application/ld+json" set:html={jsonLd} />
+  </head>
+  <body class:list={['min-h-screen bg-paper font-sans text-text antialiased', overlay && 'page-overlay']}>
+    <a class="skip-link" href="#content">Skip to content</a>
+    <IconSprite />
+    <Header overlay={overlay} />
+    <main id="content" class="flex-1">
+      <slot />
+    </main>
+    <Footer />
+    <StickyCallBar />
+    {
+      analytics?.provider === 'gtm' && (
+        <script is:inline define:vars={{ analyticsId: analytics.id }}>
+          (function (w, d, i) {
+            w.dataLayer = w.dataLayer || [];
+            w.dataLayer.push({ 'gtm.start': new Date().getTime(), event: 'gtm.js' });
+            var j = d.createElement('script');
+            j.async = true;
+            j.src = 'https://www.googletagmanager.com/gtm.js?id=' + encodeURIComponent(i);
+            d.body.appendChild(j);
+          })(window, document, analyticsId);
+        </script>
+      )
+    }
+    {
+      analytics?.provider === 'ga4' && (
+        <script is:inline define:vars={{ analyticsId: analytics.id }}>
+          window.dataLayer = window.dataLayer || [];
+          window.gtag = window.gtag || function () {
+            window.dataLayer.push(arguments);
+          };
+          window.gtag('js', new Date());
+          window.gtag('config', analyticsId);
+          var j = document.createElement('script');
+          j.async = true;
+          j.src = 'https://www.googletagmanager.com/gtag/js?id=' + encodeURIComponent(analyticsId);
+          document.body.appendChild(j);
+        </script>
+      )
+    }
+    <script>
+      import { bindLeadForms } from '../scripts/lead-form';
+
+      bindLeadForms();
+    </script>
+    <script is:inline>
+      (function () {
+        document.addEventListener('click', function (event) {
+          var node = event.target;
+          var link = node && node.closest ? node.closest('a[href^="tel:"], a[href^="sms:"]') : null;
+          if (!link) return;
+          var href = link.getAttribute('href') || '';
+          var channel = href.indexOf('sms:') === 0 ? 'sms' : 'call';
+          var label = link.getAttribute('data-track') || channel;
+          window.dataLayer = window.dataLayer || [];
+          window.dataLayer.push({
+            event: channel === 'sms' ? 'sms_click' : 'call_click',
+            contact_channel: channel,
+            contact_location: label,
+            link_url: href
+          });
+          if (typeof window.gtag === 'function') {
+            window.gtag('event', channel === 'sms' ? 'sms_click' : 'call_click', {
+              event_category: 'contact',
+              event_label: label,
+              link_url: href
+            });
+          }
+        });
+
+        var header = document.querySelector('[data-site-header]');
+        if (header && header.hasAttribute('data-overlay')) {
+          var onScroll = function () {
+            if (window.scrollY > 40) header.setAttribute('data-solid', '');
+            else header.removeAttribute('data-solid');
+          };
+          onScroll();
+          window.addEventListener('scroll', onScroll, { passive: true });
+        }
+
+        var bar = document.querySelector('[data-sticky-bar]');
+        var form = document.querySelector('[data-request-form]');
+        if (bar && form && window.location.pathname.indexOf('/contact') === 0 && 'IntersectionObserver' in window) {
+          var observer = new IntersectionObserver(function (entries) {
+            var hide = entries[0].isIntersecting;
+            bar.hidden = hide;
+            document.body.classList.toggle('bar-hidden', hide);
+          });
+          observer.observe(form);
+        }
+      })();
+    </script>
+  </body>
+</html>
