@@ -1,0 +1,48 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import CtaBand from '../../components/CtaBand.astro';
+import PageHero from '../../components/PageHero.astro';
+import SideRail from '../../components/SideRail.astro';
+import TownWater from '../../components/TownWater.astro';
+import { townPageBySlug, townPagesContent } from '../../content/town-pages';
+import { townPlaceBySlug } from '../../content/town-places';
+import { breadcrumb, serviceNode } from '../../lib/page-schema';
+import { faqNode } from '../../lib/schema';
+import { SITE } from '../../config/site';
+
+export function getStaticPaths() {
+  return townPagesContent.map((page) => ({ params: { town: page.slug } }));
+}
+
+const { town } = Astro.params;
+const page = townPageBySlug(town);
+if (!page) throw new Error(`Missing town page ${town}`);
+if (!page.documentTitle.includes(page.name)) throw new Error(`Town title must name the town: ${page.slug}`);
+const place = townPlaceBySlug(page.slug);
+if (!place) throw new Error(`Missing town place story ${town}`);
+
+const plainText = (text: string) => text.replace(/\[([^\]]+)\]\([^)]+\)/g, '$1').replaceAll('{phone}', SITE.phoneDisplay);
+const path = `/locations/${page.slug}`;
+const graph = [
+  serviceNode(`Water treatment in ${page.name}, SD`, 'Residential water treatment', path, [page.name]),
+  breadcrumb([
+    { name: 'Home', path: '/' },
+    { name: 'Service area', path: '/service-area' },
+    { name: page.name, path },
+  ]),
+  faqNode(page.faqs.map((item) => ({ question: item.q, paragraphs: [plainText(item.a)] }))),
+];
+---
+
+<Layout title={page.documentTitle} schemaName={page.documentTitle} description={page.description} fullTitle extraGraph={graph} overlay>
+  <PageHero photo={place.photo} eyebrow={`${page.name}, South Dakota`} title="Water Treatment" titleAfter={`in ${page.name}, SD`} sub={page.sub} town />
+
+  <div class="page-split">
+    <div class="page-main">
+      <TownWater phone={SITE.phoneDisplay} page={page} place={place} />
+    </div>
+    <SideRail />
+  </div>
+
+  <CtaBand photo={place.photo} heading={`Questions about your water in ${page.name}?`} />
+</Layout>
