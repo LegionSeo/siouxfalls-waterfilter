@@ -39,12 +39,6 @@ export const PHOTOS = {
     page: 'https://unsplash.com/photos/modern-white-house-two-garage-doors-and-concrete-driveway-mledaZ8XtVM',
     focus: '50% 70%',
   },
-  sunnyPour: {
-    id: '1774931363306-5a896cd4dd02',
-    alt: 'Two workers spreading wet concrete on a sunny day',
-    credit: 'Hammilton Ojijo',
-    page: 'https://unsplash.com/photos/construction-workers-pouring-concrete-on-a-sunny-day-8eEkLj8HU_I',
-  },
   foundationWall: {
     id: '1616179058441-37aa58affac8',
     alt: 'Smooth poured concrete wall showing form tie marks',

@@ -86,7 +86,7 @@ export const SERVICES: Service[] = [
     summary: 'Backyard patios, fire pit pads, and slabs for grills and hot tubs.',
     title: 'Concrete Patios in Sioux Falls, SD | Sioux Falls Concrete',
     description:
-      'Concrete patios in Sioux Falls, SD. Backyard patios, fire pit pads, hot tub slabs, and patio extensions with a plain, broom, or stamped finish. Call for a quote.',
+      'Concrete patios in Sioux Falls, SD. Backyard patios, fire pit pads, hot tub slabs, and patio extensions. Broom or stamped finish. Call for a quote.',
     h1: 'Concrete patios in Sioux Falls',
     lede: 'A patio should be the easy part of summer. Flat where you put the table, sloped where the rain goes.',
     photo: 'finishing',
@@ -231,7 +231,7 @@ export const SERVICES: Service[] = [
     summary: 'Stamped patterns, color, exposed aggregate, and borders.',
     title: 'Stamped and Decorative Concrete in Sioux Falls, SD | Sioux Falls Concrete',
     description:
-      'Stamped and decorative concrete in Sioux Falls, SD. Patios, walkways, and borders that look like stone, slate, or brick, plus color and exposed aggregate. Call for a quote.',
+      'Stamped and decorative concrete in Sioux Falls, SD. Patios and walks that look like stone, slate, or brick, plus color and exposed aggregate. Call for a quote.',
     h1: 'Stamped and decorative concrete in Sioux Falls',
     lede: 'Stamped concrete gives you the look of stone or brick in one solid slab, with no pavers to heave or weeds to pull.',
     intro: [
@@ -370,7 +370,7 @@ export const SERVICES: Service[] = [
       'Commercial concrete flatwork in Sioux Falls, SD. Parking areas, sidewalks, curb and gutter, dumpster pads, and approaches for businesses and property managers.',
     h1: 'Commercial concrete in Sioux Falls',
     lede: 'Flatwork for businesses, churches, rentals, and property managers, scheduled around your open hours.',
-    photo: 'sunnyPour',
+    photo: 'chutePour',
     intro: [
       'We pour and replace parking areas, entry walks, curb and gutter, dumpster pads, loading areas, and driveway approaches.',
       'For occupied sites we plan the work in sections so customers and tenants can still get in.',
