@@ -1,6 +1,7 @@
 ---
 import { SITE } from '../config/site';
 import CallButton from './CallButton.astro';
+import Photo from './Photo.astro';
 
 interface Props {
   heading?: string;
@@ -15,14 +16,19 @@ const {
 } = Astro.props;
 ---
 
-<section class="band">
+<section class="band bg-white pt-0 md:pt-0">
   <div class="wrap">
-    <div class="rounded-[2rem] bg-cobalt px-6 py-12 text-center text-white md:px-12 md:py-16">
-      <h2 class="text-white">{heading}</h2>
-      <p class="mx-auto mt-4 max-w-xl text-lg text-white/85">{text}</p>
-      <div class="mt-8 flex flex-wrap justify-center gap-3">
-        <CallButton track="call-cta" />
-        <a href="/contact" class="btn border-2 border-white/70 text-white hover:bg-white/10">Ways to reach us</a>
+    <div class="grid overflow-hidden rounded-[1.75rem] bg-brand-deep md:grid-cols-[1.35fr_1fr]">
+      <div class="px-7 py-12 md:px-12 md:py-16">
+        <h2 class="text-white">{heading}</h2>
+        <p class="mt-4 max-w-xl text-lg text-white/85">{text}</p>
+        <div class="mt-8 flex flex-wrap gap-3">
+          <CallButton track="call-cta" class="btn btn-call px-6" />
+          <a href="/contact" class="btn text-white shadow-[inset_0_0_0_1.5px_rgba(255,255,255,0.55)] hover:bg-white/10">Ways to reach us</a>
+        </div>
+      </div>
+      <div class="relative hidden md:block">
+        <Photo photo="glass" ratio={0.9} sizes="26rem" widths={[480, 720, 960]} class="absolute inset-0 h-full" alt="" />
       </div>
     </div>
   </div>

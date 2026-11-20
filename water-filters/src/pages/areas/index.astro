@@ -21,17 +21,17 @@ import { breadcrumbNode } from '../../lib/schema';
     </p>
     <ul class="mt-10 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
       <li>
-        <a href="/" class="card flex items-center gap-4 no-underline hover:border-cobalt">
-          <Icon name="pin" class="h-6 w-6 text-cobalt" />
-          <span class="font-display text-lg font-semibold text-ink">Sioux Falls</span>
+        <a href="/" class="card flex items-center gap-4 no-underline transition hover:border-brand">
+          <Icon name="pin" class="h-6 w-6 text-brand" />
+          <span class="text-lg font-bold text-ink">Sioux Falls</span>
         </a>
       </li>
       {
         towns.map((town) => (
           <li>
-            <a href={`/areas/${town.slug}`} class="card flex items-center gap-4 no-underline hover:border-cobalt">
-              <Icon name="pin" class="h-6 w-6 text-cobalt" />
-              <span class="font-display text-lg font-semibold text-ink">{town.name}</span>
+            <a href={`/areas/${town.slug}`} class="card flex items-center gap-4 no-underline transition hover:border-brand">
+              <Icon name="pin" class="h-6 w-6 text-brand" />
+              <span class="text-lg font-bold text-ink">{town.name}</span>
             </a>
           </li>
         ))

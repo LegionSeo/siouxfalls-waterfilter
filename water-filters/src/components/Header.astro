@@ -5,19 +5,19 @@ import CallButton from './CallButton.astro';
 import Logo from './Logo.astro';
 ---
 
-<header class="sticky top-0 z-40 border-b border-line bg-cream/95 backdrop-blur">
+<header class="sticky top-0 z-40 border-b border-line bg-white/95 backdrop-blur">
   <div class="wrap flex h-[72px] items-center justify-between gap-4">
     <a href="/" class="flex items-center gap-2.5 no-underline" aria-label={`${SITE.name} home`}>
       <Logo />
     </a>
-    <nav aria-label="Main" class="hidden items-center gap-6 whitespace-nowrap text-[0.95rem] font-semibold lg:flex">
+    <nav aria-label="Main" class="hidden items-center gap-7 whitespace-nowrap text-[0.95rem] font-semibold lg:flex">
       <details class="group relative">
-        <summary class="cursor-pointer list-none text-ink hover:text-cobalt">Services</summary>
+        <summary class="flex cursor-pointer list-none items-center gap-1 text-ink hover:text-brand">Services <svg class="h-4 w-4 transition group-open:rotate-180" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M5 7.5l5 5 5-5" stroke-linecap="round" stroke-linejoin="round" /></svg></summary>
         <ul class="absolute right-0 mt-3 w-72 rounded-2xl border border-line bg-white p-2 shadow-xl">
           {
             services.map((service) => (
               <li>
-                <a class="block rounded-xl px-3 py-2 text-ink hover:bg-sky" href={`/${service.slug}`}>
+                <a class="block rounded-xl px-3 py-2 text-ink hover:bg-soft" href={`/${service.slug}`}>
                   {service.name}
                 </a>
               </li>
@@ -25,9 +25,9 @@ import Logo from './Logo.astro';
           }
         </ul>
       </details>
-      <a class="text-ink hover:text-cobalt" href="/softener-size-calculator">Softener calculator</a>
-      <a class="text-ink hover:text-cobalt" href="/areas">Areas</a>
-      <a class="text-ink hover:text-cobalt" href="/about">About</a>
+      <a class="text-ink hover:text-brand" href="/softener-size-calculator">Softener calculator</a>
+      <a class="text-ink hover:text-brand" href="/areas">Areas</a>
+      <a class="text-ink hover:text-brand" href="/about">About</a>
     </nav>
     <div class="flex items-center gap-2">
       <CallButton track="call-header" class="btn btn-call hidden whitespace-nowrap px-5 xl:inline-flex" />
@@ -39,16 +39,16 @@ import Logo from './Logo.astro';
             {
               services.map((service) => (
                 <li>
-                  <a class="block rounded-xl px-3 py-2 text-ink hover:bg-sky" href={`/${service.slug}`}>
+                  <a class="block rounded-xl px-3 py-2 text-ink hover:bg-soft" href={`/${service.slug}`}>
                     {service.name}
                   </a>
                 </li>
               ))
             }
-            <li><a class="block rounded-xl px-3 py-2 text-ink hover:bg-sky" href="/softener-size-calculator">Softener calculator</a></li>
-            <li><a class="block rounded-xl px-3 py-2 text-ink hover:bg-sky" href="/areas">Areas we serve</a></li>
-            <li><a class="block rounded-xl px-3 py-2 text-ink hover:bg-sky" href="/about">About</a></li>
-            <li><a class="block rounded-xl px-3 py-2 text-ink hover:bg-sky" href="/contact">Contact</a></li>
+            <li><a class="block rounded-xl px-3 py-2 text-ink hover:bg-soft" href="/softener-size-calculator">Softener calculator</a></li>
+            <li><a class="block rounded-xl px-3 py-2 text-ink hover:bg-soft" href="/areas">Areas we serve</a></li>
+            <li><a class="block rounded-xl px-3 py-2 text-ink hover:bg-soft" href="/about">About</a></li>
+            <li><a class="block rounded-xl px-3 py-2 text-ink hover:bg-soft" href="/contact">Contact</a></li>
           </ul>
         </div>
       </details>

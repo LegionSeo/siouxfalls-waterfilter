@@ -1,9 +1,11 @@
 ---
+import { SITE } from '../../config/site';
 import Layout from '../../layouts/Layout.astro';
 import CallButton from '../../components/CallButton.astro';
 import CtaBand from '../../components/CtaBand.astro';
 import Faq from '../../components/Faq.astro';
 import Icon from '../../components/Icon.astro';
+import Photo from '../../components/Photo.astro';
 import { serviceBySlug } from '../../content/services';
 import { townBySlug, towns } from '../../content/towns';
 import { breadcrumbNode, faqNode } from '../../lib/schema';
@@ -25,16 +27,26 @@ const graph = [
 ---
 
 <Layout title={town.title} description={town.description} graph={graph}>
-  <section class="border-b border-line">
-    <div class="wrap py-12 md:py-16">
+  <section class="border-b border-line bg-soft">
+    <div class="wrap py-10 md:py-14">
       <nav aria-label="Breadcrumb" class="text-sm text-muted">
-        <a class="hover:text-cobalt" href="/">Home</a> <span aria-hidden="true">/</span>
-        <a class="hover:text-cobalt" href="/areas">Areas</a> <span aria-hidden="true">/</span> <span>{town.name}</span>
+        <a class="hover:text-brand" href="/">Home</a> <span aria-hidden="true">/</span>
+        <a class="hover:text-brand" href="/areas">Areas</a> <span aria-hidden="true">/</span> <span>{town.name}</span>
       </nav>
-      <p class="kicker mt-6"><Icon name="pin" class="h-4 w-4" /> {town.name}, South Dakota</p>
-      <h1 class="mt-3 max-w-4xl">Water Filters and Softeners in {town.name}, SD</h1>
-      <p class="lede mt-5">{town.intro}</p>
-      <div class="mt-8"><CallButton track={`call-${town.slug}`} /></div>
+      <div class="mt-6 grid gap-10 lg:grid-cols-[1.3fr_1fr] lg:items-center lg:gap-14">
+        <div>
+          <p class="kicker"><Icon name="pin" class="h-4 w-4" /> {town.name}, South Dakota</p>
+          <h1 class="mt-3">Water Filters and Softeners in {town.name}, SD</h1>
+          <p class="lede mt-5">{town.intro}</p>
+          <div class="mt-8 flex flex-wrap gap-3">
+            <CallButton track={`call-${town.slug}`} class="btn btn-call px-6" />
+            <a href="/free-water-test" class="btn btn-ghost">{SITE.freeTest ? 'Free water test' : 'Water test'}</a>
+          </div>
+        </div>
+        <div class="hidden overflow-hidden rounded-[1.5rem] lg:block">
+          <Photo photo="home" ratio={1.15} sizes="30rem" widths={[480, 720, 960]} eager class="aspect-[1.15]" />
+        </div>
+      </div>
     </div>
   </section>
 
@@ -51,7 +63,7 @@ const graph = [
           )
         }
       </div>
-      <div class="card bg-sand/60">
+      <div class="card bg-soft/60">
         <h2 class="text-2xl">{town.fitHeading}</h2>
         <ul class="mt-5 space-y-4">
           {
@@ -59,7 +71,7 @@ const graph = [
               const service = serviceBySlug(item.service)!;
               return (
                 <li class="flex gap-3">
-                  <Icon name={service.icon} class="mt-0.5 h-6 w-6 shrink-0 text-cobalt" />
+                  <Icon name={service.icon} class="mt-0.5 h-6 w-6 shrink-0 text-brand" />
                   <span>
                     <a class="link" href={`/${service.slug}`}>{service.name}</a>
                     <span class="block text-[0.95rem] text-muted">{item.why}</span>
@@ -75,12 +87,12 @@ const graph = [
 
   <Faq items={town.faqs} heading={`${town.name} water questions`} />
 
-  <section class="band pb-0">
+  <section class="band border-t border-line">
     <div class="wrap">
       <h2 class="text-2xl">Other towns we serve</h2>
       <ul class="mt-5 flex flex-wrap gap-3">
-        <li><a class="btn bg-white text-ink ring-1 ring-line hover:ring-cobalt" href="/">Sioux Falls</a></li>
-        {others.map((item) => <li><a class="btn bg-white text-ink ring-1 ring-line hover:ring-cobalt" href={`/areas/${item.slug}`}>{item.name}</a></li>)}
+        <li><a class="btn btn-ghost" href="/">Sioux Falls</a></li>
+        {others.map((item) => <li><a class="btn btn-ghost" href={`/areas/${item.slug}`}>{item.name}</a></li>)}
       </ul>
     </div>
   </section>

@@ -5,6 +5,8 @@ import CtaBand from '../components/CtaBand.astro';
 import Faq from '../components/Faq.astro';
 import Icon from '../components/Icon.astro';
 import Inline from '../components/Inline.astro';
+import Photo from '../components/Photo.astro';
+import type { PhotoKey } from '../content/photos';
 import { SITE } from '../config/site';
 import { serviceBySlug, services } from '../content/services';
 import { towns } from '../content/towns';
@@ -16,6 +18,16 @@ export function getStaticPaths() {
 }
 
 const service = serviceBySlug(Astro.params.slug)!;
+const photoFor: Record<string, PhotoKey> = {
+  'whole-house-water-filter': 'home',
+  'water-softener-installation': 'faucet',
+  'softener-and-filter-combo': 'tap',
+  'reverse-osmosis-installation': 'glass',
+  'well-water-filtration': 'home',
+  'free-water-test': 'tap',
+  'water-filter-service': 'tech',
+};
+const photo = photoFor[service.slug] ?? 'tap';
 const related = service.related.map((slug) => serviceBySlug(slug)!).filter(Boolean);
 const graph = [
   serviceNode({ name: service.name, slug: service.slug, description: service.description }),
@@ -28,34 +40,33 @@ const graph = [
 ---
 
 <Layout title={service.title} description={service.description} graph={graph}>
-  <section class="relative overflow-hidden border-b border-line bg-gradient-to-b from-sky/80 to-cream">
-    <svg class="pointer-events-none absolute -right-16 -top-10 hidden h-[26rem] w-[26rem] text-cobalt/10 md:block" viewBox="0 0 24 24" aria-hidden="true">
-      <path fill="currentColor" d="M12 2.5s7.5 7.6 7.5 12.6a7.5 7.5 0 0 1-15 0C4.5 10.1 12 2.5 12 2.5z" />
-    </svg>
-    <div class="wrap relative py-12 md:py-16">
+  <section class="border-b border-line bg-soft">
+    <div class="wrap py-10 md:py-14">
       <nav aria-label="Breadcrumb" class="text-sm text-muted">
-        <a class="hover:text-cobalt" href="/">Home</a> <span aria-hidden="true">/</span> <span>{service.name}</span>
+        <a class="hover:text-brand" href="/">Home</a> <span aria-hidden="true">/</span> <span>{service.name}</span>
       </nav>
-      <div class="mt-6 grid gap-10 md:grid-cols-[1.4fr_1fr] md:items-start">
+      <div class="mt-6 grid gap-10 lg:grid-cols-[1.25fr_1fr] lg:items-center lg:gap-14">
         <div>
-          <span class="grid h-14 w-14 place-items-center rounded-2xl bg-cobalt text-white">
-            <Icon name={service.icon} class="h-7 w-7" />
-          </span>
-          <h1 class="mt-5">{service.h1}</h1>
-          <p class="prose-plain mt-5 text-lg text-muted"><Inline text={service.intro} /></p>
+          <h1>{service.h1}</h1>
+          <p class="prose-plain mt-6 max-w-2xl text-lg text-muted"><Inline text={service.intro} /></p>
           <div class="mt-8 flex flex-wrap gap-3">
-            <CallButton track={`call-${service.slug}`} />
+            <CallButton track={`call-${service.slug}`} class="btn btn-call px-6" />
             {service.slug !== 'free-water-test' && (
               <a href="/free-water-test" class="btn btn-ghost">{SITE.freeTest ? 'Free water test' : 'Water test'}</a>
             )}
           </div>
         </div>
-        <aside class="card shadow-[0_24px_60px_-34px_rgba(16,33,58,0.45)]">
-          <h2 class="text-xl">{service.fixesHeading}</h2>
-          <ul class="ticks mt-5 text-[0.98rem]">
-            {service.fixes.map((item) => <li>{item}</li>)}
-          </ul>
-        </aside>
+        <div>
+          <div class="overflow-hidden rounded-[1.5rem]">
+            <Photo photo={photo} ratio={1.5} sizes="(min-width: 1024px) 30rem, 92vw" widths={[480, 720, 960]} eager class="aspect-[1.5]" />
+          </div>
+          <aside class="card relative z-10 mx-3 -mt-10 shadow-[0_24px_50px_-30px_rgba(15,30,46,0.5)] sm:mx-6">
+            <h2 class="text-lg tracking-normal">{service.fixesHeading}</h2>
+            <ul class="ticks mt-4 text-[0.97rem]">
+              {service.fixes.map((item) => <li>{item}</li>)}
+            </ul>
+          </aside>
+        </div>
       </div>
     </div>
   </section>
@@ -67,7 +78,7 @@ const graph = [
         {
           service.steps.map((step, index) => (
             <li class="card">
-              <span class="grid h-9 w-9 place-items-center rounded-full bg-sun font-display font-bold text-ink">{index + 1}</span>
+              <span class="grid h-9 w-9 place-items-center rounded-full bg-brand font-extrabold text-white">{index + 1}</span>
               <h3 class="mt-4">{step.title}</h3>
               <p class="mt-2 text-[0.95rem] text-muted">{step.text}</p>
             </li>
@@ -77,7 +88,7 @@ const graph = [
     </div>
   </section>
 
-  <section class="band" aria-labelledby="local-heading">
+  <section class="band bg-soft" aria-labelledby="local-heading">
     <div class="wrap grid gap-10 md:grid-cols-2">
       <div>
         <p class="kicker">Sioux Falls water</p>
@@ -106,10 +117,10 @@ const graph = [
         {
           related.map((item) => (
             <li>
-              <a href={`/${item.slug}`} class="card flex h-full items-start gap-4 no-underline hover:border-cobalt">
-                <Icon name={item.icon} class="h-6 w-6 shrink-0 text-cobalt" />
+              <a href={`/${item.slug}`} class="card flex h-full items-start gap-4 no-underline transition hover:border-brand">
+                <span class="grid h-10 w-10 shrink-0 place-items-center rounded-lg bg-tint text-brand"><Icon name={item.icon} class="h-5 w-5" /></span>
                 <span>
-                  <span class="block font-display font-semibold text-ink">{item.name}</span>
+                  <span class="block font-bold text-ink">{item.name}</span>
                   <span class="mt-1 block text-sm text-muted">{item.card}</span>
                 </span>
               </a>
@@ -120,7 +131,7 @@ const graph = [
     </div>
   </section>
 
-  <section class="band pb-0" aria-labelledby="towns-heading">
+  <section class="band" aria-labelledby="towns-heading">
     <div class="wrap">
       <h2 id="towns-heading" class="text-2xl">{service.name} near Sioux Falls</h2>
       <p class="mt-3 text-muted">We also work in these towns. Each page covers where the water comes from.</p>
@@ -128,8 +139,8 @@ const graph = [
         {
           towns.map((town) => (
             <li>
-              <a href={`/areas/${town.slug}`} class="btn bg-white text-ink ring-1 ring-line hover:ring-cobalt">
-                <Icon name="pin" class="h-4 w-4 text-cobalt" /> {town.name}
+              <a href={`/areas/${town.slug}`} class="btn btn-ghost">
+                <Icon name="pin" class="h-4 w-4 text-brand" /> {town.name}
               </a>
             </li>
           ))

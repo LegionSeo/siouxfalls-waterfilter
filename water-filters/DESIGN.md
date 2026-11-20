@@ -1,55 +1,65 @@
 # Sioux Falls Water Filters: design system
 
-Warm, friendly and bright. It should feel like a sunny kitchen, not a lab.
-Keep it clearly different from Sioux Falls Water Filtration (dark navy, photo heroes, mint buttons).
+Bright, clean and trustworthy, like a well run local service company. Real photos, white space and one strong call color.
+Keep it clearly different from Sioux Falls Water Filtration (dark navy, full bleed dark photo hero, mint buttons, Inter).
+
+Direction note: UXKIN reference sites were not reachable when this was written, so this direction comes from the brief and common patterns of local home service sites, not from a set of compared examples.
 
 ## Colors
 
 | Token | Hex | Role |
 |---|---|---|
-| cream | #fbf8f2 | Page background |
-| sand | #f2ece1 | Soft section bands, ground in the hero drawing |
-| sky | #e8eefc | Light blue fills, tick chips, hero gradient |
-| white | #ffffff | Cards, stats band |
-| ink | #10213a | Headings, dark text, dark buttons |
-| text | #1b2536 | Body copy |
-| muted | #536077 | Secondary copy |
-| line | #e3dccf | Borders and dividers |
-| cobalt | #1f4fd6 | Brand blue, links, secondary buttons, accents |
-| cobalt-deep | #173aa0 | Hover for cobalt |
-| sun | #f6b73c | Call buttons and highlights only |
-| sun-deep | #e29d17 | Hover for sun |
+| canvas | #ffffff | Page background, cards |
+| soft | #f2f6f9 | Hero and alternate section bands |
+| tint | #e5effa | Icon chips, meter tracks, photo placeholders |
+| line | #dce4ec | Borders and dividers |
+| ink | #0f1e2e | Headings, footer background |
+| text | #2b3947 | Body copy |
+| muted | #566879 | Secondary copy (5.6:1 on white) |
+| brand | #1558c4 | Links, icons, step numbers, secondary buttons |
+| brand-deep | #0e408f | Hover for brand, closing call band, calculator result |
+| accent | #c2410c | Call buttons and the "hard water" mark only (white text 5.2:1) |
+| accent-deep | #9a3412 | Hover for accent, warning text |
+| accent-soft | #fdede4 | Highlight row for the free water test |
 
-Sun means "call". Do not use it for decoration beyond small icon chips and sparkles.
+Orange means "call". Never use it for decoration or large fills.
 
 ## Type
 
-- Headings: Outfit Variable, 700, tight tracking, balanced wrap.
-- Body: system sans at 17px, line height 1.65.
-- H1 clamps from 36px to 60px. H2 from 28px to 40px.
-- Kickers: 13px, uppercase, cobalt, wide tracking.
+- One family: Plus Jakarta Sans Variable.
+- H1 clamps 38px to 64px, weight 800, tracking -0.032em, line height 1.04. Keep the home H1 under 13ch.
+- H2 clamps 30px to 44px, weight 800. H3 20px, weight 700.
+- Body 17px, line height 1.65. Lede 19px in muted.
+- Small labels are sentence case in brand blue. No all caps labels.
 
-## Shape and spacing
+## Spacing and shape
 
-- Buttons are full pills (999px radius), 48px tall minimum.
-- Cards: white, 1px line border, 20px radius, 24px padding, lift slightly on hover.
-- Sections use the `band` class: 64px top and bottom on phones, 88px on desktop.
-- Content width 72rem with a 20px side gutter.
+- Content width 72rem with a 20px gutter. Sections use `band`: 72px on phones, 104px on desktop.
+- Buttons: 10px radius, 52px tall minimum, bold. Call is solid orange with a soft orange shadow. Secondary is white with a 1.5px line border that turns blue on hover.
+- Cards and lists: 16px radius, 1px line border, no resting shadow.
+- Photos: 24px to 28px radius. Floating panels get one deep shadow: 0 30px 60px -28px ink at 55%.
 
 ## Signature pieces
 
-- Hero: a hand drawn SVG house cutaway (HeroArt) with the softener and filter in the basement. No stock photos.
-- Stats band under the hero: three sourced numbers (plant hardness, Lewis & Clark hardness, chlorine). Every number needs a source line.
-- Problem cards with round icon chips in pale sun.
-- Featured sun banner for the free water test, then the other services in a grid.
-- Compare table on desktop, stacked cards on phones.
+- Split hero: big H1 on the left, tall kitchen tap photo on the right.
+- Water card: a white panel that overlaps the hero photo with the city's hardness numbers as meter bars, an orange mark at 7 gpg where water counts as hard, and the source link. Every number needs a source.
+- Trust strip of four plain facts under the hero.
+- Problem list: one bordered list of rows (problem, usual fix, chevron), not a grid of cards.
+- Services: one large photo card for whole house filters plus a list of the rest, with the free test row tinted orange.
+- How it works: technician photo beside three numbered steps.
+- Closing call band in brand-deep with a glass of water photo.
+
+## Photos
+
+- Real photos only, from Unsplash under the Unsplash License. Each photo page was checked. Credits live on the About page.
+- Loaded from images.unsplash.com with srcset through the `Photo` component, with width and height set to avoid layout shift.
+- No branded products in frame, no cartoon art.
 
 ## Call buttons
 
-- One main action on every screen: Call. It is always a sun pill with ink text.
-- Header shows the full phone button on large screens and a short "Call now" pill on tablets.
-- Phones get a fixed bottom bar: Call now (wide, sun) plus Free test (cobalt).
-- Secondary actions are cobalt pills or ink outline pills, never sun.
+- One main action on every screen: Call, in orange.
+- Header shows the full phone button on large screens and a short "Call now" button on tablets.
+- Phones get a fixed bottom bar: Call now (wide, orange) plus Free test (white).
 
 ## Copy
 
