@@ -89,7 +89,7 @@ export const services: Service[] = [
     group: 'heating',
     icon: 'ph:house-line-bold',
     short: 'New furnace sized for your home, with a clear quote before work starts.',
-    title: 'Furnace Installation and Replacement in Sioux Falls | Sioux Falls HVAC',
+    title: 'Furnace Installation in Sioux Falls, SD | Sioux Falls HVAC',
     description:
       'New furnace installation and furnace replacement in Sioux Falls, SD. Sized to your home, installed to city code, with the permit handled for you.',
     h1: 'Furnace installation and replacement in Sioux Falls',
@@ -194,7 +194,7 @@ export const services: Service[] = [
       },
     ],
     related: ['ac-installation', 'hvac-maintenance', 'heat-pumps'],
-    photo: 'heatPumpBrick',
+    photo: 'thermostat',
   },
   {
     slug: 'ac-installation',
@@ -250,7 +250,7 @@ export const services: Service[] = [
       },
     ],
     related: ['ac-repair', 'heat-pumps', 'furnace-installation'],
-    photo: 'heatPump',
+    photo: 'heatPumpBrick',
   },
   {
     slug: 'heat-pumps',
@@ -410,7 +410,7 @@ export const services: Service[] = [
       },
     ],
     related: ['furnace-repair', 'ac-repair', 'emergency-hvac'],
-    photo: 'thermostat',
+    photo: 'livingRoom',
   },
   {
     slug: 'emergency-hvac',
