@@ -1,38 +1,38 @@
 # Sioux Falls HVAC design
 
-Direction: warm paper and deep slate, with heat (ember) and cold (frost) as the two accents. The signature is the range bar, a frost to ember gradient taken from the real Sioux Falls record low and record high. No purple, no glass, no gradient text. Made without outside reference sites (the UXKIN library was not connected).
+Goal: look like a real local heating and cooling company, not a template. Think service van lettering on a winter street.
 
-## Color (tokens in src/styles/global.css)
+## Color
 | Token | Value | Role |
-| --- | --- | --- |
-| ink | #13202b | Headings, dark bands |
-| body | #26323d | Body text |
-| muted | #5b6670 | Secondary text (5.3:1 on paper) |
-| line | #e2dbd0 | Borders |
-| paper | #f7f4ef | Page background |
-| card | #ffffff | Raised surfaces |
-| ember | #b8321f | Call buttons, links, heating (6:1 on white) |
-| ember-dark | #9a2716 | Hover |
-| ember-soft | #fbe9e2 | Heating tint |
-| ember-glow | #f97352 | Ember on dark (6:1 on ink) |
-| frost | #1f5f8b | Cooling accents, focus ring |
-| frost-soft | #e3eef5 | Cooling tint |
-| frost-glow | #9fc9e6 | Frost on dark |
+|---|---|---|
+| ink | #11304d | Van navy. Headings, dark bands, header text |
+| night | #0b2238 | Top strip, temperature band, footer |
+| body | #2c3a47 | Body text |
+| muted | #586674 | Secondary text |
+| line | #d9e0e6 | Hairlines |
+| paper | #eef2f5 | Grey panels |
+| card | #ffffff | Page background |
+| call | #ffc72c | Every call button and the call band. Always navy text on it |
+| ember | #b42318 | Heating only: column rules, labels |
+| frost | #155e9e | Cooling only, and text links |
+
+Red and blue mark heating and cooling. They are never decoration.
 
 ## Type
-- Display: Bricolage Grotesque, 700 to 800, tight tracking. H1 42 to 60px, H2 30 to 36px, H3 18 to 24px.
-- Body: Public Sans, 17px, line height 1.65, lines held to 65ch.
-- Both self hosted with Fontsource.
+- Display: Barlow Condensed 600 and 700. All headings, service names, town names, the phone number.
+- Body: Barlow 400 to 700, 18px base, line height 1.6.
+- Headings run large and tight (line height 1.02). Sentence case. No all caps labels, no colored single words.
 
-## Spacing and shape
-- Tailwind 4px scale. Sections 64 to 80px tall padding. Content width 72rem.
-- Radius: 6px buttons, 10px small cards, 18px large cards and photos. One soft card shadow.
+## Shape
+- Radius 3 to 6px. No pill shapes.
+- Almost no shadows. Structure comes from rules: a 5px red or blue top rule for heating or cooling, 2px navy rules over numbered steps, hairlines between list rows.
 
-## Components
-- Buttons: call (ember fill, white text), line (ink outline), light (on dark).
-- Service lists split into Heating (ember tint) and Cooling (frost tint) panels.
-- FAQ uses native details and summary.
-- Sticky call bar on phones, call button in the header from 640px up.
+## Layout rules
+- Hero is a full width photo of a snowy street with a navy overlay, a big headline and a big yellow phone button.
+- Lists, not card grids. Services and towns are ruled lists with large condensed names.
+- Numbers only where the content is a real sequence (quick checks, visit steps).
+- Vary section rhythm: white, grey panel, navy split with a photo bleeding to the edge, yellow call band.
+- Phone: sticky yellow call bar at the bottom.
 
-## Imagery
-Real Unsplash photos only, hotlinked from the Unsplash CDN, credited on the About page. Phosphor icons (bold). Replace photos with real job photos when the renter has them.
+## Photos
+Unsplash License photos, credited on the About page. Swap in real job photos when a renter is in place.
