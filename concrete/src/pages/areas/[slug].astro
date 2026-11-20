@@ -1,0 +1,85 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import Faq from '../../components/Faq.astro';
+import CtaBand from '../../components/CtaBand.astro';
+import Crumbs from '../../components/Crumbs.astro';
+import Photo from '../../components/Photo.astro';
+import { SITE } from '../../config/site';
+import type { PhotoKey } from '../../content/photos';
+import { TOWNS, type Town } from '../../content/towns';
+import { SERVICES, serviceBySlug } from '../../content/services';
+import { faqNode, breadcrumbNode, serviceNode } from '../../lib/schema';
+
+export function getStaticPaths() {
+  return TOWNS.map((t) => ({ params: { slug: t.slug }, props: { town: t } }));
+}
+const { town } = Astro.props as { town: Town };
+const path = `/areas/${town.slug}`;
+const crumbs = [
+  { name: 'Home', path: '/' },
+  { name: 'Service area', path: '/areas' },
+  { name: town.name, path },
+];
+const focus = town.focus.map((s) => serviceBySlug(s)!);
+const others = SERVICES.filter((s) => !town.focus.includes(s.slug));
+const nearby = TOWNS.filter((t) => t.slug !== town.slug);
+const townPhoto: Record<string, PhotoKey> = { brandon: 'driveway', harrisburg: 'finishing', tea: 'shoveling', hartford: 'machinePour', 'dell-rapids': 'steps' };
+const leadPhoto: PhotoKey = townPhoto[town.slug] ?? 'chutePour';
+const graph = [
+  serviceNode({ name: `Concrete contractor in ${town.name}, SD`, path, description: town.description, areas: [town.name] }),
+  faqNode(town.faqs),
+  breadcrumbNode(crumbs),
+];
+---
+<Layout title={town.title} description={town.description} graph={graph}>
+  <section>
+    <div class="wrap pt-6"><Crumbs items={crumbs} /></div>
+    <div class="wrap grid items-center gap-10 pb-12 pt-8 lg:grid-cols-[1.1fr_0.9fr] lg:gap-14 lg:pb-16">
+      <div>
+        <h1 class="max-w-[15ch]">{town.h1}</h1>
+        <p class="lede mt-6 measure">{town.lede}</p>
+        <div class="mt-8"><a href={SITE.phoneHref} class="btn btn-call btn-big" data-call="town-hero">Call {SITE.phoneDisplay}</a></div>
+      </div>
+      <div class="aspect-[4/3] overflow-hidden rounded-md">
+        <Photo name={leadPhoto} ratio={4 / 3} sizes="(min-width: 1024px) 42vw, 100vw" widths={[600, 900, 1300]} eager />
+      </div>
+    </div>
+  </section>
+  <div class="wrap"><div class="joint-rule" aria-hidden="true"></div></div>
+  <section class="band" aria-labelledby="town-work-h">
+    <div class="wrap grid gap-12 lg:grid-cols-[1fr_1.2fr]">
+      <div>
+        <h2 id="town-work-h">Concrete work in {town.name}</h2>
+        <p class="mt-5 measure">{town.where}</p>
+        {town.body.map((p) => <p class="mt-4 measure">{p}</p>)}
+      </div>
+      <div>
+        <h3 class="text-[1.3rem]">Most asked for in {town.name}</h3>
+        <ul class="mt-4 border-t border-line">
+          {focus.map((s) => (
+            <li class="border-b border-line">
+              <a href={`/services/${s.slug}`} class="group block py-4 no-underline">
+                <span class="block text-[1.1rem] font-bold group-hover:text-quartz-deep" style="font-stretch:106%">{s.name} in {town.name}</span>
+                <span class="block text-[0.95rem] text-steel">{s.summary}</span>
+              </a>
+            </li>
+          ))}
+        </ul>
+        <p class="mt-5 text-[0.97rem] text-steel">Also in {town.name}: {others.map((s, i) => <>{i > 0 && ', '}<a class="text-link font-normal" href={`/services/${s.slug}`}>{s.short.toLowerCase()}</a></>)}.</p>
+      </div>
+    </div>
+  </section>
+  <div class="bg-paper"><Faq items={town.faqs} heading={`Concrete in ${town.name}: questions`} /></div>
+  <section class="band-tight" aria-labelledby="nearby-h">
+    <div class="wrap">
+      <h2 id="nearby-h" class="text-[1.6rem]">Nearby towns we serve</h2>
+      <ul class="mt-5 flex flex-wrap gap-2">
+        <li><a href="/" class="inline-block rounded-full border border-line px-4 py-2 text-[0.95rem] font-semibold no-underline hover:border-quartz hover:text-quartz-deep">Sioux Falls</a></li>
+        {nearby.map((t) => (
+          <li><a href={`/areas/${t.slug}`} class="inline-block rounded-full border border-line px-4 py-2 text-[0.95rem] font-semibold no-underline hover:border-quartz hover:text-quartz-deep">{t.name}</a></li>
+        ))}
+      </ul>
+    </div>
+  </section>
+  <CtaBand heading={`Concrete work in ${town.name}? Call us.`} />
+</Layout>

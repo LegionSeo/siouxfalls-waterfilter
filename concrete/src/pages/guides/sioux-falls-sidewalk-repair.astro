@@ -1,0 +1,121 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import Faq from '../../components/Faq.astro';
+import CtaBand from '../../components/CtaBand.astro';
+import Crumbs from '../../components/Crumbs.astro';
+import SlabSection from '../../components/SlabSection.astro';
+import Source from '../../components/Source.astro';
+import { SITE, canonicalUrl } from '../../config/site';
+import { SOURCES } from '../../content/sources';
+import { faqNode, breadcrumbNode, BUSINESS_ID } from '../../lib/schema';
+
+const path = '/guides/sioux-falls-sidewalk-repair';
+const crumbs = [
+  { name: 'Home', path: '/' },
+  { name: 'Sidewalk rules', path },
+];
+const faqs = [
+  {
+    q: 'Can I fix my own sidewalk in Sioux Falls?',
+    a: 'Yes. The City says homeowners can do the work themselves. You still need a sidewalk permit first, and the permit is free for homeowners.',
+  },
+  {
+    q: 'Does a hired contractor need anything special?',
+    a: 'Yes. Anyone paid by the property owner to replace sidewalk must be bonded and insured with the City. The contractor gets the permit and pays the permit fee.',
+  },
+  {
+    q: 'Can I use any ready mix?',
+    a: 'No. The City says only City approved ready mix may be used for sidewalk replacement.',
+  },
+  {
+    q: 'How long before people can walk on new sidewalk?',
+    a: 'The City standard says new sidewalk is protected for the first 72 hours, and foot traffic may be allowed after 48 hours.',
+  },
+];
+const graph = [
+  {
+    '@type': 'Article',
+    headline: 'Sioux Falls sidewalk repair rules, in plain words',
+    url: canonicalUrl(path),
+    datePublished: '2026-11-20',
+    dateModified: '2026-11-20',
+    author: { '@id': BUSINESS_ID },
+    publisher: { '@id': BUSINESS_ID },
+    citation: Object.values(SOURCES).slice(0, 5).map((s) => s.url),
+  },
+  faqNode(faqs),
+  breadcrumbNode(crumbs),
+];
+---
+<Layout
+  title="Sioux Falls Sidewalk Repair Rules, in Plain Words | Sioux Falls Concrete"
+  description="Sioux Falls sidewalk repair rules explained: permits, who pays, trip hazard grinding limits, tree roots, and the city's thickness and width standards."
+  graph={graph}
+>
+  <article>
+    <header class="wrap pb-10 pt-6">
+      <Crumbs items={crumbs} />
+      <h1 class="mt-8 max-w-[18ch]">Sioux Falls sidewalk repair rules, in plain words</h1>
+      <p class="lede mt-6 measure">If the City marked your sidewalk, here is what the rules say and what you can do next. Every point below comes from the City of Sioux Falls, checked November 20, 2026.</p>
+    </header>
+    <div class="wrap"><div class="joint-rule" aria-hidden="true"></div></div>
+
+    <div class="wrap band-tight grid gap-14 lg:grid-cols-[minmax(0,1fr)_18rem]">
+      <div class="measure [&_h2]:mt-14 [&_h2:first-child]:mt-0 [&_h2]:text-[1.85rem] [&_p]:mt-4">
+        <h2>Who pays for sidewalk repair</h2>
+        <p>Homeowners and property owners pay for repairs to the sidewalk next to their property. If you rent, send any notice to your landlord or manager.</p>
+        <p>Pedestrian ramps and the corner panel at an intersection are the City's job. A driveway approach, a service walk to your door, or concrete on private property will not be replaced by the City.</p>
+        <p><Source k="cityRepairGuide" /></p>
+
+        <h2>You need a permit first</h2>
+        <p>You need a permit before repairing, replacing, or installing a sidewalk in Sioux Falls. Permits come from the City Engineering Division.</p>
+        <p>You can do the work yourself with a free homeowner permit. If you pay someone, they must be bonded and insured with the City, and they get the permit.</p>
+        <p>Driveway approach repair must be done by a bonded and insured contractor registered with the City.</p>
+        <p><Source k="cityPermit" /></p>
+
+        <h2>How the City finds problems</h2>
+        <p>The City aims to inspect about 10 percent of sidewalks each year, and it also checks hazards people report. Trip hazards are marked with paint. Marked panels get dots or arrows.</p>
+        <p><Source k="cityFaq" /></p>
+
+        <h2>Grind, mudjack, or replace</h2>
+        <p>Small height differences between panels can sometimes be ground down instead of replaced:</p>
+        <ul class="list-check mt-4">
+          <li>1/4 to 1/2 inch: beveled with a slope no steeper than 50 percent.</li>
+          <li>Over 1/2 inch up to 1 1/4 inch: cut at a slope gentler than an ADA ramp, 8.33 percent.</li>
+          <li>Over 1 1/4 inch: grinding is not allowed. The panel is replaced.</li>
+          <li>If grinding does not work, the sidewalk must be replaced.</li>
+        </ul>
+        <p>Mudjacking can fix a settled panel. If a tree root lifted the panel, it has to be replaced, not ground or mudjacked. A permit and inspection are still needed for grinding and mudjacking.</p>
+        <p><Source k="cityStandards" /></p>
+
+        <h2>How new sidewalk must be built</h2>
+        <ul class="list-check mt-4">
+          <li>4 inches thick for a standard walk. 6 inches through driveways and at the back of the curb.</li>
+          <li>4 feet wide on local streets and cul de sacs. 5 feet on collector and arterial streets and in commercial areas. 6 feet at the back of the curb.</li>
+          <li>At least 2 inches of compacted granular base.</li>
+          <li>Contraction joints every 5 feet, expansion joints every 50 feet.</li>
+          <li>Cross slope of about 1.5 percent toward the street, never over 2 percent.</li>
+          <li>Usually placed 2 feet from the property line.</li>
+        </ul>
+        <p><Source k="cityStandards" /></p>
+        <div class="mt-8 rounded-md border border-line bg-paper p-5 sm:p-7"><SlabSection /></div>
+
+        <h2>After the work</h2>
+        <p>The finished sidewalk gets a final inspection. Work that does not meet the City standard must be removed and replaced. If you did the work yourself, call the City to set up a new inspection.</p>
+        <p><Source k="cityRepairGuide" /></p>
+      </div>
+
+      <aside class="lg:sticky lg:top-24 lg:self-start">
+        <div class="rounded-md bg-ink p-6 text-slab">
+          <h2 class="text-[1.35rem]">Want it handled?</h2>
+          <p class="mt-3 text-slab/80">We look at the marked panels, pull the permit, and replace them to the City standard.</p>
+          <a href={SITE.phoneHref} class="btn btn-call mt-5 w-full" data-call="guide">Call {SITE.phoneDisplay}</a>
+          <a href="/services/sidewalks" class="mt-4 block text-center text-sm font-semibold text-quartz-light underline underline-offset-4">Sidewalk repair service</a>
+        </div>
+        <p class="mt-5 text-sm text-steel">This page sums up City rules so they are easy to read. It is not legal advice. Check the City pages linked here for the latest version.</p>
+      </aside>
+    </div>
+  </article>
+  <div class="bg-paper"><Faq items={faqs} heading="More sidewalk questions" /></div>
+  <CtaBand heading="Get the marked panels fixed." text="Call with your address. We will look at the marked panels and give you a price that includes the permit." />
+</Layout>

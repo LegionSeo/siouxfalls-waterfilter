@@ -1,0 +1,123 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import Photo from '../../components/Photo.astro';
+import Faq from '../../components/Faq.astro';
+import CtaBand from '../../components/CtaBand.astro';
+import Crumbs from '../../components/Crumbs.astro';
+import Source from '../../components/Source.astro';
+import SlabSection from '../../components/SlabSection.astro';
+import { SITE } from '../../config/site';
+import { SERVICES, serviceBySlug, type Service } from '../../content/services';
+import { TOWNS } from '../../content/towns';
+import { faqNode, breadcrumbNode, serviceNode } from '../../lib/schema';
+
+export function getStaticPaths() {
+  return SERVICES.map((s) => ({ params: { slug: s.slug }, props: { service: s } }));
+}
+
+const { service } = Astro.props as { service: Service };
+const path = `/services/${service.slug}`;
+const crumbs = [
+  { name: 'Home', path: '/' },
+  { name: 'Services', path: '/services' },
+  { name: service.short, path },
+];
+const related = service.related.map((slug) => serviceBySlug(slug)!).filter(Boolean);
+const graph = [
+  serviceNode({ name: service.name, path, description: service.description }),
+  faqNode(service.faqs),
+  breadcrumbNode(crumbs),
+];
+---
+
+<Layout title={service.title} description={service.description} graph={graph}>
+  <section>
+    <div class="wrap pt-6"><Crumbs items={crumbs} /></div>
+    <div class:list={['wrap grid items-center gap-10 pb-12 pt-8 lg:pb-16', service.photo && 'lg:grid-cols-[1.1fr_0.9fr] lg:gap-14']}>
+      <div>
+        <h1 class="max-w-[16ch]">{service.h1}</h1>
+        <p class="lede mt-6 measure">{service.lede}</p>
+        <div class="mt-8 flex flex-wrap gap-3">
+          <a href={SITE.phoneHref} class="btn btn-call btn-big" data-call="service-hero">Call {SITE.phoneDisplay}</a>
+        </div>
+      </div>
+      {service.photo && (
+        <div class="aspect-[4/3] overflow-hidden rounded-md">
+          <Photo name={service.photo} ratio={4 / 3} sizes="(min-width: 1024px) 42vw, 100vw" widths={[600, 900, 1300]} eager />
+        </div>
+      )}
+    </div>
+  </section>
+
+  <div class="wrap"><div class="joint-rule" aria-hidden="true"></div></div>
+
+  <section class="band" aria-labelledby="about-h">
+    <div class="wrap grid gap-12 lg:grid-cols-[1.2fr_1fr]">
+      <div>
+        <h2 id="about-h">{service.short === 'Repair' ? 'What we fix' : `About our ${service.name.toLowerCase()}`}</h2>
+        {service.intro.map((p) => <p class="mt-5 measure">{p}</p>)}
+      </div>
+      <div class="rounded-md border border-line bg-paper p-6 sm:p-8">
+        <h3>What the job includes</h3>
+        <ul class="list-check mt-5">
+          {service.includes.map((item) => <li>{item}</li>)}
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <section class="bg-paper" aria-labelledby="local-h">
+    <div class="wrap band">
+      <h2 id="local-h" class="max-w-2xl">Good to know in Sioux Falls</h2>
+      <ul class="mt-10 grid gap-x-12 gap-y-8 md:grid-cols-2">
+        {service.local.map((note) => (
+          <li class="border-l-2 border-quartz pl-5">
+            <p class="measure">{note.text}</p>
+            {note.source && <p class="mt-2"><Source k={note.source} /></p>}
+          </li>
+        ))}
+      </ul>
+      {service.slug === 'sidewalks' && (
+        <div class="mt-12 max-w-3xl rounded-md border border-line bg-slab p-5 sm:p-8">
+          <SlabSection />
+        </div>
+      )}
+      {(service.slug === 'sidewalks' || service.slug === 'concrete-repair') && (
+        <p class="mt-8"><a href="/guides/sioux-falls-sidewalk-repair" class="text-link">Read the full Sioux Falls sidewalk repair rules</a></p>
+      )}
+    </div>
+  </section>
+
+  <section class="band" aria-labelledby="where-h">
+    <div class="wrap grid gap-12 md:grid-cols-2">
+      <div>
+        <h2 id="where-h">{service.name} near Sioux Falls</h2>
+        <p class="mt-5 measure">We do {service.name.toLowerCase()} in Sioux Falls and these nearby towns.</p>
+        <ul class="mt-6 flex flex-wrap gap-2">
+          {TOWNS.map((t) => (
+            <li><a href={`/areas/${t.slug}`} class="inline-block rounded-full border border-line px-4 py-2 text-[0.95rem] font-semibold no-underline hover:border-quartz hover:text-quartz-deep">{t.name}</a></li>
+          ))}
+        </ul>
+      </div>
+      <div>
+        <h2 class="text-[1.6rem]">Related work</h2>
+        <ul class="mt-5 border-t border-line">
+          {related.map((r) => (
+            <li class="border-b border-line">
+              <a href={`/services/${r.slug}`} class="group block py-4 no-underline">
+                <span class="block text-[1.1rem] font-bold group-hover:text-quartz-deep" style="font-stretch:106%">{r.name}</span>
+                <span class="block text-[0.95rem] text-steel">{r.summary}</span>
+              </a>
+            </li>
+          ))}
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <div class="bg-paper">
+    <Faq items={service.faqs} heading={`${service.short} questions`} />
+  </div>
+
+  <CtaBand heading={`Get a price on ${service.name.toLowerCase()}.`} />
+</Layout>

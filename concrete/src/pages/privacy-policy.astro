@@ -1,0 +1,20 @@
+---
+import Layout from '../layouts/Layout.astro';
+import Crumbs from '../components/Crumbs.astro';
+import { SITE } from '../config/site';
+const crumbs = [{ name: 'Home', path: '/' }, { name: 'Privacy policy', path: '/privacy-policy' }];
+---
+<Layout title="Privacy Policy | Sioux Falls Concrete" description="How Sioux Falls Concrete handles information when you visit this site or call us.">
+  <section class="wrap pb-16 pt-6">
+    <Crumbs items={crumbs} />
+    <h1 class="mt-8 text-[clamp(2rem,4vw,3rem)]">Privacy policy</h1>
+    <div class="measure mt-8 space-y-4">
+      <p>Updated November 20, 2026.</p>
+      <p>This site has no forms and no accounts. We do not ask you to type in personal details here.</p>
+      <p>When you call {SITE.phoneDisplay}, our phone provider may record the number you called from, the time, and the length of the call. We use that only to call you back and to run the business. We do not sell it.</p>
+      <p>Photos on this site load from Unsplash, which may log basic request data such as your IP address. Our web host may keep standard server logs for security.</p>
+      <p>If we add analytics later, this page will say which tool we use and what it collects.</p>
+      <p>Questions about this policy? Call {SITE.phoneDisplay}.</p>
+    </div>
+  </section>
+</Layout>

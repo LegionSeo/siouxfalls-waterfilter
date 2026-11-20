@@ -1,0 +1,30 @@
+---
+import { PHOTOS, photoUrl, type PhotoKey } from '../content/photos';
+interface Props {
+  name: PhotoKey;
+  /** Width over height. */
+  ratio?: number;
+  sizes?: string;
+  class?: string;
+  eager?: boolean;
+  widths?: number[];
+}
+const { name, ratio = 4 / 3, sizes = '100vw', class: cls = '', eager = false, widths = [480, 800, 1200, 1600] } = Astro.props;
+const p = PHOTOS[name];
+const h = (w: number) => Math.round(w / ratio);
+const srcset = widths.map((w) => `${photoUrl(p.id, w, h(w))} ${w}w`).join(', ');
+const mid = widths[Math.min(1, widths.length - 1)];
+---
+<img
+  src={photoUrl(p.id, mid, h(mid))}
+  srcset={srcset}
+  sizes={sizes}
+  width={mid}
+  height={h(mid)}
+  alt={p.alt}
+  loading={eager ? 'eager' : 'lazy'}
+  fetchpriority={eager ? 'high' : undefined}
+  decoding={eager ? 'sync' : 'async'}
+  class:list={['block h-full w-full object-cover bg-line', cls]}
+  style={'focus' in p && p.focus ? `object-position:${p.focus}` : undefined}
+/>

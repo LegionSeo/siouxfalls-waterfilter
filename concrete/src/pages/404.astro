@@ -1,0 +1,14 @@
+---
+import Layout from '../layouts/Layout.astro';
+import { SITE } from '../config/site';
+---
+<Layout title="Page not found | Sioux Falls Concrete" description="This page does not exist." noindex>
+  <section class="wrap band">
+    <h1 class="max-w-[14ch]">That page is not here</h1>
+    <p class="lede mt-6 measure">The link may be old, or the address may have a typo. Try the services list, or call us.</p>
+    <div class="mt-8 flex flex-wrap gap-3">
+      <a href="/services" class="btn btn-plain btn-big">See services</a>
+      <a href={SITE.phoneHref} class="btn btn-call btn-big">Call {SITE.phoneDisplay}</a>
+    </div>
+  </section>
+</Layout>

@@ -1,0 +1,18 @@
+---
+import type { Faq } from '../content/services';
+interface Props { items: Faq[]; heading?: string; id?: string }
+const { items, heading = 'Questions people ask', id = 'faq' } = Astro.props;
+---
+<section class="band" aria-labelledby={`${id}-h`}>
+  <div class="wrap grid gap-10 md:grid-cols-[minmax(0,1fr)_minmax(0,1.6fr)]">
+    <h2 id={`${id}-h`}>{heading}</h2>
+    <div class="faq">
+      {items.map((f, i) => (
+        <details open={i === 0}>
+          <summary>{f.q}</summary>
+          <p class="answer">{f.a}</p>
+        </details>
+      ))}
+    </div>
+  </div>
+</section>

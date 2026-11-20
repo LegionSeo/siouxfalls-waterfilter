@@ -1,0 +1,46 @@
+---
+import Layout from '../layouts/Layout.astro';
+import Crumbs from '../components/Crumbs.astro';
+import { SITE } from '../config/site';
+import { TOWNS, ALSO_SERVED } from '../content/towns';
+import { breadcrumbNode } from '../lib/schema';
+const crumbs = [{ name: 'Home', path: '/' }, { name: 'Contact', path: '/contact' }];
+const graph = [
+  breadcrumbNode(crumbs),
+  { '@type': 'ContactPage', name: `Contact ${SITE.name}`, url: `${SITE.origin}/contact` },
+];
+---
+<Layout
+  title="Contact Sioux Falls Concrete | Call for a Concrete Quote"
+  description={`Call Sioux Falls Concrete at ${SITE.phoneDisplay} for a quote on driveways, patios, sidewalks, garage floors, and concrete repair in Sioux Falls, SD.`}
+  graph={graph}
+>
+  <section class="wrap pb-16 pt-6">
+    <Crumbs items={crumbs} />
+    <div class="mt-8 grid gap-12 lg:grid-cols-[1.2fr_1fr]">
+      <div>
+        <h1 class="max-w-[14ch]">Call for a concrete quote</h1>
+        <p class="lede mt-6 measure">The fastest way to get on the schedule is a phone call.</p>
+        <a href={SITE.phoneHref} class="mt-8 inline-block text-[clamp(2.2rem,6vw,3.6rem)] font-extrabold leading-none text-quartz-deep no-underline hover:text-quartz" style="font-stretch:120%" data-call="contact">{SITE.phoneDisplay}</a>
+        <div class="mt-8"><a href={SITE.phoneHref} class="btn btn-call btn-big" data-call="contact-btn">Call now</a></div>
+      </div>
+      <div class="rounded-md border border-line bg-paper p-6 sm:p-8">
+        <h2 class="text-[1.4rem]">Have this ready when you call</h2>
+        <ol class="mt-5 space-y-4">
+          {[
+            ['The job', 'Driveway, patio, sidewalk, floor, steps, or a repair.'],
+            ['The address', 'So we know the town and who sets the rules.'],
+            ['A rough size', 'Length and width in feet is plenty.'],
+            ['Any notice', 'If the City marked your sidewalk, have the notice handy.'],
+          ].map(([t, d], i) => (
+            <li class="grid grid-cols-[2rem_1fr] gap-3">
+              <span class="text-xl font-extrabold text-quartz" style="font-stretch:120%">{i + 1}</span>
+              <span><strong>{t}.</strong> <span class="text-steel">{d}</span></span>
+            </li>
+          ))}
+        </ol>
+        <p class="mt-6 border-t border-line pt-5 text-[0.95rem] text-steel">We work in Sioux Falls, {TOWNS.map((t) => t.name).join(', ')}, {ALSO_SERVED.join(', ')}.</p>
+      </div>
+    </div>
+  </section>
+</Layout>

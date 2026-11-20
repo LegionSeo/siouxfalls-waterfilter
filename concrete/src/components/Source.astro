@@ -1,0 +1,6 @@
+---
+import { SOURCES, type SourceKey } from '../content/sources';
+interface Props { k: SourceKey }
+const s = SOURCES[Astro.props.k];
+---
+<span class="source">Source: <a href={s.url} rel="nofollow noopener" target="_blank">{s.label}</a></span>

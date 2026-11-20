@@ -1,0 +1,11 @@
+---
+interface Props { dark?: boolean }
+const { dark = false } = Astro.props;
+---
+<span class="inline-flex items-center gap-2.5">
+  <svg width="30" height="30" viewBox="0 0 30 30" aria-hidden="true">
+    <rect x="1" y="1" width="28" height="28" rx="3" fill="#a33b46" />
+    <path d="M15 1v28M1 15h28" stroke={dark ? '#1d2226' : '#ecebe7'} stroke-width="2.2" />
+  </svg>
+  <span class="text-[1.08rem] font-extrabold leading-none tracking-[-0.01em]" style="font-stretch:118%">Sioux Falls Concrete</span>
+</span>

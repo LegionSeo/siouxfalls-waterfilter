@@ -1,0 +1,46 @@
+---
+import Logo from './Logo.astro';
+import { SITE } from '../config/site';
+const nav = [
+  { href: '/services', label: 'Services' },
+  { href: '/areas', label: 'Service area' },
+  { href: '/guides/sioux-falls-sidewalk-repair', label: 'Sidewalk rules' },
+  { href: '/about', label: 'About' },
+  { href: '/contact', label: 'Contact' },
+];
+const path = Astro.url.pathname.replace(/\.html$/, '').replace(/\/$/, '') || '/';
+const isActive = (href: string) => path === href || path.startsWith(`${href}/`);
+---
+<header class="sticky top-0 z-40 border-b border-line bg-slab/95 backdrop-blur supports-[backdrop-filter]:bg-slab/85">
+  <div class="wrap flex h-[4.5rem] items-center justify-between gap-6">
+    <a href="/" class="no-underline" aria-label={`${SITE.name} home`}><Logo /></a>
+    <nav aria-label="Main" class="hidden lg:block">
+      <ul class="flex items-center gap-7 text-[0.97rem] font-semibold">
+        {nav.map((item) => (
+          <li>
+            <a href={item.href} class:list={['py-2 no-underline hover:text-quartz-deep', isActive(item.href) && 'text-quartz-deep underline decoration-2 underline-offset-[6px]']} aria-current={isActive(item.href) ? 'page' : undefined}>{item.label}</a>
+          </li>
+        ))}
+      </ul>
+    </nav>
+    <div class="flex items-center gap-3">
+      <a href={SITE.phoneHref} class="btn btn-call hidden sm:inline-flex" data-call="header">
+        <svg width="18" height="18" viewBox="0 0 24 24" aria-hidden="true" fill="currentColor"><path d="M6.6 10.8a15.1 15.1 0 0 0 6.6 6.6l2.2-2.2a1 1 0 0 1 1-.25 11.4 11.4 0 0 0 3.6.57 1 1 0 0 1 1 1V20a1 1 0 0 1-1 1A17 17 0 0 1 3 4a1 1 0 0 1 1-1h3.5a1 1 0 0 1 1 1c0 1.25.2 2.45.57 3.57a1 1 0 0 1-.25 1z"/></svg>
+        {SITE.phoneDisplay}
+      </a>
+      <details class="group relative lg:hidden">
+        <summary class="flex h-11 w-11 cursor-pointer list-none items-center justify-center rounded-md border-2 border-ink [&::-webkit-details-marker]:hidden" aria-label="Menu">
+          <svg width="20" height="20" viewBox="0 0 20 20" aria-hidden="true"><path d="M2 5h16M2 10h16M2 15h16" stroke="currentColor" stroke-width="2" class="group-open:hidden"/><path d="M4 4l12 12M16 4L4 16" stroke="currentColor" stroke-width="2" class="hidden group-open:block"/></svg>
+        </summary>
+        <nav aria-label="Mobile" class="absolute right-0 top-14 w-64 rounded-md border border-line bg-paper p-2 shadow-[0_12px_30px_-12px_rgba(29,34,38,.35)]">
+          <ul>
+            {nav.map((item) => (
+              <li><a href={item.href} class="block rounded px-3 py-3 font-semibold no-underline hover:bg-slab" aria-current={isActive(item.href) ? 'page' : undefined}>{item.label}</a></li>
+            ))}
+            <li class="mt-1 border-t border-line pt-2"><a href={SITE.phoneHref} class="btn btn-call w-full">Call {SITE.phoneDisplay}</a></li>
+          </ul>
+        </nav>
+      </details>
+    </div>
+  </div>
+</header>

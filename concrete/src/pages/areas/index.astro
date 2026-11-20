@@ -1,0 +1,40 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import CtaBand from '../../components/CtaBand.astro';
+import Crumbs from '../../components/Crumbs.astro';
+import { TOWNS, ALSO_SERVED } from '../../content/towns';
+import { breadcrumbNode } from '../../lib/schema';
+const crumbs = [{ name: 'Home', path: '/' }, { name: 'Service area', path: '/areas' }];
+---
+<Layout
+  title="Service Area: Sioux Falls and Nearby Towns | Sioux Falls Concrete"
+  description="Sioux Falls Concrete pours driveways, patios, sidewalks, and slabs in Sioux Falls, Brandon, Harrisburg, Tea, Hartford, Dell Rapids, and nearby towns."
+  graph={[breadcrumbNode(crumbs)]}
+>
+  <section class="wrap pb-10 pt-6">
+    <Crumbs items={crumbs} />
+    <h1 class="mt-8 max-w-[18ch]">Where we pour concrete</h1>
+    <p class="lede mt-6 measure">Sioux Falls is home. These towns are part of our regular area, and each has its own page.</p>
+  </section>
+  <div class="wrap"><div class="joint-rule" aria-hidden="true"></div></div>
+  <section class="band-tight">
+    <ul class="wrap grid gap-x-12 md:grid-cols-2">
+      <li class="border-b border-line py-6">
+        <a href="/" class="group block no-underline">
+          <h2 class="text-[1.5rem] group-hover:text-quartz-deep">Sioux Falls</h2>
+          <p class="mt-1 text-steel">Minnehaha and Lincoln counties. Our home base for every service on this site.</p>
+        </a>
+      </li>
+      {TOWNS.map((t) => (
+        <li class="border-b border-line py-6">
+          <a href={`/areas/${t.slug}`} class="group block no-underline">
+            <h2 class="text-[1.5rem] group-hover:text-quartz-deep">{t.name}</h2>
+            <p class="mt-1 text-steel">{t.where}</p>
+          </a>
+        </li>
+      ))}
+    </ul>
+    <p class="wrap mt-10 measure">We also take jobs in {ALSO_SERVED.slice(0, -1).join(', ')}, and {ALSO_SERVED.at(-1)}. Call and ask about your address.</p>
+  </section>
+  <CtaBand />
+</Layout>

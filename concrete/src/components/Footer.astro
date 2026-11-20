@@ -1,0 +1,42 @@
+---
+import Logo from './Logo.astro';
+import { SITE } from '../config/site';
+import { SERVICES } from '../content/services';
+import { TOWNS } from '../content/towns';
+const year = 2026;
+---
+<footer class="bg-ink text-slab">
+  <div class="wrap grid gap-10 py-14 md:grid-cols-[1.3fr_1fr_1fr_1fr]">
+    <div>
+      <a href="/" class="no-underline" aria-label={`${SITE.name} home`}><Logo dark /></a>
+      <p class="mt-4 max-w-xs text-[0.95rem] text-slab/75">Driveways, patios, sidewalks, garage floors, and repairs in Sioux Falls and nearby towns.</p>
+      <a href={SITE.phoneHref} class="mt-5 inline-block text-2xl font-extrabold no-underline hover:text-quartz-light" style="font-stretch:112%">{SITE.phoneDisplay}</a>
+    </div>
+    <nav aria-label="Services">
+      <h2 class="text-sm font-bold text-slab/60" style="font-stretch:100%;letter-spacing:0">Services</h2>
+      <ul class="mt-3 space-y-2 text-[0.95rem]">
+        {SERVICES.map((s) => <li><a class="no-underline hover:text-quartz-light" href={`/services/${s.slug}`}>{s.name}</a></li>)}
+      </ul>
+    </nav>
+    <nav aria-label="Towns">
+      <h2 class="text-sm font-bold text-slab/60" style="font-stretch:100%;letter-spacing:0">Towns</h2>
+      <ul class="mt-3 space-y-2 text-[0.95rem]">
+        <li><a class="no-underline hover:text-quartz-light" href="/">Sioux Falls</a></li>
+        {TOWNS.map((t) => <li><a class="no-underline hover:text-quartz-light" href={`/areas/${t.slug}`}>{t.name}</a></li>)}
+        <li><a class="no-underline hover:text-quartz-light" href="/areas">All service areas</a></li>
+      </ul>
+    </nav>
+    <nav aria-label="Company">
+      <h2 class="text-sm font-bold text-slab/60" style="font-stretch:100%;letter-spacing:0">More</h2>
+      <ul class="mt-3 space-y-2 text-[0.95rem]">
+        <li><a class="no-underline hover:text-quartz-light" href="/guides/sioux-falls-sidewalk-repair">Sioux Falls sidewalk rules</a></li>
+        <li><a class="no-underline hover:text-quartz-light" href="/about">About</a></li>
+        <li><a class="no-underline hover:text-quartz-light" href="/contact">Contact</a></li>
+        <li><a class="no-underline hover:text-quartz-light" href="/privacy-policy">Privacy policy</a></li>
+      </ul>
+    </nav>
+  </div>
+  <div class="border-t border-slab/15">
+    <p class="wrap py-5 text-sm text-slab/60">© {year} {SITE.name}. Sioux Falls, South Dakota.</p>
+  </div>
+</footer>

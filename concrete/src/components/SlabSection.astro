@@ -1,0 +1,71 @@
+---
+/**
+ * Cross section of a Sioux Falls public sidewalk, drawn from the City's
+ * Sidewalk Construction and Repair standards (read Nov 20, 2026):
+ * 4 in standard walk, 6 in through driveways, 2 in minimum compacted granular base,
+ * contraction joints every 5 ft. Not to scale.
+ */
+---
+<figure class="m-0">
+  <svg viewBox="0 0 640 312" role="img" aria-labelledby="slab-title slab-desc" class="h-auto w-full" style="font-family:inherit">
+    <title id="slab-title">Sioux Falls city sidewalk standard, cross section</title>
+    <desc id="slab-desc">A standard public sidewalk is 4 inches thick and 6 inches thick where it crosses a driveway. Both sit on at least 2 inches of compacted granular base. Contraction joints are cut every 5 feet.</desc>
+    <defs>
+      <pattern id="gravel" width="14" height="12" patternUnits="userSpaceOnUse">
+        <rect width="14" height="12" fill="#d9d4ca" />
+        <circle cx="3" cy="3" r="1.7" fill="#a49d90" />
+        <circle cx="10" cy="8" r="2.1" fill="#b3ac9f" />
+        <circle cx="6" cy="10" r="1" fill="#8f887b" />
+      </pattern>
+      <pattern id="soil" width="18" height="18" patternUnits="userSpaceOnUse">
+        <rect width="18" height="18" fill="#e3dfd8" />
+        <path d="M0 18L18 0" stroke="#cdc7bc" stroke-width="1" />
+      </pattern>
+      <pattern id="mix" width="22" height="16" patternUnits="userSpaceOnUse">
+        <rect width="22" height="16" fill="#bdbab3" />
+        <circle cx="5" cy="5" r="1.3" fill="#a9a59d" />
+        <circle cx="15" cy="11" r="1.6" fill="#aaa69e" />
+        <circle cx="18" cy="3" r="0.9" fill="#9f9b93" />
+      </pattern>
+    </defs>
+
+    <!-- labels over each slab -->
+    <text x="72" y="96" font-size="19" font-weight="700" fill="#1d2226">Public sidewalk</text>
+    <text x="352" y="96" font-size="19" font-weight="700" fill="#1d2226">Through a driveway</text>
+
+    <!-- soil -->
+    <rect x="60" y="200" width="510" height="112" fill="url(#soil)" />
+    <!-- base -->
+    <rect x="60" y="176" width="270" height="24" fill="url(#gravel)" />
+    <rect x="340" y="200" width="230" height="24" fill="url(#gravel)" />
+    <rect x="330" y="176" width="10" height="48" fill="url(#gravel)" />
+    <!-- slabs -->
+    <rect x="60" y="128" width="270" height="48" fill="url(#mix)" />
+    <rect x="340" y="128" width="230" height="72" fill="url(#mix)" />
+    <line x1="60" y1="128.5" x2="570" y2="128.5" stroke="#8d8981" stroke-width="1.5" />
+    <!-- expansion filler -->
+    <rect x="330" y="128" width="10" height="48" fill="#3a3f44" />
+    <!-- saw cut joint -->
+    <path d="M190 128l5 13 5-13z" fill="#ecebe7" stroke="#8d8981" stroke-width="1" />
+
+    <!-- joint callout -->
+    <path d="M195 120V60h48" fill="none" stroke="#a33b46" stroke-width="2" />
+    <circle cx="195" cy="122" r="3.5" fill="#a33b46" />
+    <text x="250" y="56" font-size="18" fill="#1d2226">Saw cut joint</text>
+    <text x="250" y="78" font-size="18" fill="#545b62">every 5 feet</text>
+
+    <!-- 4 in dimension -->
+    <path d="M40 128v48M33 128h14M33 176h14" stroke="#a33b46" stroke-width="2" fill="none" />
+    <text x="28" y="159" font-size="19" font-weight="700" fill="#7f2a34" text-anchor="end">4 in</text>
+
+    <!-- 6 in dimension -->
+    <path d="M590 128v72M583 128h14M583 200h14" stroke="#a33b46" stroke-width="2" fill="none" />
+    <text x="600" y="171" font-size="19" font-weight="700" fill="#7f2a34">6 in</text>
+
+    <!-- base callout -->
+    <path d="M140 188v70h22" stroke="#a33b46" stroke-width="2" fill="none" />
+    <circle cx="140" cy="188" r="3.5" fill="#a33b46" />
+    <text x="170" y="264" font-size="18" fill="#1d2226">2 in compacted base, at least</text>
+  </svg>
+  <figcaption class="mt-3 text-sm text-steel">Drawn from the City of Sioux Falls sidewalk standard. Not to scale.</figcaption>
+</figure>

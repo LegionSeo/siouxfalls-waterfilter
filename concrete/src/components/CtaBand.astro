@@ -1,0 +1,16 @@
+---
+import { SITE } from '../config/site';
+interface Props { heading?: string; text?: string }
+const { heading = 'Tell us what you want poured.', text = 'Call with the job, the town, and a rough size. We will set up a time to look and give you a price.' } = Astro.props;
+---
+<section class="bg-ink text-slab" aria-labelledby="cta-h">
+  <div class="wrap band-tight grid items-center gap-8 md:grid-cols-[1.4fr_1fr]">
+    <div>
+      <h2 id="cta-h">{heading}</h2>
+      <p class="mt-4 max-w-xl text-lg text-slab/80">{text}</p>
+    </div>
+    <div class="md:justify-self-end">
+      <a href={SITE.phoneHref} class="btn btn-call btn-big" data-call="cta">Call {SITE.phoneDisplay}</a>
+    </div>
+  </div>
+</section>
