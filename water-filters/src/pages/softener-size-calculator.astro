@@ -1,0 +1,111 @@
+---
+import Layout from '../layouts/Layout.astro';
+import CallButton from '../components/CallButton.astro';
+import CtaBand from '../components/CtaBand.astro';
+import Faq from '../components/Faq.astro';
+import { SF_REPORT, BRANDON } from '../content/water';
+import { breadcrumbNode, faqNode } from '../lib/schema';
+
+const faqs = [
+  {
+    q: 'Why 75 gallons per person?',
+    a: 'It is a common rule of thumb used to size home softeners. Your real use may be higher or lower. A metered softener adjusts to what you actually use.',
+  },
+  {
+    q: 'What if I have iron in my water?',
+    a: 'Iron makes a softener work harder. A common rule adds about 4 grains for each part per million of iron. Higher iron levels need an iron filter first. See [well water systems](/well-water-filtration).',
+  },
+  {
+    q: 'Is a bigger softener always better?',
+    a: 'No. A softener that is far too big can sit idle, and the resin can channel. One that is too small runs too often and wastes salt. We size it to your home.',
+  },
+];
+---
+
+<Layout
+  title="Water Softener Size Calculator for Sioux Falls Homes"
+  description={`Find what size water softener your Sioux Falls home needs. Uses the city's ${SF_REPORT.plantGpg} grain hardness setting by default. Free calculator.`}
+  graph={[breadcrumbNode([{ name: 'Home', path: '/' }, { name: 'Softener size calculator', path: '/softener-size-calculator' }]), faqNode(faqs)]}
+>
+  <section class="wrap py-12 md:py-16">
+    <p class="kicker">Free tool</p>
+    <h1 class="mt-3 max-w-3xl">Water Softener Size Calculator</h1>
+    <p class="lede mt-5">
+      Enter the people in your home and your hardness. The calculator shows how many grains your softener removes each day and
+      a size that fits about a week between regens.
+    </p>
+
+    <div class="mt-10 grid gap-8 md:grid-cols-2">
+      <form class="card space-y-6" data-calc onsubmit="return false">
+        <label class="block">
+          <span class="font-semibold text-ink">People in your home</span>
+          <input name="people" type="number" min="1" max="12" value="4" inputmode="numeric" class="mt-2 w-full rounded-xl border border-line bg-white px-4 py-3 text-lg" />
+        </label>
+        <label class="block">
+          <span class="font-semibold text-ink">Hardness, grains per gallon</span>
+          <input name="hardness" type="number" min="1" max="60" value={SF_REPORT.plantGpg} inputmode="numeric" class="mt-2 w-full rounded-xl border border-line bg-white px-4 py-3 text-lg" />
+          <span class="mt-2 block text-sm text-muted">
+            Sioux Falls lists {SF_REPORT.plantGpg} for its plant and {SF_REPORT.lewisClarkGpg} for Lewis &amp; Clark water. Brandon
+            lists {BRANDON.afterGpg}. A test at your tap is best.
+          </span>
+        </label>
+        <label class="block">
+          <span class="font-semibold text-ink">Iron, parts per million (0 if you are on city water)</span>
+          <input name="iron" type="number" min="0" max="10" step="0.1" value="0" inputmode="decimal" class="mt-2 w-full rounded-xl border border-line bg-white px-4 py-3 text-lg" />
+        </label>
+      </form>
+
+      <div class="card bg-ink text-white" aria-live="polite">
+        <p class="kicker !text-sun">Your result</p>
+        <p class="mt-4 text-white/80">Grains removed each day</p>
+        <p class="font-display text-5xl font-bold" data-out="daily">4,500</p>
+        <p class="mt-6 text-white/80">Suggested softener size</p>
+        <p class="font-display text-4xl font-bold text-sun" data-out="size">32,000 grain</p>
+        <p class="mt-6 text-sm text-white/70">
+          This is a starting point, not a quote. It uses 75 gallons per person per day and about 7 days between regens.
+        </p>
+        <div class="mt-6"><CallButton track="call-calculator" label="Call to confirm your size" /></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="band bg-white">
+    <div class="wrap max-w-3xl">
+      <h2>How the math works</h2>
+      <ol class="mt-6 list-decimal space-y-3 pl-5 text-muted">
+        <li>Hardness plus 4 for each part per million of iron gives your adjusted hardness.</li>
+        <li>People times 75 gallons gives your daily water use.</li>
+        <li>Daily use times adjusted hardness gives the grains your softener removes each day.</li>
+        <li>Grains per day times 7 gives a week of capacity. We round up to the next common size.</li>
+      </ol>
+      <p class="mt-6 text-muted">
+        Example: a family of 4 at {SF_REPORT.plantGpg} grains uses about 300 gallons a day. That is {(300 * SF_REPORT.plantGpg).toLocaleString('en-US')}
+        grains a day, or about {(300 * SF_REPORT.plantGpg * 7).toLocaleString('en-US')} a week.
+      </p>
+    </div>
+  </section>
+
+  <Faq items={faqs} heading="Softener sizing questions" />
+  <CtaBand />
+</Layout>
+
+<script>
+  const sizes = [24000, 32000, 40000, 48000, 64000, 80000, 96000, 110000];
+  const form = document.querySelector<HTMLFormElement>('[data-calc]');
+  const daily = document.querySelector('[data-out="daily"]');
+  const size = document.querySelector('[data-out="size"]');
+  function update() {
+    if (!form || !daily || !size) return;
+    const data = new FormData(form);
+    const people = Math.max(1, Number(data.get('people')) || 1);
+    const hardness = Math.max(0, Number(data.get('hardness')) || 0);
+    const iron = Math.max(0, Number(data.get('iron')) || 0);
+    const perDay = Math.round(people * 75 * (hardness + iron * 4));
+    const week = perDay * 7;
+    const pick = sizes.find((value) => value >= week);
+    daily.textContent = perDay.toLocaleString('en-US');
+    size.textContent = pick ? `${pick.toLocaleString('en-US')} grain` : 'Call us, you need a large or twin tank system';
+  }
+  form?.addEventListener('input', update);
+  update();
+</script>

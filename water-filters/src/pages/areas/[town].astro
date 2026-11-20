@@ -1,0 +1,89 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import CallButton from '../../components/CallButton.astro';
+import CtaBand from '../../components/CtaBand.astro';
+import Faq from '../../components/Faq.astro';
+import Icon from '../../components/Icon.astro';
+import { serviceBySlug } from '../../content/services';
+import { townBySlug, towns } from '../../content/towns';
+import { breadcrumbNode, faqNode } from '../../lib/schema';
+
+export function getStaticPaths() {
+  return towns.map((town) => ({ params: { town: town.slug } }));
+}
+
+const town = townBySlug(Astro.params.town)!;
+const others = towns.filter((item) => item.slug !== town.slug);
+const graph = [
+  breadcrumbNode([
+    { name: 'Home', path: '/' },
+    { name: 'Areas', path: '/areas' },
+    { name: town.name, path: `/areas/${town.slug}` },
+  ]),
+  faqNode(town.faqs),
+];
+---
+
+<Layout title={town.title} description={town.description} graph={graph}>
+  <section class="border-b border-line">
+    <div class="wrap py-12 md:py-16">
+      <nav aria-label="Breadcrumb" class="text-sm text-muted">
+        <a class="hover:text-cobalt" href="/">Home</a> <span aria-hidden="true">/</span>
+        <a class="hover:text-cobalt" href="/areas">Areas</a> <span aria-hidden="true">/</span> <span>{town.name}</span>
+      </nav>
+      <p class="kicker mt-6"><Icon name="pin" class="h-4 w-4" /> {town.name}, South Dakota</p>
+      <h1 class="mt-3 max-w-4xl">Water Filters and Softeners in {town.name}, SD</h1>
+      <p class="lede mt-5">{town.intro}</p>
+      <div class="mt-8"><CallButton track={`call-${town.slug}`} /></div>
+    </div>
+  </section>
+
+  <section class="band bg-white" aria-labelledby="water-heading">
+    <div class="wrap grid gap-10 md:grid-cols-[1.3fr_1fr]">
+      <div>
+        <h2 id="water-heading">{town.waterHeading}</h2>
+        <p class="mt-5 text-muted">{town.water}</p>
+        {
+          town.source && (
+            <p class="mt-4 text-sm text-muted">
+              Source: <a class="underline" href={town.source.url} rel="noopener">{town.source.name}</a>.
+            </p>
+          )
+        }
+      </div>
+      <div class="card bg-sand/60">
+        <h2 class="text-2xl">{town.fitHeading}</h2>
+        <ul class="mt-5 space-y-4">
+          {
+            town.fit.map((item) => {
+              const service = serviceBySlug(item.service)!;
+              return (
+                <li class="flex gap-3">
+                  <Icon name={service.icon} class="mt-0.5 h-6 w-6 shrink-0 text-cobalt" />
+                  <span>
+                    <a class="link" href={`/${service.slug}`}>{service.name}</a>
+                    <span class="block text-[0.95rem] text-muted">{item.why}</span>
+                  </span>
+                </li>
+              );
+            })
+          }
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <Faq items={town.faqs} heading={`${town.name} water questions`} />
+
+  <section class="band pb-0">
+    <div class="wrap">
+      <h2 class="text-2xl">Other towns we serve</h2>
+      <ul class="mt-5 flex flex-wrap gap-3">
+        <li><a class="btn bg-white text-ink ring-1 ring-line hover:ring-cobalt" href="/">Sioux Falls</a></li>
+        {others.map((item) => <li><a class="btn bg-white text-ink ring-1 ring-line hover:ring-cobalt" href={`/areas/${item.slug}`}>{item.name}</a></li>)}
+      </ul>
+    </div>
+  </section>
+
+  <CtaBand heading={`Better water in ${town.name}`} />
+</Layout>

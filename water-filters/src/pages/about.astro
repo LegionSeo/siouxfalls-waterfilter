@@ -1,0 +1,35 @@
+---
+import Layout from '../layouts/Layout.astro';
+import CtaBand from '../components/CtaBand.astro';
+import { SITE } from '../config/site';
+import { breadcrumbNode } from '../lib/schema';
+---
+
+<Layout
+  title="About Sioux Falls Water Filters"
+  description={`About ${SITE.name}: whole house water filters, softeners and drinking water systems for homes in Sioux Falls, SD and nearby towns.`}
+  graph={[breadcrumbNode([{ name: 'Home', path: '/' }, { name: 'About', path: '/about' }])]}
+>
+  <section class="wrap max-w-3xl py-12 md:py-16">
+    <p class="kicker">About us</p>
+    <h1 class="mt-3">About Sioux Falls Water Filters</h1>
+    <div class="mt-8 space-y-5 text-lg text-muted">
+      <p>
+        {SITE.name} helps homeowners in Sioux Falls and nearby towns get better water at home. We install and service whole house
+        filters, water softeners, reverse osmosis drinking water systems and well water systems.
+      </p>
+      <p>
+        We keep it simple. We test your water first, show you the numbers, and explain what each option fixes. If your water does
+        not need a system, we will tell you.
+      </p>
+      <p>
+        The water facts on this site come from public reports, like the City of Sioux Falls yearly water report. Each page names
+        its source, so you can check it yourself.
+      </p>
+      <p>
+        The best way to reach us is by phone at <a class="link" href={SITE.phoneHref} data-track="call-about">{SITE.phoneDisplay}</a>.
+      </p>
+    </div>
+  </section>
+  <CtaBand />
+</Layout>

@@ -1,0 +1,120 @@
+---
+import Layout from '../layouts/Layout.astro';
+import CallButton from '../components/CallButton.astro';
+import CtaBand from '../components/CtaBand.astro';
+import Faq from '../components/Faq.astro';
+import Icon from '../components/Icon.astro';
+import Inline from '../components/Inline.astro';
+import { SITE } from '../config/site';
+import { serviceBySlug, services } from '../content/services';
+import { SF_REPORT } from '../content/water';
+import { breadcrumbNode, faqNode, serviceNode } from '../lib/schema';
+
+export function getStaticPaths() {
+  return services.map((service) => ({ params: { slug: service.slug } }));
+}
+
+const service = serviceBySlug(Astro.params.slug)!;
+const related = service.related.map((slug) => serviceBySlug(slug)!).filter(Boolean);
+const graph = [
+  serviceNode({ name: service.name, slug: service.slug, description: service.description }),
+  breadcrumbNode([
+    { name: 'Home', path: '/' },
+    { name: service.name, path: `/${service.slug}` },
+  ]),
+  faqNode(service.faqs),
+];
+---
+
+<Layout title={service.title} description={service.description} graph={graph}>
+  <section class="border-b border-line">
+    <div class="wrap py-12 md:py-16">
+      <nav aria-label="Breadcrumb" class="text-sm text-muted">
+        <a class="hover:text-cobalt" href="/">Home</a> <span aria-hidden="true">/</span> <span>{service.name}</span>
+      </nav>
+      <div class="mt-6 grid gap-10 md:grid-cols-[1.4fr_1fr] md:items-start">
+        <div>
+          <span class="grid h-14 w-14 place-items-center rounded-2xl bg-cobalt text-white">
+            <Icon name={service.icon} class="h-7 w-7" />
+          </span>
+          <h1 class="mt-5">{service.h1}</h1>
+          <p class="prose-plain mt-5 text-lg text-muted"><Inline text={service.intro} /></p>
+          <div class="mt-8 flex flex-wrap gap-3">
+            <CallButton track={`call-${service.slug}`} />
+            {service.slug !== 'free-water-test' && (
+              <a href="/free-water-test" class="btn btn-ghost">{SITE.freeTest ? 'Free water test' : 'Water test'}</a>
+            )}
+          </div>
+        </div>
+        <aside class="card bg-sand/60">
+          <h2 class="text-xl">{service.fixesHeading}</h2>
+          <ul class="ticks mt-5 text-[0.98rem]">
+            {service.fixes.map((item) => <li>{item}</li>)}
+          </ul>
+        </aside>
+      </div>
+    </div>
+  </section>
+
+  <section class="band bg-white" aria-labelledby="steps-heading">
+    <div class="wrap">
+      <h2 id="steps-heading">{service.stepsHeading}</h2>
+      <ol class="mt-8 grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
+        {
+          service.steps.map((step, index) => (
+            <li class="card">
+              <span class="grid h-9 w-9 place-items-center rounded-full bg-sun font-display font-bold text-ink">{index + 1}</span>
+              <h3 class="mt-4">{step.title}</h3>
+              <p class="mt-2 text-[0.95rem] text-muted">{step.text}</p>
+            </li>
+          ))
+        }
+      </ol>
+    </div>
+  </section>
+
+  <section class="band" aria-labelledby="local-heading">
+    <div class="wrap grid gap-10 md:grid-cols-2">
+      <div>
+        <p class="kicker">Sioux Falls water</p>
+        <h2 id="local-heading" class="mt-3">{service.localHeading}</h2>
+        <p class="prose-plain mt-5 text-muted"><Inline text={service.local} /></p>
+        <p class="mt-4 text-sm text-muted">
+          Source: <a class="underline" href={SF_REPORT.url} rel="noopener">{SF_REPORT.name}</a>.
+        </p>
+      </div>
+      <div class="card">
+        <h2 class="text-2xl">{service.priceHeading}</h2>
+        <ul class="ticks prose-plain mt-5 text-[0.98rem]">
+          {service.price.map((item) => <li><Inline text={item} /></li>)}
+        </ul>
+        <p class="mt-6 text-[0.95rem] text-muted">Ask for a clear price before any work starts. We will walk you through it.</p>
+      </div>
+    </div>
+  </section>
+
+  <Faq items={service.faqs} heading={`${service.name} questions`} />
+
+  <section class="band pb-0" aria-labelledby="related-heading">
+    <div class="wrap">
+      <h2 id="related-heading" class="text-2xl">Often paired with</h2>
+      <ul class="mt-6 grid gap-4 md:grid-cols-3">
+        {
+          related.map((item) => (
+            <li>
+              <a href={`/${item.slug}`} class="card flex h-full items-start gap-4 no-underline hover:border-cobalt">
+                <Icon name={item.icon} class="h-6 w-6 shrink-0 text-cobalt" />
+                <span>
+                  <span class="block font-display font-semibold text-ink">{item.name}</span>
+                  <span class="mt-1 block text-sm text-muted">{item.card}</span>
+                </span>
+              </a>
+            </li>
+          ))
+        }
+      </ul>
+    </div>
+  </section>
+
+  <CtaBand />
+</Layout>

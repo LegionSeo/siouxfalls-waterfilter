@@ -1,0 +1,17 @@
+---
+import { SITE } from '../config/site';
+import Icon from './Icon.astro';
+
+interface Props {
+  track: string;
+  label?: string;
+  class?: string;
+}
+
+const { track, label = `Call ${SITE.phoneDisplay}`, class: className = 'btn btn-call' } = Astro.props;
+---
+
+<a href={SITE.phoneHref} class={className} data-track={track}>
+  <Icon name="phone" class="h-5 w-5" />
+  <span>{label}</span>
+</a>

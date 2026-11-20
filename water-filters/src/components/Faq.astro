@@ -1,0 +1,31 @@
+---
+import Inline from './Inline.astro';
+
+interface Props {
+  items: { q: string; a: string }[];
+  heading?: string;
+}
+
+const { items, heading = 'Common questions' } = Astro.props;
+---
+
+<section class="band bg-white" aria-labelledby="faq-heading">
+  <div class="wrap grid gap-10 md:grid-cols-[1fr_2fr]">
+    <div>
+      <p class="kicker">Questions</p>
+      <h2 id="faq-heading" class="mt-3">{heading}</h2>
+    </div>
+    <div>
+      {
+        items.map((item) => (
+          <details class="faq">
+            <summary>{item.q}</summary>
+            <p class="prose-plain pb-5 text-muted">
+              <Inline text={item.a} />
+            </p>
+          </details>
+        ))
+      }
+    </div>
+  </div>
+</section>

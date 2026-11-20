@@ -1,0 +1,20 @@
+---
+/**
+ * Renders plain copy with [text](/path) links and {phone} as a call link.
+ * Only site paths starting with / become links.
+ */
+import { SITE } from '../config/site';
+
+interface Props {
+  text: string;
+}
+
+const { text } = Astro.props;
+const escape = (value: string) =>
+  value.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+const html = escape(text)
+  .replace(/\[([^\]]+)\]\((\/[^)\s]*)\)/g, '<a href="$2">$1</a>')
+  .replace(/\{phone\}/g, `<a href="${SITE.phoneHref}" data-track="call-inline">${SITE.phoneDisplay}</a>`);
+---
+
+<Fragment set:html={html} />

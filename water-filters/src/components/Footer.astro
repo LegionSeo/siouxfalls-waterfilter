@@ -1,0 +1,45 @@
+---
+import { SITE } from '../config/site';
+import { services } from '../content/services';
+import { towns } from '../content/towns';
+import Logo from './Logo.astro';
+
+const year = new Date().getFullYear();
+---
+
+<footer class="bg-ink text-white/80">
+  <div class="wrap grid gap-10 py-14 md:grid-cols-4">
+    <div class="md:col-span-1">
+      <a href="/" class="flex items-center gap-2.5 no-underline"><Logo light /></a>
+      <p class="mt-4 text-sm">Whole house water filters, softeners and drinking water systems for homes in and around {SITE.city}, {SITE.region}.</p>
+      <p class="mt-4">
+        <a class="font-display text-xl font-bold text-sun no-underline" href={SITE.phoneHref} data-track="call-footer">{SITE.phoneDisplay}</a>
+      </p>
+    </div>
+    <div>
+      <h2 class="font-display text-base font-semibold text-white">Systems and services</h2>
+      <ul class="mt-4 space-y-2 text-sm">
+        {services.map((service) => <li><a class="hover:text-white" href={`/${service.slug}`}>{service.name}</a></li>)}
+      </ul>
+    </div>
+    <div>
+      <h2 class="font-display text-base font-semibold text-white">Areas</h2>
+      <ul class="mt-4 space-y-2 text-sm">
+        <li><a class="hover:text-white" href="/">Sioux Falls</a></li>
+        {towns.map((town) => <li><a class="hover:text-white" href={`/areas/${town.slug}`}>{town.name}</a></li>)}
+      </ul>
+    </div>
+    <div>
+      <h2 class="font-display text-base font-semibold text-white">Company</h2>
+      <ul class="mt-4 space-y-2 text-sm">
+        <li><a class="hover:text-white" href="/about">About</a></li>
+        <li><a class="hover:text-white" href="/contact">Contact</a></li>
+        <li><a class="hover:text-white" href="/softener-size-calculator">Softener size calculator</a></li>
+        <li><a class="hover:text-white" href="/privacy-policy">Privacy policy</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="border-t border-white/10">
+    <p class="wrap py-6 text-xs text-white/60">&copy; {year} {SITE.name}. Serving {SITE.city}, {SITE.region} and nearby towns.</p>
+  </div>
+</footer>

@@ -1,0 +1,29 @@
+---
+import { SITE } from '../config/site';
+import CallButton from './CallButton.astro';
+
+interface Props {
+  heading?: string;
+  text?: string;
+}
+
+const {
+  heading = 'Ready for better water?',
+  text = SITE.freeTest
+    ? 'Call to book a free in home water test. We test at your tap and show you what your water needs.'
+    : 'Call to set up a visit. We test at your tap and show you what your water needs.',
+} = Astro.props;
+---
+
+<section class="band">
+  <div class="wrap">
+    <div class="rounded-[2rem] bg-cobalt px-6 py-12 text-center text-white md:px-12 md:py-16">
+      <h2 class="text-white">{heading}</h2>
+      <p class="mx-auto mt-4 max-w-xl text-lg text-white/85">{text}</p>
+      <div class="mt-8 flex flex-wrap justify-center gap-3">
+        <CallButton track="call-cta" />
+        <a href="/contact" class="btn border-2 border-white/70 text-white hover:bg-white/10">Ways to reach us</a>
+      </div>
+    </div>
+  </div>
+</section>
