@@ -14,7 +14,7 @@ import { sendLead } from '../src/scripts/lead-form.ts';
 
 const PHONE = '(605) 000-0000';
 const PHONE_HREF = 'tel:+16050000000';
-const ENDPOINT = 'https://formsubmit.co/ajax/service@siouxfallswaterfilter.com';
+const ENDPOINT = 'https://formsubmit.co/ajax/service@siouxfallswaterfiltration.com';
 const CONTACT_SUCCESS = `Thanks. We got your note. Someone on our team will reply. You can also call ${PHONE}.`;
 
 class FakeNode {
@@ -198,7 +198,7 @@ function installDom(pathname: string): void {
     },
     window: {
       location: {
-        origin: 'https://www.siouxfallswaterfilter.com',
+        origin: 'https://www.siouxfallswaterfiltration.com',
         pathname,
       },
     },
@@ -398,7 +398,7 @@ describe('sendLead', () => {
     assert.equal(posted.get('Project'), 'Residential');
     assert.equal(posted.get('Urgency'), 'Soon');
     assert.equal(posted.get('SMS consent'), 'yes');
-    assert.equal(posted.get('Page'), 'https://www.siouxfallswaterfilter.com/contact');
+    assert.equal(posted.get('Page'), 'https://www.siouxfallswaterfiltration.com/contact');
     assert.equal(posted.get('_subject'), 'New water treatment lead: Water Softeners from Ada Lovelace');
     assert.equal(posted.get('_template'), 'basic');
     assert.equal(posted.get('_captcha'), 'false');

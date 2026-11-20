@@ -87,8 +87,8 @@ function art(base: string, alt: string): PhotoSlot {
   };
 }
 
-const SERVICE_EMAIL = 'service@siouxfallswaterfilter.com';
-const ORIGIN = 'https://www.siouxfallswaterfilter.com';
+const SERVICE_EMAIL = 'service@siouxfallswaterfiltration.com';
+const ORIGIN = 'https://www.siouxfallswaterfiltration.com';
 
 export const SITE: SiteConfig = {
   name: 'Sioux Falls Water Filtration',

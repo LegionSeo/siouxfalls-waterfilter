@@ -38,7 +38,7 @@ export const townPagesContent: TownPage[] = [
     answer: 'Hard water is a common complaint in Brandon, whether you have been here for years or just moved into a new build. We help with softeners, filtration, and water testing across town. Call {phone} and tell us your street and your water source.',
     waterIntro: 'Your water in Brandon depends on where your home sits. Your water bill is the quickest way to find out who supplies it.',
     sources: [
-      { title: 'Brandon city water', text: 'Local reporting describes the city drawing from wells in the Big Sioux and Split Rock Creek aquifers. Groundwater like this tends to carry hardness minerals. Your city publishes an annual water report with the latest numbers.' },
+      { title: 'Brandon city water', text: 'Brandon treats water from its own wells. An October 2025 city flyer says a new reverse osmosis process cut the minerals in city water from about 24 grains per gallon to about 12, and tells residents to set softeners to 12. That is softer than before, but still hard.' },
       { title: 'Rural water', text: 'Some homes just outside town are served by a rural water system. It is treated before it reaches you, and it can still be hard. Your bill will name your supplier.' },
       { title: 'A private well', text: `If you have your own well, you are in charge of testing it. Start with a [water test](${testing}) before you buy equipment.` },
     ],
@@ -53,7 +53,7 @@ export const townPagesContent: TownPage[] = [
     signs: ['White crust around faucets', 'Cloudy glasses after the dishwasher', 'Soap that will not lather', 'A water heater that pops or rumbles', 'Dry skin after a shower'],
     callList: ['Your street, so we know which part of town you are in', 'Whether you have city water, rural water, or a well', 'How many people live in your home', 'If you already have a softener, how old it is', 'Whether you have a softener loop near the water heater'],
     faqs: [
-      { q: 'Is Brandon water hard?', a: `Groundwater in this area tends to be hard, and many homes here use a softener. Your city water report has the current numbers, and a [water test](${testing}) tells you what your own tap is doing.` },
+      { q: 'Is Brandon water hard?', a: `Less than it was. The city says its new reverse osmosis treatment brought city water down to about 12 grains per gallon in 2025. That is still in the hard range, so most homes keep a softener. A [water test](${testing}) tells you what your own tap is doing.` },
       { q: 'Do newer Brandon homes need a softener?', a: 'A new home has new pipes and appliances, and that is the best time to protect them. Many newer homes already have a softener loop, which can make the install simpler.' },
       { q: 'Who supplies my water in Brandon?', a: 'Check your water bill. It will show if you are on city water or a rural water system. If you have no bill, you likely have a private well.' },
     ],
@@ -70,7 +70,7 @@ export const townPagesContent: TownPage[] = [
     answer: 'A lot of Harrisburg homes are new, and new homes often come without a softener. If you are seeing scale on your faucets already, you are not imagining it. Call {phone} and we will help you figure out what your water needs.',
     waterIntro: 'Harrisburg grew fast, and homes here do not all get their water the same way.',
     sources: [
-      { title: 'Town water', text: 'If you live inside city limits, you are likely on the municipal system. Ask for its annual water report to see the latest hardness numbers for your area.' },
+      { title: 'Town water', text: 'The City of Harrisburg 2025 drinking water report says the city buys all of its water from the Lewis & Clark Regional Water System. Lewis & Clark water tests at about 10 grains per gallon in the Sioux Falls report, so it is still hard.' },
       { title: 'Rural water', text: 'Homes on the edges of town may be on a rural water system. The water is treated before it reaches you, but hardness can still be a concern.' },
       { title: 'A private well', text: `Acreages near town may have a private well. See [well water treatment](${well}) if that is you.` },
     ],
@@ -230,7 +230,7 @@ export const townPagesContent: TownPage[] = [
     answer: 'In Lennox, town streets give way to farm ground fast. So your water might come from a town system, a rural line, or your own well. We help with all three. Call {phone} and tell us where you are.',
     waterIntro: 'Lennox is 20 miles southwest of Sioux Falls. Knowing your source is the first step.',
     sources: [
-      { title: 'Town water', text: 'Homes in town use the city system. Ask for the annual water report to see what is in it.' },
+      { title: 'Town water', text: 'The City of Lennox says it switched to Lewis & Clark water in 2012 and now uses it as its only source. The city says homes get pre softened water, so some town homes need less treatment than you might think.' },
       { title: 'Rural water', text: 'Many farms and acreages nearby use a rural water system. It is treated before it reaches you, and it can still be hard.' },
       { title: 'A private well', text: 'Wells in farm country deserve regular testing, including for nitrates. Softeners and most filters do not treat nitrates.' },
     ],
