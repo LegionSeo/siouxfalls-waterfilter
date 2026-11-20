@@ -17,7 +17,6 @@ const description =
   'Sioux Falls HVAC service for furnace repair, AC repair, heat pumps, mini splits and new systems. Serving Sioux Falls, Brandon, Harrisburg, Tea and nearby towns.';
 const heating = services.filter((s) => s.group === 'heating');
 const cooling = services.filter((s) => s.group === 'cooling');
-const care = services.filter((s) => s.group === 'care');
 ---
 <Layout title={title} description={description} graph={[faqNode(homeFaqs)]}>
   <!-- Hero -->
@@ -44,7 +43,7 @@ const care = services.filter((s) => s.group === 'care');
         <div class="overflow-hidden rounded-[var(--radius-lg)]">
           <Photo photo="heatPump" ratio={4 / 3.4} sizes="(min-width: 1024px) 540px, 100vw" eager />
         </div>
-        <RangeCard class="relative -mt-16 ml-4 mr-4 sm:absolute sm:-bottom-8 sm:-left-8 sm:ml-0 sm:mr-0 sm:mt-0 sm:w-80" />
+        <RangeCard class="relative -mt-16 ml-4 mr-4 sm:absolute sm:-bottom-8 sm:-left-8 sm:ml-0 sm:mr-0 sm:mt-0 sm:w-[22rem]" />
       </div>
     </div>
   </section>
@@ -84,17 +83,6 @@ const care = services.filter((s) => s.group === 'care');
               ))}
             </ul>
           </div>
-        ))}
-      </div>
-      <div class="mt-6 grid gap-4 sm:grid-cols-2">
-        {care.map((s) => (
-          <a href={`/services/${s.slug}`} class="group flex items-start gap-4 rounded-[var(--radius-lg)] border border-line p-6 hover:border-ink/30">
-            <span class="grid h-10 w-10 shrink-0 place-items-center rounded-full bg-ink text-white"><Icon name={s.icon} class="h-5 w-5" aria-hidden="true" /></span>
-            <span class="flex-1">
-              <span class="block font-display text-lg font-bold text-ink group-hover:underline">{s.name}</span>
-              <span class="block text-[0.95rem] text-body">{s.short}</span>
-            </span>
-          </a>
         ))}
       </div>
     </div>

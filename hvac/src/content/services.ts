@@ -8,7 +8,7 @@ export interface Faq {
 export interface Service {
   slug: string;
   name: string;
-  group: 'heating' | 'cooling' | 'care';
+  group: 'heating' | 'cooling';
   icon: string;
   /** One line for cards. */
   short: string;
@@ -255,7 +255,7 @@ export const services: Service[] = [
   {
     slug: 'heat-pumps',
     name: 'Heat Pumps',
-    group: 'cooling',
+    group: 'heating',
     icon: 'ph:arrows-clockwise-bold',
     short: 'Heat and cool with one system. Cold climate and dual fuel setups.',
     title: 'Heat Pump Installation and Repair in Sioux Falls | Sioux Falls HVAC',
@@ -362,7 +362,7 @@ export const services: Service[] = [
   {
     slug: 'hvac-maintenance',
     name: 'HVAC Maintenance',
-    group: 'care',
+    group: 'cooling',
     icon: 'ph:wrench-bold',
     short: 'Fall furnace and spring AC tune ups to catch problems early.',
     title: 'Furnace and AC Tune Ups in Sioux Falls | Sioux Falls HVAC',
@@ -415,7 +415,7 @@ export const services: Service[] = [
   {
     slug: 'emergency-hvac',
     name: 'Emergency HVAC Service',
-    group: 'care',
+    group: 'heating',
     icon: 'ph:siren-bold',
     short: 'No heat in winter or no AC in a heat wave. Call right away.',
     title: 'Emergency Furnace and AC Service in Sioux Falls | Sioux Falls HVAC',
@@ -469,7 +469,6 @@ export const services: Service[] = [
 export const serviceBySlug = (slug: string) => services.find((s) => s.slug === slug);
 
 export const groups = {
-  heating: { label: 'Heating', note: 'Furnaces that last through a Sioux Falls winter.' },
-  cooling: { label: 'Cooling', note: 'Central air, heat pumps and mini splits for hot, humid summers.' },
-  care: { label: 'Care and emergencies', note: 'Tune ups that prevent breakdowns, and help when one happens.' },
+  heating: { label: 'Heating', note: 'Furnaces, heat pumps and no heat calls.' },
+  cooling: { label: 'Cooling', note: 'Central air, mini splits and yearly tune ups.' },
 } as const;

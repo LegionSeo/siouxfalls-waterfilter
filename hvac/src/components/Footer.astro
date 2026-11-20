@@ -15,7 +15,7 @@ const year = 2026;
     <div>
       <h2 class="font-sans text-sm font-bold uppercase tracking-wider text-white">Heating</h2>
       <ul class="mt-4 space-y-2 text-sm">
-        {services.filter((s) => s.group !== 'cooling').map((s) => <li><a class="hover:text-white hover:underline" href={`/services/${s.slug}`}>{s.name}</a></li>)}
+        {services.filter((s) => s.group === 'heating').map((s) => <li><a class="hover:text-white hover:underline" href={`/services/${s.slug}`}>{s.name}</a></li>)}
       </ul>
     </div>
     <div>
