@@ -21,7 +21,7 @@
 /* Custom styles live in the components layer so Tailwind utilities like hidden can override them. */
 @layer components {
   html {
-    scroll-padding-top: 88px;
+    scroll-padding-top: 104px;
   }
 
   body {
