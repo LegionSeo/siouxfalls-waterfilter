@@ -1,0 +1,60 @@
+---
+import { Icon } from 'astro-icon/components';
+import Layout from '../../layouts/Layout.astro';
+import Breadcrumbs from '../../components/Breadcrumbs.astro';
+import CallButton from '../../components/CallButton.astro';
+import CtaBand from '../../components/CtaBand.astro';
+import Photo from '../../components/Photo.astro';
+import { SITE } from '../../config/site';
+import { towns } from '../../content/towns';
+import { breadcrumbNode } from '../../lib/schema';
+const crumbs = [{ name: 'Home', path: '/' }, { name: 'Service Area', path: '/areas' }];
+---
+<Layout
+  title="HVAC Service Area | Sioux Falls, Brandon, Harrisburg, Tea | Sioux Falls HVAC"
+  description="Furnace, AC and heat pump service in Sioux Falls and nearby towns: Brandon, Harrisburg, Tea, Hartford, Dell Rapids, Canton, Lennox and more."
+  graph={[breadcrumbNode(crumbs)]}
+>
+  <section class="pb-12 pt-8 sm:pt-10">
+    <div class="wrap">
+      <Breadcrumbs items={crumbs} />
+      <div class="mt-6 grid items-center gap-10 lg:grid-cols-[1.2fr_1fr]">
+        <div>
+          <h1 class="text-4xl font-extrabold sm:text-5xl">Where we work</h1>
+          <p class="prose-sf mt-4 text-lg">Heating and cooling service for Sioux Falls and the towns around it in Minnehaha and Lincoln counties. Not sure if your home is covered? Call and ask.</p>
+          <div class="mt-7"><CallButton class="text-lg" /></div>
+        </div>
+        <div class="overflow-hidden rounded-[var(--radius-lg)]">
+          <Photo photo="snowHouse" ratio={16 / 10} sizes="(min-width: 1024px) 480px, 100vw" eager />
+        </div>
+      </div>
+    </div>
+  </section>
+  <section class="border-t border-line py-14">
+    <div class="wrap">
+      <ul class="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+        <li>
+          <a href="/" class="group block h-full rounded-[var(--radius-lg)] border border-line bg-card p-6 hover:border-ink/30">
+            <span class="text-xs font-bold uppercase tracking-wider text-muted">Minnehaha and Lincoln counties</span>
+            <span class="mt-1 flex items-center justify-between font-display text-2xl font-bold text-ink">Sioux Falls <Icon name="ph:arrow-right-bold" class="h-5 w-5 text-ink/40 group-hover:text-ink" aria-hidden="true" /></span>
+            <span class="mt-2 block text-[0.95rem] text-body">Furnace, AC and heat pump service across the city.</span>
+          </a>
+        </li>
+        {towns.map((t) => (
+          <li>
+            <a href={`/areas/${t.slug}`} class="group block h-full rounded-[var(--radius-lg)] border border-line bg-card p-6 hover:border-ink/30">
+              <span class="text-xs font-bold uppercase tracking-wider text-muted">{t.county}</span>
+              <span class="mt-1 flex items-center justify-between font-display text-2xl font-bold text-ink">{t.name} <Icon name="ph:arrow-right-bold" class="h-5 w-5 text-ink/40 group-hover:text-ink" aria-hidden="true" /></span>
+              <span class="mt-2 block text-[0.95rem] text-body">{t.lead.split('. ')[0]}.</span>
+            </a>
+          </li>
+        ))}
+      </ul>
+      <div class="mt-10 rounded-[var(--radius-lg)] bg-frost-soft p-6">
+        <h2 class="text-xl font-extrabold">Also serving</h2>
+        <p class="mt-2 text-body">{SITE.nearbyTowns.join(', ')}, and rural homes nearby. Call to check your address.</p>
+      </div>
+    </div>
+  </section>
+  <CtaBand />
+</Layout>

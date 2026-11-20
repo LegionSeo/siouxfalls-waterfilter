@@ -1,0 +1,26 @@
+---
+import type { Faq } from '../content/services';
+interface Props { items: Faq[]; title?: string; id?: string }
+const { items, title = 'Common questions', id = 'faq' } = Astro.props;
+---
+<section id={id} class="py-16 sm:py-20" aria-labelledby={`${id}-title`}>
+  <div class="wrap grid gap-10 lg:grid-cols-[1fr_2fr]">
+    <div>
+      <p class="eyebrow">FAQ</p>
+      <h2 id={`${id}-title`} class="mt-2 text-3xl font-extrabold sm:text-4xl">{title}</h2>
+    </div>
+    <div class="divide-y divide-line border-y border-line">
+      {items.map((item) => (
+        <details class="faq group">
+          <summary class="flex items-start justify-between gap-6 py-5 text-left">
+            <h3 class="font-sans text-lg font-bold tracking-normal">{item.q}</h3>
+            <span class="faq-icon mt-1 grid h-6 w-6 shrink-0 place-items-center rounded-full border border-ink/30 text-ink transition-transform" aria-hidden="true">
+              <svg viewBox="0 0 12 12" width="10" height="10"><path d="M6 1v10M1 6h10" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
+            </span>
+          </summary>
+          <p class="prose-sf pb-6 pr-10 text-body">{item.a}</p>
+        </details>
+      ))}
+    </div>
+  </div>
+</section>

@@ -1,0 +1,27 @@
+---
+import { PHOTOS, photoUrl, type PhotoKey } from '../content/photos';
+interface Props {
+  photo: PhotoKey;
+  ratio: number;
+  sizes: string;
+  widths?: number[];
+  eager?: boolean;
+  class?: string;
+  alt?: string;
+}
+const { photo, ratio, sizes, widths = [480, 720, 960, 1280], eager = false, class: className, alt } = Astro.props;
+const base = widths[1] ?? widths[0];
+const srcset = widths.map((w) => `${photoUrl(photo, w, ratio)} ${w}w`).join(', ');
+---
+<img
+  src={photoUrl(photo, base, ratio)}
+  srcset={srcset}
+  sizes={sizes}
+  width={base}
+  height={Math.round(base / ratio)}
+  alt={alt ?? PHOTOS[photo].alt}
+  loading={eager ? 'eager' : 'lazy'}
+  fetchpriority={eager ? 'high' : 'auto'}
+  decoding="async"
+  class:list={['block w-full bg-line object-cover', className]}
+/>

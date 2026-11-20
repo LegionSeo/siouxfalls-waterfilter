@@ -1,0 +1,29 @@
+---
+import Layout from '../layouts/Layout.astro';
+import Breadcrumbs from '../components/Breadcrumbs.astro';
+import CtaBand from '../components/CtaBand.astro';
+import { SITE } from '../config/site';
+import { PHOTOS } from '../content/photos';
+import { breadcrumbNode } from '../lib/schema';
+const crumbs = [{ name: 'Home', path: '/' }, { name: 'About', path: '/about' }];
+---
+<Layout title="About | Sioux Falls HVAC" description="Sioux Falls HVAC connects homeowners in Sioux Falls, SD and nearby towns with local heating and cooling service for furnaces, AC and heat pumps." graph={[breadcrumbNode(crumbs)]}>
+  <section class="pb-16 pt-8 sm:pt-10">
+    <div class="wrap">
+      <Breadcrumbs items={crumbs} />
+      <h1 class="mt-6 text-4xl font-extrabold sm:text-5xl">About {SITE.name}</h1>
+      <div class="prose-sf mt-6 text-lg">
+        <p>{SITE.name} helps homeowners in Sioux Falls and nearby towns get their heat and AC working again. One call reaches local heating and cooling help for repairs, tune ups and new systems.</p>
+        <p>This site aims to be useful even if you never call. The service pages explain warning signs, what a visit covers and what to ask before you hire anyone. Local facts, like weather records and city permit rules, come from public sources such as the National Weather Service and the City of Sioux Falls.</p>
+      </div>
+      <h2 class="mt-12 text-2xl font-extrabold">Photo credits</h2>
+      <p class="mt-2 text-body">Photos are from Unsplash and used under the Unsplash License. They show example homes and equipment, not our own jobs.</p>
+      <ul class="mt-4 grid gap-2 text-sm sm:grid-cols-2">
+        {Object.values(PHOTOS).map((p) => (
+          <li><a href={p.page} class="link" rel="noopener">{p.alt}</a> <span class="text-muted">by {p.by}</span></li>
+        ))}
+      </ul>
+    </div>
+  </section>
+  <CtaBand />
+</Layout>

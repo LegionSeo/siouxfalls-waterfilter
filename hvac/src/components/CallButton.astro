@@ -1,0 +1,10 @@
+---
+import { Icon } from 'astro-icon/components';
+import { SITE, phoneHref } from '../config/site';
+interface Props { class?: string; label?: string; variant?: 'call' | 'light' }
+const { class: className, label, variant = 'call' } = Astro.props;
+---
+<a href={phoneHref} class:list={['btn', variant === 'call' ? 'btn-call' : 'btn-light', className]} data-track="call">
+  <Icon name="ph:phone-call-bold" class="h-5 w-5" aria-hidden="true" />
+  <span>{label ?? `Call ${SITE.phoneDisplay}`}</span>
+</a>

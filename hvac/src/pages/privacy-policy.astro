@@ -1,0 +1,21 @@
+---
+import Layout from '../layouts/Layout.astro';
+import Breadcrumbs from '../components/Breadcrumbs.astro';
+import { SITE } from '../config/site';
+const crumbs = [{ name: 'Home', path: '/' }, { name: 'Privacy Policy', path: '/privacy-policy' }];
+---
+<Layout title="Privacy Policy | Sioux Falls HVAC" description={`How ${SITE.name} handles information from visitors and callers.`}>
+  <section class="pb-20 pt-8 sm:pt-10">
+    <div class="wrap">
+      <Breadcrumbs items={crumbs} />
+      <h1 class="mt-6 text-4xl font-extrabold">Privacy policy</h1>
+      <div class="prose-sf mt-6 space-y-4">
+        <p>Last updated November 20, 2026.</p>
+        <p>This site has no forms and does not ask you to create an account. If you call, the number you call from and the details you share are used to answer your call and set up service.</p>
+        <p>Calls may be routed through a call tracking or forwarding service and may be recorded for quality. Your details are not sold.</p>
+        <p>Our web host keeps standard server logs, like IP address and browser type, to keep the site running and secure. Photos on this site load from Unsplash, which may receive basic request data from your browser.</p>
+        <p>Questions about this policy? Call {SITE.phoneDisplay}.</p>
+      </div>
+    </div>
+  </section>
+</Layout>

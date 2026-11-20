@@ -1,0 +1,40 @@
+---
+import { Icon } from 'astro-icon/components';
+import Layout from '../layouts/Layout.astro';
+import Breadcrumbs from '../components/Breadcrumbs.astro';
+import CallButton from '../components/CallButton.astro';
+import { SITE } from '../config/site';
+import { breadcrumbNode } from '../lib/schema';
+const crumbs = [{ name: 'Home', path: '/' }, { name: 'Contact', path: '/contact' }];
+const tips = [
+  'What the system is doing, like no heat, warm air, ice, a leak or a noise',
+  'The brand and age of the furnace or AC, if you know it',
+  'Your town or nearest cross streets',
+  'Whether anyone at home is very young, older or has health concerns',
+];
+---
+<Layout title="Contact | Call Sioux Falls HVAC" description={`Call ${SITE.name} at ${SITE.phoneDisplay} for furnace repair, AC repair, heat pumps and new systems in Sioux Falls, SD and nearby towns.`} graph={[breadcrumbNode(crumbs)]}>
+  <section class="pb-20 pt-8 sm:pt-10">
+    <div class="wrap">
+      <Breadcrumbs items={crumbs} />
+      <div class="mt-6 grid gap-10 lg:grid-cols-[1.2fr_1fr]">
+        <div>
+          <h1 class="text-4xl font-extrabold sm:text-5xl">Call for heating and cooling help</h1>
+          <p class="prose-sf mt-4 text-lg">The fastest way to get help is a phone call. Tell us what is going on and where you are.</p>
+          <a href={`tel:${SITE.phoneE164}`} class="mt-8 block font-display text-5xl font-extrabold text-ember hover:text-ember-dark sm:text-6xl">{SITE.phoneDisplay}</a>
+          <div class="mt-6"><CallButton class="text-lg" label="Tap to call" /></div>
+          <p class="mt-8 rounded-[var(--radius-md)] border border-ember/30 bg-ember-soft p-4 text-body">
+            <strong class="text-ink">Smell gas or hear a carbon monoxide alarm?</strong> Leave the house first. Then call 911 or your gas company from outside.
+          </p>
+        </div>
+        <div class="self-start rounded-[var(--radius-lg)] bg-card p-6 shadow-[var(--shadow-card)] sm:p-8">
+          <h2 class="flex items-center gap-2 text-xl font-extrabold"><Icon name="ph:note-pencil-bold" class="h-6 w-6 text-frost" aria-hidden="true" />Good to have when you call</h2>
+          <ul class="mt-5 space-y-3">
+            {tips.map((t) => <li class="flex gap-3"><Icon name="ph:check-bold" class="mt-1 h-4 w-4 shrink-0 text-frost" aria-hidden="true" /><span>{t}</span></li>)}
+          </ul>
+          <p class="mt-6 border-t border-line pt-5 text-sm text-muted">Serving {SITE.serviceTowns.join(', ')} and nearby towns.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+</Layout>

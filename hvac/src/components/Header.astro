@@ -1,0 +1,59 @@
+---
+import { Icon } from 'astro-icon/components';
+import Logo from './Logo.astro';
+import { SITE, phoneHref } from '../config/site';
+import { services } from '../content/services';
+import { towns } from '../content/towns';
+
+const path = Astro.url.pathname.replace(/\.html$/, '');
+const nav = [
+  { name: 'Services', href: '/services' },
+  { name: 'Service Area', href: '/areas' },
+  { name: 'About', href: '/about' },
+  { name: 'Contact', href: '/contact' },
+];
+const active = (href: string) => path === href || path.startsWith(`${href}/`);
+---
+<header class="sticky top-0 z-50 border-b border-line bg-paper/95 backdrop-blur supports-[backdrop-filter]:bg-paper/85">
+  <div class="wrap flex h-16 items-center justify-between gap-4 sm:h-[4.5rem]">
+    <a href="/" class="shrink-0" aria-label={`${SITE.name} home`}><Logo /></a>
+    <nav aria-label="Main" class="hidden items-center gap-1 lg:flex">
+      {nav.map((item) => (
+        <a
+          href={item.href}
+          class:list={['rounded-md px-3 py-2 text-[0.95rem] font-semibold hover:bg-ink/5', active(item.href) ? 'text-ember' : 'text-ink']}
+          aria-current={active(item.href) ? 'page' : undefined}
+        >{item.name}</a>
+      ))}
+    </nav>
+    <div class="flex items-center gap-2">
+      <a href={phoneHref} class="btn btn-call hidden min-h-11 px-4 sm:inline-flex" data-track="call-header">
+        <Icon name="ph:phone-call-bold" class="h-5 w-5" aria-hidden="true" />
+        <span>{SITE.phoneDisplay}</span>
+      </a>
+      <details class="menu relative lg:hidden">
+        <summary class="grid h-11 w-11 cursor-pointer list-none place-items-center rounded-md border border-ink/20 text-ink [&::-webkit-details-marker]:hidden" aria-label="Open menu">
+          <Icon name="ph:list-bold" class="h-6 w-6" aria-hidden="true" />
+        </summary>
+        <div class="absolute right-0 top-[calc(100%+0.6rem)] w-[min(20rem,calc(100vw-2.5rem))] rounded-[var(--radius-md)] border border-line bg-card p-3 shadow-[var(--shadow-card)]">
+          <nav aria-label="Mobile">
+            {nav.map((item) => (
+              <a href={item.href} class="block rounded-md px-3 py-2.5 font-semibold text-ink hover:bg-paper">{item.name}</a>
+            ))}
+            <p class="mt-2 border-t border-line px-3 pt-3 text-xs font-bold uppercase tracking-wider text-muted">Popular</p>
+            {services.slice(0, 4).map((s) => (
+              <a href={`/services/${s.slug}`} class="block rounded-md px-3 py-2 text-[0.95rem] text-body hover:bg-paper">{s.name}</a>
+            ))}
+          </nav>
+        </div>
+      </details>
+    </div>
+  </div>
+</header>
+<script>
+  // Close the mobile menu after a link is chosen or on outside click.
+  const menu = document.querySelector<HTMLDetailsElement>('details.menu');
+  document.addEventListener('click', (e) => {
+    if (menu?.open && !menu.contains(e.target as Node)) menu.open = false;
+  });
+</script>
