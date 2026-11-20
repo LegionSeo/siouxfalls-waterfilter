@@ -3,7 +3,9 @@ import Layout from '../layouts/Layout.astro';
 import CallButton from '../components/CallButton.astro';
 import CtaBand from '../components/CtaBand.astro';
 import Faq from '../components/Faq.astro';
+import HeroArt from '../components/HeroArt.astro';
 import Icon from '../components/Icon.astro';
+import type { IconName } from '../content/services';
 import { SITE } from '../config/site';
 import { services } from '../content/services';
 import { towns } from '../content/towns';
@@ -13,13 +15,22 @@ import { faqNode } from '../lib/schema';
 const title = 'Whole House Water Filters Sioux Falls, SD | Softeners and RO';
 const description = `Whole house water filters, water softeners and reverse osmosis for Sioux Falls homes. Free in home water test. Call ${SITE.phoneDisplay}.`;
 
-const problems = [
-  { problem: 'White crust, spots and scale', fix: 'Water softener', href: '/water-softener-installation' },
-  { problem: 'Chlorine taste or pool smell', fix: 'Whole house filter', href: '/whole-house-water-filter' },
-  { problem: 'Hard water and chlorine taste', fix: 'Softener and filter combo', href: '/softener-and-filter-combo' },
-  { problem: 'I want better drinking water', fix: 'Reverse osmosis', href: '/reverse-osmosis-installation' },
-  { problem: 'Orange stains or a rotten egg smell', fix: 'Well water system', href: '/well-water-filtration' },
-  { problem: 'My softener quit working', fix: 'Softener service', href: '/water-filter-service' },
+const problems: { problem: string; fix: string; href: string; icon: IconName }[] = [
+  { problem: 'White crust, spots and scale', fix: 'Water softener', href: '/water-softener-installation', icon: 'drop' },
+  { problem: 'Chlorine taste or pool smell', fix: 'Whole house filter', href: '/whole-house-water-filter', icon: 'house' },
+  { problem: 'Hard water and chlorine taste', fix: 'Softener and filter combo', href: '/softener-and-filter-combo', icon: 'layers' },
+  { problem: 'I want better drinking water', fix: 'Reverse osmosis', href: '/reverse-osmosis-installation', icon: 'glass' },
+  { problem: 'Orange stains or a rotten egg smell', fix: 'Well water system', href: '/well-water-filtration', icon: 'well' },
+  { problem: 'My softener quit working', fix: 'Softener service', href: '/water-filter-service', icon: 'wrench' },
+];
+
+const featured = SITE.freeTest ? services.find((service) => service.slug === 'free-water-test') : undefined;
+const gridServices = featured ? services.filter((service) => service !== featured) : services;
+
+const promises = [
+  SITE.freeTest ? 'Free in home water test' : 'Water tested before we quote',
+  'Clear price before any work starts',
+  'City water, rural water or a well',
 ];
 
 const steps = [
@@ -69,10 +80,10 @@ const faqs = [
 
 <Layout title={title} description={description} graph={[faqNode(faqs)]}>
   <section class="relative overflow-hidden">
-    <div class="wrap grid items-center gap-10 py-14 md:grid-cols-[1.15fr_1fr] md:py-20">
+    <div class="wrap grid items-center gap-12 pb-16 pt-10 md:grid-cols-[1.05fr_1fr] md:py-20">
       <div>
         <p class="kicker"><Icon name="pin" class="h-4 w-4" /> Sioux Falls, SD and nearby towns</p>
-        <h1 class="mt-4">Whole House Water Filters for Sioux Falls Homes</h1>
+        <h1 class="mt-4">Whole House Water Filters for <span class="text-cobalt">Sioux Falls</span> Homes</h1>
         <p class="lede mt-5">
           Hard water and chlorine taste are the two big complaints in Sioux Falls. We test your water at your tap, then install
           the filter or softener that fixes it.
@@ -81,35 +92,51 @@ const faqs = [
           <CallButton track="call-hero" />
           <a href="/free-water-test" class="btn btn-ghost">{SITE.freeTest ? 'Book a free water test' : 'Book a water test'}</a>
         </div>
-        <ul class="mt-8 grid gap-2 text-[0.95rem] text-muted sm:grid-cols-2">
-          <li class="flex items-center gap-2"><Icon name="check" class="h-5 w-5 text-cobalt" /> Whole house filters</li>
-          <li class="flex items-center gap-2"><Icon name="check" class="h-5 w-5 text-cobalt" /> Water softeners</li>
-          <li class="flex items-center gap-2"><Icon name="check" class="h-5 w-5 text-cobalt" /> Reverse osmosis</li>
-          <li class="flex items-center gap-2"><Icon name="check" class="h-5 w-5 text-cobalt" /> Well water systems</li>
+        <ul class="mt-8 grid gap-2 text-[0.95rem] font-semibold text-ink">
+          {
+            promises.map((item) => (
+              <li class="flex items-center gap-2.5">
+                <span class="grid h-6 w-6 place-items-center rounded-full bg-sun/30 text-ink"><Icon name="check" class="h-4 w-4" /></span>
+                {item}
+              </li>
+            ))
+          }
         </ul>
       </div>
-      <aside class="card relative p-7 shadow-[0_24px_60px_-30px_rgba(16,33,58,0.45)]" aria-labelledby="water-card">
-        <p class="kicker">From the city water report</p>
-        <h2 id="water-card" class="mt-2 text-2xl">Sioux Falls city water at a glance</h2>
-        <dl class="mt-6 grid gap-4">
-          <div class="flex items-baseline justify-between gap-4 rounded-2xl bg-sky px-5 py-4">
-            <dt class="text-sm font-semibold text-muted">Hardness, city plant</dt>
-            <dd class="font-display text-3xl font-bold text-ink">{SF_REPORT.plantGpg} <span class="text-base font-semibold">gpg</span></dd>
-          </div>
-          <div class="flex items-baseline justify-between gap-4 rounded-2xl bg-sky px-5 py-4">
-            <dt class="text-sm font-semibold text-muted">Hardness, Lewis &amp; Clark</dt>
-            <dd class="font-display text-3xl font-bold text-ink">{SF_REPORT.lewisClarkGpg} <span class="text-base font-semibold">gpg</span></dd>
-          </div>
-          <div class="flex items-baseline justify-between gap-4 rounded-2xl bg-sand px-5 py-4">
-            <dt class="text-sm font-semibold text-muted">Average chlorine</dt>
-            <dd class="font-display text-3xl font-bold text-ink">{SF_REPORT.chlorinePpm} <span class="text-base font-semibold">ppm</span></dd>
-          </div>
-        </dl>
-        <p class="mt-5 text-xs text-muted">
-          Source: <a class="underline" href={SF_REPORT.url} rel="noopener">{SF_REPORT.name}</a>. gpg means grains per gallon. Water over about 7 gpg is
-          usually called hard.
+      <div class="relative">
+        <HeroArt />
+        <p class="absolute -bottom-4 left-4 flex items-center gap-3 rounded-2xl bg-white px-4 py-3 shadow-[0_18px_40px_-20px_rgba(16,33,58,0.45)] ring-1 ring-line sm:left-6">
+          <span class="font-display text-3xl font-bold text-cobalt">{SF_REPORT.plantGpg}</span>
+          <span class="text-sm leading-tight text-muted">grains per gallon<br /><span class="font-semibold text-ink">Sioux Falls plant water</span></span>
         </p>
-      </aside>
+      </div>
+    </div>
+  </section>
+
+  <section class="border-y border-line bg-white" aria-labelledby="water-card">
+    <div class="wrap grid gap-6 py-8 md:grid-cols-[1fr_2fr] md:items-center">
+      <div>
+        <p class="kicker">From the city water report</p>
+        <h2 id="water-card" class="mt-1 text-2xl">Sioux Falls city water at a glance</h2>
+      </div>
+      <dl class="grid grid-cols-3 gap-3 text-center sm:gap-4">
+        <div class="flex flex-col-reverse rounded-2xl bg-sky px-3 py-4">
+          <dt class="mt-1 text-xs font-semibold text-muted sm:text-sm">Hardness, city plant</dt>
+          <dd class="font-display text-3xl font-bold text-ink">{SF_REPORT.plantGpg}<span class="text-base font-semibold"> gpg</span></dd>
+        </div>
+        <div class="flex flex-col-reverse rounded-2xl bg-sky px-3 py-4">
+          <dt class="mt-1 text-xs font-semibold text-muted sm:text-sm">Hardness, Lewis &amp; Clark</dt>
+          <dd class="font-display text-3xl font-bold text-ink">{SF_REPORT.lewisClarkGpg}<span class="text-base font-semibold"> gpg</span></dd>
+        </div>
+        <div class="flex flex-col-reverse rounded-2xl bg-sand px-3 py-4">
+          <dt class="mt-1 text-xs font-semibold text-muted sm:text-sm">Average chlorine</dt>
+          <dd class="font-display text-3xl font-bold text-ink">{SF_REPORT.chlorinePpm}<span class="text-base font-semibold"> ppm</span></dd>
+        </div>
+      </dl>
+      <p class="text-xs text-muted md:col-span-2">
+        Source: <a class="underline" href={SF_REPORT.url} rel="noopener">{SF_REPORT.name}</a>. gpg means grains per gallon. Water over about 7 gpg is
+        usually called hard.
+      </p>
     </div>
   </section>
 
@@ -122,8 +149,13 @@ const faqs = [
         {
           problems.map((item) => (
             <li>
-              <a href={item.href} class="card group flex h-full flex-col justify-between gap-6 no-underline transition hover:border-cobalt">
-                <span class="font-display text-xl font-semibold text-ink">{item.problem}</span>
+              <a href={item.href} class="card group flex h-full flex-col justify-between gap-6 no-underline transition hover:-translate-y-0.5 hover:border-cobalt hover:shadow-[0_18px_40px_-28px_rgba(31,79,214,0.6)]">
+                <span class="flex items-start gap-4">
+                  <span class="grid h-11 w-11 shrink-0 place-items-center rounded-xl bg-sun/25 text-ink transition group-hover:bg-sun">
+                    <Icon name={item.icon} />
+                  </span>
+                  <span class="font-display text-xl font-semibold leading-snug text-ink">{item.problem}</span>
+                </span>
                 <span class="flex items-center justify-between text-sm font-bold text-cobalt">
                   {item.fix}
                   <span aria-hidden="true" class="transition group-hover:translate-x-1">&rarr;</span>
@@ -140,12 +172,31 @@ const faqs = [
     <div class="wrap">
       <p class="kicker">Systems and services</p>
       <h2 id="systems-heading" class="mt-3">Everything for whole home water</h2>
-      <ul class="mt-10 grid gap-5 md:grid-cols-2">
+      {
+        featured && (
+          <a
+            href={`/${featured.slug}`}
+            class="mt-10 flex flex-col gap-5 rounded-3xl bg-sun p-7 no-underline transition hover:bg-sun-deep sm:flex-row sm:items-center sm:justify-between md:p-9"
+          >
+            <span class="flex items-center gap-5">
+              <span class="grid h-14 w-14 shrink-0 place-items-center rounded-2xl bg-ink text-sun">
+                <Icon name={featured.icon} class="h-7 w-7" />
+              </span>
+              <span>
+                <span class="block font-display text-2xl font-bold text-ink">Start with a free in home water test</span>
+                <span class="mt-1 block text-ink/80">{featured.card}</span>
+              </span>
+            </span>
+            <span class="btn shrink-0 bg-ink text-white">See how it works</span>
+          </a>
+        )
+      }
+      <ul class="mt-6 grid gap-5 md:grid-cols-2 lg:grid-cols-3">
         {
-          services.map((service) => (
+          gridServices.map((service) => (
             <li>
-              <a href={`/${service.slug}`} class="card flex h-full gap-5 no-underline transition hover:border-cobalt">
-                <span class="grid h-12 w-12 shrink-0 place-items-center rounded-2xl bg-sky text-cobalt">
+              <a href={`/${service.slug}`} class="card group flex h-full gap-5 no-underline transition hover:-translate-y-0.5 hover:border-cobalt">
+                <span class="grid h-12 w-12 shrink-0 place-items-center rounded-2xl bg-sky text-cobalt transition group-hover:bg-cobalt group-hover:text-white">
                   <Icon name={service.icon} />
                 </span>
                 <span>
@@ -183,7 +234,21 @@ const faqs = [
       <p class="kicker">Quick compare</p>
       <h2 id="compare-heading" class="mt-3">Softener, filter or reverse osmosis?</h2>
       <p class="lede mt-4">They do different jobs. Many Sioux Falls homes end up with two of the three.</p>
-      <div class="mt-8 overflow-x-auto rounded-2xl border border-line">
+      <ul class="mt-8 grid gap-4 md:hidden">
+        {
+          compare.map((row) => (
+            <li class="card">
+              <h3>{row.name}</h3>
+              <dl class="mt-3 grid gap-2 text-[0.95rem]">
+                <div><dt class="font-semibold text-ink">Takes out</dt><dd class="text-muted">{row.removes}</dd></div>
+                <div><dt class="font-semibold text-ink">Works on</dt><dd class="text-muted">{row.where}</dd></div>
+                <div><dt class="font-semibold text-ink">Upkeep</dt><dd class="text-muted">{row.upkeep}</dd></div>
+              </dl>
+            </li>
+          ))
+        }
+      </ul>
+      <div class="mt-8 hidden overflow-x-auto rounded-2xl border border-line md:block">
         <table class="w-full min-w-[40rem] text-left text-[0.95rem]">
           <thead class="bg-sand font-display text-ink">
             <tr>

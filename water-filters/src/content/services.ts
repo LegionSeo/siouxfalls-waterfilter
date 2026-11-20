@@ -101,7 +101,7 @@ export const services: Service[] = [
     icon: 'drop',
     card: 'Stops scale, spots and crusty faucets. Sized to your water and your family.',
     h1: 'Water Softener Installation in Sioux Falls',
-    title: 'Water Softener Installation Sioux Falls, SD | New and Replacement',
+    title: 'Water Softener Installation Sioux Falls, SD | New or Replace',
     description: `Water softener installation in Sioux Falls. City water is about ${sf.plantGpg} grains per gallon at the city plant. We size, install and set your softener. Call today.`,
     intro: `Sioux Falls has hard water. The city lists about ${sf.plantGpg} grains per gallon for water from its plant and about ${sf.lewisClarkGpg} for Lewis & Clark water. A softener takes out the minerals that leave scale on everything. We size the softener to your home, install it, and set it for your water. Call {phone} for a new softener or a replacement.`,
     fixesHeading: 'Signs you need a softener',
@@ -312,7 +312,7 @@ export const services: Service[] = [
     icon: 'test',
     card: 'We test your water at your tap and tell you what it needs. No charge.',
     h1: 'Free In Home Water Test in Sioux Falls',
-    title: 'Free In Home Water Test Sioux Falls, SD | Hardness and Chlorine',
+    title: 'Free In Home Water Test Sioux Falls, SD | Hardness, Chlorine',
     description:
       'Book a free in home water test in Sioux Falls. We check hardness, chlorine, iron and more at your tap and explain what your water needs. Call today.',
     intro:

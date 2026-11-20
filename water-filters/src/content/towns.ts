@@ -51,7 +51,7 @@ export const towns: Town[] = [
     name: 'Harrisburg',
     title: 'Whole House Water Filters Harrisburg, SD | Softeners and RO',
     description:
-      'Whole house water filters, softeners and reverse osmosis for Harrisburg, SD homes. Harrisburg city water comes from Lewis & Clark. Call for a free water test.',
+      'Whole house water filters, softeners and reverse osmosis for Harrisburg, SD homes on Lewis & Clark water. Call for a free in home water test.',
     intro:
       'Harrisburg has grown fast, and many homes are newer builds. A newer home is the easiest place to add a whole house filter or softener, because the plumbing is often ready for it. We test your water, then install a system that fits your home and your family.',
     waterHeading: 'Where Harrisburg water comes from',
@@ -106,7 +106,7 @@ export const towns: Town[] = [
   {
     slug: 'lennox',
     name: 'Lennox',
-    title: 'Water Filters and Softeners Lennox, SD | Lewis & Clark Water',
+    title: 'Water Filters and Softeners Lennox, SD | Lewis & Clark',
     description:
       'Water filters, softeners and reverse osmosis for Lennox, SD. Lennox city water comes from Lewis & Clark. We help you pick what your home really needs.',
     intro:
