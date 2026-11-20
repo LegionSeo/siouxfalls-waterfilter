@@ -24,21 +24,21 @@ const others = services.filter((s) => !town.featured.includes(s.slug));
 const nearby = towns.filter((t) => t.slug !== town.slug);
 ---
 <Layout title={town.title} description={town.description} graph={[faqNode(town.faqs), breadcrumbNode(crumbs)]}>
-  <section class="pb-12 pt-8 sm:pt-10">
+  <section class="bg-ink pb-14 pt-8 text-white sm:pb-20 sm:pt-10">
     <div class="wrap">
-      <Breadcrumbs items={crumbs} />
-      <div class="mt-6 grid gap-10 lg:grid-cols-[1.3fr_1fr]">
+      <Breadcrumbs items={crumbs} dark />
+      <div class="mt-8 grid gap-12 lg:grid-cols-[1.4fr_1fr] lg:gap-16">
         <div>
-          <p class="eyebrow">{town.county}, South Dakota</p>
-          <h1 class="mt-3 text-4xl font-extrabold sm:text-5xl">{town.h1}</h1>
-          <p class="prose-sf mt-5 text-lg">{town.lead}</p>
-          <div class="mt-7"><CallButton class="text-lg" /></div>
+          <p class="text-lg font-semibold text-white/70">{town.county}, South Dakota</p>
+          <h1 class="mt-2 text-5xl text-white sm:text-6xl">{town.h1}</h1>
+          <p class="prose-sf mt-5 text-lg text-white/90">{town.lead}</p>
+          <div class="mt-8"><CallButton class="min-h-14 px-6 font-display text-2xl" /></div>
         </div>
-        <dl class="grid grid-cols-2 gap-px self-start overflow-hidden rounded-[var(--radius-lg)] border border-line bg-line">
+        <dl class="self-end border-t-4 border-call">
           {town.facts.map((f) => (
-            <div class="bg-card p-5">
-              <dt class="text-xs font-bold uppercase tracking-wider text-muted">{f.label}</dt>
-              <dd class="mt-1 font-display text-lg font-bold leading-snug text-ink">{f.value}</dd>
+            <div class="flex items-baseline justify-between gap-6 border-b border-white/15 py-3.5">
+              <dt class="text-white/70">{f.label}</dt>
+              <dd class="text-right font-display text-2xl font-bold leading-tight text-white">{f.value}</dd>
             </div>
           ))}
         </dl>
@@ -46,32 +46,31 @@ const nearby = towns.filter((t) => t.slug !== town.slug);
     </div>
   </section>
 
-  <section class="border-y border-line bg-card py-14 sm:py-16">
+  <section class="py-14 sm:py-20">
     <div class="wrap grid gap-12 lg:grid-cols-2">
       {town.body.map((b) => (
         <div>
-          <h2 class="text-2xl font-extrabold sm:text-3xl">{b.title}</h2>
+          <h2 class="text-4xl">{b.title}</h2>
           <div class="prose-sf mt-4">{b.text.map((p) => <p>{p}</p>)}</div>
         </div>
       ))}
     </div>
   </section>
 
-  <section class="py-14 sm:py-16" aria-labelledby="town-services">
+  <section class="bg-paper py-14 sm:py-20" aria-labelledby="town-services">
     <div class="wrap">
-      <h2 id="town-services" class="text-3xl font-extrabold">HVAC services in {town.name}</h2>
-      <ul class="mt-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+      <h2 id="town-services" class="text-5xl">HVAC services in {town.name}</h2>
+      <ul class="mt-10 grid gap-x-8 gap-y-6 sm:grid-cols-2 lg:grid-cols-4">
         {featured.map((s) => (
-          <li>
-            <a href={`/services/${s.slug}`} class:list={['group flex h-full flex-col rounded-[var(--radius-lg)] p-6', s.group === 'cooling' ? 'bg-frost-soft' : 'bg-ember-soft']}>
-              <Icon name={s.icon} class:list={['h-7 w-7', s.group === 'cooling' ? 'text-frost' : 'text-ember']} aria-hidden="true" />
-              <span class="mt-4 font-display text-lg font-bold text-ink group-hover:underline">{s.name} in {town.name}</span>
-              <span class="mt-1 text-[0.95rem] text-body">{s.short}</span>
+          <li class:list={[s.group === 'cooling' ? 'rule-cool' : 'rule-heat']}>
+            <a href={`/services/${s.slug}`} class="group block pt-4">
+              <span class="block font-display text-[1.75rem] font-bold leading-tight text-ink group-hover:underline">{s.name} in {town.name}</span>
+              <span class="mt-2 block text-body">{s.short}</span>
             </a>
           </li>
         ))}
       </ul>
-      <p class="mt-6 text-body">
+      <p class="mt-10 text-lg text-body">
         Also in {town.name}:{' '}
         {others.map((s, i) => (
           <>
@@ -86,11 +85,11 @@ const nearby = towns.filter((t) => t.slug !== town.slug);
 
   <section class="pb-16">
     <div class="wrap">
-      <h2 class="text-xl font-extrabold">Nearby towns</h2>
-      <ul class="mt-4 flex flex-wrap gap-2">
-        <li><a href="/" class="inline-block rounded-full border border-ink/20 bg-card px-4 py-2 font-semibold text-ink hover:border-ink">Sioux Falls</a></li>
+      <h2 class="text-4xl">Nearby towns</h2>
+      <ul class="mt-4 flex flex-wrap gap-x-8 gap-y-2 border-t border-line pt-4">
+        <li><a href="/" class="font-display text-[1.75rem] font-bold text-ink hover:underline">Sioux Falls</a></li>
         {nearby.map((t) => (
-          <li><a href={`/areas/${t.slug}`} class="inline-block rounded-full border border-ink/20 bg-card px-4 py-2 font-semibold text-ink hover:border-ink">{t.name}</a></li>
+          <li><a href={`/areas/${t.slug}`} class="font-display text-[1.75rem] font-bold text-ink hover:underline">{t.name}</a></li>
         ))}
       </ul>
     </div>

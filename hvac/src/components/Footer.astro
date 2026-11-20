@@ -5,28 +5,28 @@ import { services } from '../content/services';
 import { towns } from '../content/towns';
 const year = 2026;
 ---
-<footer class="bg-[#0d1720] pb-24 text-white/75 md:pb-0">
+<footer class="bg-night pb-24 text-white/75 md:pb-0">
   <div class="wrap grid gap-10 py-14 sm:grid-cols-2 lg:grid-cols-[1.3fr_1fr_1fr_1fr]">
     <div>
       <Logo dark />
       <p class="mt-4 max-w-xs text-sm">{SITE.tagline}. Furnaces, AC, heat pumps and mini splits in Sioux Falls, SD and nearby towns.</p>
-      <a href={phoneHref} class="mt-5 inline-block font-display text-2xl font-extrabold text-white hover:text-ember-glow">{SITE.phoneDisplay}</a>
+      <a href={phoneHref} class="mt-5 inline-block font-display text-3xl font-bold text-call hover:underline">{SITE.phoneDisplay}</a>
     </div>
     <div>
-      <h2 class="font-sans text-sm font-bold uppercase tracking-wider text-white">Heating</h2>
-      <ul class="mt-4 space-y-2 text-sm">
+      <h2 class="text-2xl text-white">Heating</h2>
+      <ul class="mt-4 space-y-2 text-base">
         {services.filter((s) => s.group === 'heating').map((s) => <li><a class="hover:text-white hover:underline" href={`/services/${s.slug}`}>{s.name}</a></li>)}
       </ul>
     </div>
     <div>
-      <h2 class="font-sans text-sm font-bold uppercase tracking-wider text-white">Cooling</h2>
-      <ul class="mt-4 space-y-2 text-sm">
+      <h2 class="text-2xl text-white">Cooling</h2>
+      <ul class="mt-4 space-y-2 text-base">
         {services.filter((s) => s.group === 'cooling').map((s) => <li><a class="hover:text-white hover:underline" href={`/services/${s.slug}`}>{s.name}</a></li>)}
       </ul>
     </div>
     <div>
-      <h2 class="font-sans text-sm font-bold uppercase tracking-wider text-white">Service area</h2>
-      <ul class="mt-4 space-y-2 text-sm">
+      <h2 class="text-2xl text-white">Service area</h2>
+      <ul class="mt-4 space-y-2 text-base">
         <li><a class="hover:text-white hover:underline" href="/">Sioux Falls</a></li>
         {towns.map((t) => <li><a class="hover:text-white hover:underline" href={`/areas/${t.slug}`}>{t.name}</a></li>)}
       </ul>

@@ -1,35 +1,42 @@
-@import '@fontsource-variable/bricolage-grotesque/wght.css';
-@import '@fontsource-variable/public-sans/wght.css';
+@import '@fontsource/barlow-condensed/600.css';
+@import '@fontsource/barlow-condensed/700.css';
+@import '@fontsource/barlow/400.css';
+@import '@fontsource/barlow/500.css';
+@import '@fontsource/barlow/600.css';
+@import '@fontsource/barlow/700.css';
 @import 'tailwindcss';
 
 @theme {
-  --font-sans: 'Public Sans Variable', ui-sans-serif, system-ui, sans-serif;
-  --font-display: 'Bricolage Grotesque Variable', 'Public Sans Variable', ui-sans-serif, sans-serif;
+  --font-sans: 'Barlow', ui-sans-serif, system-ui, sans-serif;
+  --font-display: 'Barlow Condensed', 'Barlow', ui-sans-serif, sans-serif;
 
-  /* Neutrals */
-  --color-ink: #13202b;        /* headings, dark bands, header text */
-  --color-body: #26323d;       /* body text */
-  --color-muted: #5b6670;      /* secondary text */
-  --color-line: #e2dbd0;       /* borders on paper */
-  --color-paper: #f7f4ef;      /* page background */
-  --color-card: #ffffff;       /* raised surfaces */
+  /* Neutrals: service van navy on white */
+  --color-ink: #11304d;        /* headings, dark bands, header text */
+  --color-body: #2c3a47;       /* body text */
+  --color-muted: #586674;      /* secondary text */
+  --color-line: #d9e0e6;       /* hairlines */
+  --color-paper: #eef2f5;      /* grey panels */
+  --color-card: #ffffff;       /* page and raised surfaces */
+  --color-night: #0b2238;      /* footer, deepest navy */
 
-  /* Heat: primary action color */
-  --color-ember: #b8321f;      /* buttons, links, heating accents */
-  --color-ember-dark: #9a2716; /* hover */
-  --color-ember-soft: #fbe9e2; /* heating tint */
-  --color-ember-glow: #f97352; /* ember on dark */
+  /* Call to action: van lettering yellow, always with navy text */
+  --color-call: #ffc72c;
+  --color-call-dark: #f0b400;
 
-  /* Cool: secondary accent */
-  --color-frost: #1f5f8b;      /* cooling accents, info */
-  --color-frost-soft: #e3eef5; /* cooling tint */
-  --color-frost-glow: #9fc9e6; /* frost on dark */
+  /* Heat and cool tags: used only to mark heating vs cooling */
+  --color-ember: #b42318;      /* heating */
+  --color-ember-dark: #8f1b12;
+  --color-ember-soft: #eef2f5; /* panels stay neutral */
+  --color-ember-glow: #ff8a73; /* heating on navy */
+  --color-frost: #155e9e;      /* cooling, links */
+  --color-frost-soft: #eef2f5;
+  --color-frost-glow: #9cc8ee; /* cooling on navy */
 
-  --radius-sm: 6px;
-  --radius-md: 10px;
-  --radius-lg: 18px;
+  --radius-sm: 3px;
+  --radius-md: 4px;
+  --radius-lg: 6px;
 
-  --shadow-card: 0 1px 2px rgb(19 32 43 / 0.06), 0 8px 24px -12px rgb(19 32 43 / 0.18);
+  --shadow-card: 0 10px 30px -12px rgb(17 48 77 / 0.35);
 }
 
 @layer base {
@@ -38,17 +45,18 @@
     -webkit-text-size-adjust: 100%;
   }
   body {
-    background: var(--color-paper);
+    background: var(--color-card);
     color: var(--color-body);
     font-family: var(--font-sans);
-    font-size: 1.0625rem;
-    line-height: 1.65;
+    font-size: 1.125rem;
+    line-height: 1.6;
   }
   h1, h2, h3, h4 {
     font-family: var(--font-display);
     color: var(--color-ink);
-    line-height: 1.1;
-    letter-spacing: -0.02em;
+    font-weight: 700;
+    line-height: 1.02;
+    letter-spacing: 0;
     text-wrap: balance;
   }
   p { text-wrap: pretty; }
@@ -74,19 +82,21 @@
     font-weight: 700; line-height: 1.1; text-decoration: none; white-space: nowrap;
     transition: background-color 150ms ease, color 150ms ease, border-color 150ms ease;
   }
-  .btn-call { background: var(--color-ember); color: #fff; }
-  .btn-call:hover { background: var(--color-ember-dark); }
+  .btn-call { background: var(--color-call); color: var(--color-ink); }
+  .btn-call:hover { background: var(--color-call-dark); }
   .btn-line { border: 2px solid var(--color-ink); color: var(--color-ink); background: transparent; }
   .btn-line:hover { background: var(--color-ink); color: #fff; }
   .btn-light { border: 2px solid rgb(255 255 255 / 0.6); color: #fff; }
   .btn-light:hover { background: #fff; color: var(--color-ink); }
 
-  .eyebrow {
-    font-size: 0.8125rem; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase;
-    color: var(--color-ember);
-  }
-  .link { color: var(--color-ember); font-weight: 600; text-decoration: underline; text-underline-offset: 3px; }
-  .link:hover { color: var(--color-ember-dark); }
+  /* Small kicker above a few headings. Sentence case, says where you are. */
+  .eyebrow { font-size: 1rem; font-weight: 600; color: var(--color-muted); }
+  .link { color: var(--color-frost); font-weight: 600; text-decoration: underline; text-underline-offset: 3px; }
+  .link:hover { color: var(--color-ink); }
+
+  /* Heating and cooling tags: a heavy top rule in the matching color */
+  .rule-heat { border-top: 5px solid var(--color-ember); }
+  .rule-cool { border-top: 5px solid var(--color-frost); }
 
   .prose-sf p + p { margin-top: 1rem; }
   .prose-sf { max-width: 65ch; }
@@ -96,12 +106,6 @@
     padding: 0.75rem 1rem; border-radius: var(--radius-sm);
   }
   .skip-link:focus { top: 1rem; }
-
-  /* The signature heat to cold range bar */
-  .range-bar {
-    height: 0.625rem; border-radius: 999px;
-    background: linear-gradient(90deg, var(--color-frost) 0%, #8fb8d6 35%, #e9d6c4 55%, var(--color-ember-glow) 80%, var(--color-ember) 100%);
-  }
 
   details.faq > summary { list-style: none; cursor: pointer; }
   details.faq > summary::-webkit-details-marker { display: none; }

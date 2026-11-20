@@ -21,7 +21,7 @@ const order = ['heating', 'cooling'] as const;
       <Breadcrumbs items={crumbs} />
       <div class="mt-6 grid items-end gap-8 lg:grid-cols-[1.3fr_1fr]">
         <div>
-          <h1 class="text-4xl font-extrabold sm:text-5xl">HVAC services in Sioux Falls</h1>
+          <h1 class="text-5xl sm:text-6xl">HVAC services in Sioux Falls</h1>
           <p class="prose-sf mt-4 text-lg">Repairs, tune ups and new systems for furnaces, central air, heat pumps and ductless mini splits. Pick a service to see what a visit covers.</p>
         </div>
         <div class="flex lg:justify-end"><CallButton class="text-lg" /></div>
@@ -29,22 +29,20 @@ const order = ['heating', 'cooling'] as const;
     </div>
   </section>
   {order.map((key) => (
-    <section class="border-t border-line py-12 sm:py-14" aria-labelledby={`g-${key}`}>
+    <section class="py-12 sm:py-16" aria-labelledby={`g-${key}`}>
       <div class="wrap grid gap-8 lg:grid-cols-[1fr_2.2fr]">
         <div>
-          <h2 id={`g-${key}`} class:list={['text-3xl font-extrabold', key === 'cooling' ? 'text-frost' : key === 'heating' ? 'text-ember' : '']}>{groups[key].label}</h2>
+          <h2 id={`g-${key}`} class:list={['border-t-4 pt-3 text-5xl', key === 'cooling' ? 'border-frost text-frost' : 'border-ember text-ember']}>{groups[key].label}</h2>
           <p class="mt-2 text-muted">{groups[key].note}</p>
         </div>
-        <ul class="grid gap-4 sm:grid-cols-2">
+        <ul class="grid gap-x-8 gap-y-10 sm:grid-cols-2">
           {services.filter((s) => s.group === key).map((s) => (
             <li>
-              <a href={`/services/${s.slug}`} class="group block h-full overflow-hidden rounded-[var(--radius-lg)] border border-line bg-card hover:border-ink/30">
-                <Photo photo={s.photo} ratio={16 / 9} sizes="(min-width: 1024px) 380px, (min-width: 640px) 50vw, 100vw" widths={[400, 640, 800]} />
-                <div class="p-5">
-                  <span class="flex items-center gap-2 font-display text-xl font-bold text-ink group-hover:underline">
-                    <Icon name={s.icon} class:list={['h-5 w-5', s.group === 'cooling' ? 'text-frost' : 'text-ember']} aria-hidden="true" />{s.name}
-                  </span>
-                  <span class="mt-1 block text-[0.95rem] text-body">{s.short}</span>
+              <a href={`/services/${s.slug}`} class="group block h-full">
+                <Photo class="rounded-[var(--radius-md)]" photo={s.photo} ratio={16 / 9} sizes="(min-width: 1024px) 380px, (min-width: 640px) 50vw, 100vw" widths={[400, 640, 800]} />
+                <div class="pt-4">
+                  <span class="block font-display text-[1.9rem] font-bold leading-tight text-ink group-hover:underline">{s.name}</span>
+                  <span class="mt-1 block text-body">{s.short}</span>
                 </div>
               </a>
             </li>

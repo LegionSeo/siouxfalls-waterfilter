@@ -1,16 +1,16 @@
 ---
-interface Props { items: { name: string; path: string }[] }
-const { items } = Astro.props;
+interface Props { items: { name: string; path: string }[]; dark?: boolean }
+const { items, dark = false } = Astro.props;
 ---
-<nav aria-label="Breadcrumb" class="text-sm text-muted">
+<nav aria-label="Breadcrumb" class:list={['text-sm', dark ? 'text-white/65' : 'text-muted']}>
   <ol class="flex flex-wrap items-center gap-1.5">
     {items.map((item, i) => (
       <li class="flex items-center gap-1.5">
         {i > 0 && <span aria-hidden="true">/</span>}
         {i < items.length - 1 ? (
-          <a href={item.path} class="hover:text-ink hover:underline">{item.name}</a>
+          <a href={item.path} class:list={['hover:underline', dark ? 'hover:text-white' : 'hover:text-ink']}>{item.name}</a>
         ) : (
-          <span aria-current="page" class="text-ink">{item.name}</span>
+          <span aria-current="page" class={dark ? 'text-white' : 'text-ink'}>{item.name}</span>
         )}
       </li>
     ))}

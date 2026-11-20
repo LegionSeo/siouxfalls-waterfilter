@@ -20,39 +20,43 @@ const crumbs = [{ name: 'Home', path: '/' }, { name: 'Service Area', path: '/are
       <Breadcrumbs items={crumbs} />
       <div class="mt-6 grid items-center gap-10 lg:grid-cols-[1.2fr_1fr]">
         <div>
-          <h1 class="text-4xl font-extrabold sm:text-5xl">Where we work</h1>
+          <h1 class="text-5xl sm:text-6xl">Where we work</h1>
           <p class="prose-sf mt-4 text-lg">Heating and cooling service for Sioux Falls and the towns around it in Minnehaha and Lincoln counties. Not sure if your home is covered? Call and ask.</p>
           <div class="mt-7"><CallButton class="text-lg" /></div>
         </div>
-        <div class="overflow-hidden rounded-[var(--radius-lg)]">
+        <div class="overflow-hidden rounded-[var(--radius-md)]">
           <Photo photo="snowHouse" ratio={16 / 10} sizes="(min-width: 1024px) 480px, 100vw" eager />
         </div>
       </div>
     </div>
   </section>
-  <section class="border-t border-line py-14">
+  <section class="py-14 sm:py-20">
     <div class="wrap">
-      <ul class="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-        <li>
-          <a href="/" class="group block h-full rounded-[var(--radius-lg)] border border-line bg-card p-6 hover:border-ink/30">
-            <span class="text-xs font-bold uppercase tracking-wider text-muted">Minnehaha and Lincoln counties</span>
-            <span class="mt-1 flex items-center justify-between font-display text-2xl font-bold text-ink">Sioux Falls <Icon name="ph:arrow-right-bold" class="h-5 w-5 text-ink/40 group-hover:text-ink" aria-hidden="true" /></span>
-            <span class="mt-2 block text-[0.95rem] text-body">Furnace, AC and heat pump service across the city.</span>
+      <ul class="border-t border-line">
+        <li class="border-b border-line">
+          <a href="/" class="group grid gap-1 py-6 sm:grid-cols-[16rem_1fr] sm:gap-8">
+            <span>
+              <span class="block font-display text-4xl font-bold text-ink group-hover:underline group-hover:decoration-call group-hover:decoration-4 group-hover:underline-offset-4">Sioux Falls</span>
+              <span class="block text-muted">Minnehaha and Lincoln counties</span>
+            </span>
+            <span class="text-lg text-body sm:pt-2">Furnace, AC and heat pump service across the city.</span>
           </a>
         </li>
         {towns.map((t) => (
-          <li>
-            <a href={`/areas/${t.slug}`} class="group block h-full rounded-[var(--radius-lg)] border border-line bg-card p-6 hover:border-ink/30">
-              <span class="text-xs font-bold uppercase tracking-wider text-muted">{t.county}</span>
-              <span class="mt-1 flex items-center justify-between font-display text-2xl font-bold text-ink">{t.name} <Icon name="ph:arrow-right-bold" class="h-5 w-5 text-ink/40 group-hover:text-ink" aria-hidden="true" /></span>
-              <span class="mt-2 block text-[0.95rem] text-body">{t.lead.split('. ')[0]}.</span>
+          <li class="border-b border-line">
+            <a href={`/areas/${t.slug}`} class="group grid gap-1 py-6 sm:grid-cols-[16rem_1fr] sm:gap-8">
+              <span>
+                <span class="block font-display text-4xl font-bold text-ink group-hover:underline group-hover:decoration-call group-hover:decoration-4 group-hover:underline-offset-4">{t.name}</span>
+                <span class="block text-muted">{t.county}</span>
+              </span>
+              <span class="text-lg text-body sm:pt-2">{t.lead.split('. ')[0]}.</span>
             </a>
           </li>
         ))}
       </ul>
-      <div class="mt-10 rounded-[var(--radius-lg)] bg-frost-soft p-6">
-        <h2 class="text-xl font-extrabold">Also serving</h2>
-        <p class="mt-2 text-body">{SITE.nearbyTowns.join(', ')}, and rural homes nearby. Call to check your address.</p>
+      <div class="mt-12 border-l-4 border-call pl-5">
+        <h2 class="text-4xl">Also serving</h2>
+        <p class="mt-2 text-lg text-body">{SITE.nearbyTowns.join(', ')}, and rural homes nearby. Call to check your address.</p>
       </div>
     </div>
   </section>

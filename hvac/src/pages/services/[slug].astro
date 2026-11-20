@@ -33,8 +33,8 @@ const tone = service.group === 'cooling' ? 'frost' : 'ember';
       <Breadcrumbs items={crumbs} />
       <div class="mt-6 grid items-center gap-10 lg:grid-cols-[1.1fr_1fr]">
         <div>
-          <p class:list={['eyebrow', tone === 'frost' && '!text-frost']}>{service.group === 'heating' ? 'Heating' : 'Cooling'}</p>
-          <h1 class="mt-3 text-4xl font-extrabold sm:text-5xl">{service.h1}</h1>
+          <p class:list={['inline-block border-t-4 pt-2 text-lg font-semibold', tone === 'frost' ? 'border-frost text-frost' : 'border-ember text-ember']}>{service.group === 'heating' ? 'Heating' : 'Cooling'}</p>
+          <h1 class="mt-3 text-5xl sm:text-6xl">{service.h1}</h1>
           <div class="prose-sf mt-5 text-lg">
             {service.intro.map((p) => <p>{p}</p>)}
           </div>
@@ -42,22 +42,19 @@ const tone = service.group === 'cooling' ? 'frost' : 'ember';
             <CallButton class="text-lg" />
           </div>
         </div>
-        <div class="overflow-hidden rounded-[var(--radius-lg)]">
+        <div class="overflow-hidden rounded-[var(--radius-md)]">
           <Photo photo={service.photo} ratio={4 / 3} sizes="(min-width: 1024px) 520px, 100vw" eager />
         </div>
       </div>
     </div>
   </section>
 
-  <section class:list={['py-14 sm:py-16', tone === 'frost' ? 'bg-frost-soft' : 'bg-ember-soft']} aria-labelledby="signs-title">
-    <div class="wrap grid gap-8 lg:grid-cols-[1fr_1.6fr]">
-      <h2 id="signs-title" class="text-3xl font-extrabold">{service.signsTitle}</h2>
-      <ul class="grid gap-3 sm:grid-cols-2">
+  <section class="bg-paper py-14 sm:py-20" aria-labelledby="signs-title">
+    <div class="wrap grid gap-8 lg:grid-cols-[1fr_1.6fr] lg:gap-16">
+      <h2 id="signs-title" class="text-4xl sm:text-5xl">{service.signsTitle}</h2>
+      <ul class:list={['grid gap-x-10 sm:grid-cols-2', tone === 'frost' ? 'rule-cool' : 'rule-heat']}>
         {service.signs.map((sign) => (
-          <li class="flex gap-3 rounded-[var(--radius-md)] bg-card p-4">
-            <Icon name="ph:check-circle-fill" class:list={['mt-0.5 h-5 w-5 shrink-0', tone === 'frost' ? 'text-frost' : 'text-ember']} aria-hidden="true" />
-            <span>{sign}</span>
-          </li>
+          <li class="border-b border-ink/15 py-4 text-lg text-ink">{sign}</li>
         ))}
       </ul>
     </div>
@@ -65,12 +62,12 @@ const tone = service.group === 'cooling' ? 'frost' : 'ember';
 
   <section class="py-14 sm:py-20" aria-labelledby="steps-title">
     <div class="wrap">
-      <h2 id="steps-title" class="max-w-2xl text-3xl font-extrabold sm:text-4xl">What happens on the visit</h2>
+      <h2 id="steps-title" class="max-w-2xl text-4xl sm:text-5xl">What happens on the visit</h2>
       <ol class="mt-10 grid gap-8 md:grid-cols-2 lg:grid-cols-4">
         {service.steps.map((step, i) => (
           <li class="border-t-2 border-ink pt-5">
-            <span class="font-display text-sm font-extrabold text-muted">Step {i + 1}</span>
-            <h3 class="mt-1 text-xl font-bold">{step.title}</h3>
+            <span class="font-display text-5xl font-bold leading-none text-ink/25" aria-hidden="true">{i + 1}</span>
+            <h3 class="mt-2 text-[1.75rem]">{step.title}</h3>
             <p class="mt-2 text-body">{step.text}</p>
           </li>
         ))}
@@ -78,21 +75,20 @@ const tone = service.group === 'cooling' ? 'frost' : 'ember';
     </div>
   </section>
 
-  <section class="border-y border-line bg-card py-14 sm:py-16" aria-labelledby="local-title">
+  <section class="border-y border-line bg-paper py-14 sm:py-20" aria-labelledby="local-title">
     <div class="wrap grid gap-10 lg:grid-cols-[1.4fr_1fr]">
       <div>
-        <p class="eyebrow">Sioux Falls notes</p>
-        <h2 id="local-title" class="mt-2 text-3xl font-extrabold">{service.local.title}</h2>
+        <h2 id="local-title" class="text-4xl sm:text-5xl">{service.local.title}</h2>
         <div class="prose-sf mt-4">
           {service.local.text.map((p) => <p>{p}</p>)}
         </div>
       </div>
-      <div class="rounded-[var(--radius-lg)] bg-paper p-6">
-        <h3 class="font-sans text-base font-bold tracking-normal">{service.name} near you</h3>
-        <p class="mt-1 text-sm text-muted">Also available in these towns:</p>
-        <ul class="mt-4 flex flex-wrap gap-2">
+      <div class="border-t-4 border-ink pt-5">
+        <h3 class="text-[1.75rem]">{service.name} near Sioux Falls</h3>
+        <p class="mt-1 text-muted">Also available in these towns:</p>
+        <ul class="mt-3">
           {towns.map((t) => (
-            <li><a href={`/areas/${t.slug}`} class="inline-block rounded-full border border-ink/20 bg-card px-3 py-1.5 text-sm font-semibold text-ink hover:border-ink">{t.name}</a></li>
+            <li class="border-b border-ink/15"><a href={`/areas/${t.slug}`} class="block py-2.5 text-lg font-semibold text-ink hover:underline">{t.name}</a></li>
           ))}
         </ul>
       </div>
@@ -103,14 +99,13 @@ const tone = service.group === 'cooling' ? 'frost' : 'ember';
 
   <section class="pb-16 sm:pb-20" aria-labelledby="related-title">
     <div class="wrap">
-      <h2 id="related-title" class="text-2xl font-extrabold">Related services</h2>
-      <ul class="mt-6 grid gap-4 md:grid-cols-3">
+      <h2 id="related-title" class="text-4xl">Related services</h2>
+      <ul class="mt-6 grid gap-x-10 md:grid-cols-3">
         {related.map((s) => (
-          <li>
-            <a href={`/services/${s.slug}`} class="group flex h-full flex-col rounded-[var(--radius-lg)] border border-line bg-card p-6 hover:border-ink/30">
-              <Icon name={s.icon} class:list={['h-7 w-7', s.group === 'cooling' ? 'text-frost' : 'text-ember']} aria-hidden="true" />
-              <span class="mt-4 font-display text-lg font-bold text-ink group-hover:underline">{s.name}</span>
-              <span class="mt-1 text-[0.95rem] text-body">{s.short}</span>
+          <li class:list={[s.group === 'cooling' ? 'rule-cool' : 'rule-heat']}>
+            <a href={`/services/${s.slug}`} class="group block py-5">
+              <span class="block font-display text-[1.75rem] font-bold leading-tight text-ink group-hover:underline">{s.name}</span>
+              <span class="mt-1 block text-body">{s.short}</span>
             </a>
           </li>
         ))}
