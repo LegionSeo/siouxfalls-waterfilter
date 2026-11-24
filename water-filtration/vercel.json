@@ -3,6 +3,17 @@
   "trailingSlash": false,
   "redirects": [
     {
+      "source": "/:path*",
+      "has": [
+        {
+          "type": "host",
+          "value": "siouxfallswaterfiltration.com"
+        }
+      ],
+      "destination": "https://www.siouxfallswaterfiltration.com/:path*",
+      "statusCode": 301
+    },
+    {
       "source": "/sitemap.xml",
       "destination": "/sitemap-index.xml",
       "statusCode": 301
